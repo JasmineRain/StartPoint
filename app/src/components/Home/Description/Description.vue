@@ -13,7 +13,10 @@ export default {
   name: "Description",
   computed: {
     bgDes() {
-      return this.$store.state.background.words;
+      return this.$store.state.background.words.substring(
+        0,
+        this.$store.state.background.words.indexOf("(")
+      );
     }
   }
 };
@@ -41,7 +44,7 @@ export default {
   flex-direction: column;
 }
 .title {
-  font-size: 22px;
+  font-size: 2vw;
   color: #fff;
 }
 </style>

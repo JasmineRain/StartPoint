@@ -1,7 +1,6 @@
 <template>
     <div class="maincontent">
         <div class="fixed-bg"
-
              v-bind:style="{backgroundImage:'url('+bgUrl+')'} "
              element-loading-background="rgba(0, 0, 0, 0.8)">
             <div class="mask-fixedbg">
@@ -15,7 +14,7 @@ export default {
   name: "Background",
   data() {
     return {
-      url: "/BingAPI/HPImageArchive.aspx?format=js&idx=0&n=1",
+      url: "/BingAPI/HPImageArchive.aspx?format=js&idx=0&n=1"
       // loading: true
     };
   },

@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    <transition name="slide-fade" mode="out-in"><router-view/></transition>
+    <Navigation/>
+    <Background/>
+    <transition name="fade" mode="out-in"><router-view/></transition>
   </div>
 </template>
 
 <script>
-export default {};
+import Navigation from "./components/Global/Nav/Navigation";
+import Background from "./components/Global/Background/Background";
+export default {
+  components: { Background, Navigation }
+};
 </script>
 
 <style lang="scss">
@@ -33,15 +39,14 @@ li {
 
 /*animate as belows*/
 
-.slide-fade-enter-active {
-  transition: all 0.8s ease;
+.fade-enter-active {
+  transition: opacity 0.5s ease;
 }
-.slide-fade-leave-active {
-  transition: all 0.8s ease;
+.fade-leave-active {
+  transition: opacity 0.5s ease;
 }
-.slide-fade-enter, .slide-fade-leave-to
+.fade-enter, .fade-leave-to
   /* .slide-fade-leave-active for below version 2.1.8 */ {
-  transform: translateY(50px);
   opacity: 0;
 }
 </style>

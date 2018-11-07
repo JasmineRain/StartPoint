@@ -1,10 +1,10 @@
 <template>
-    
+    <div>sss</div>
 </template>
 
 <script>
   export default {
-    name: "Clock"
+    name: "Functions"
   }
 </script>
 

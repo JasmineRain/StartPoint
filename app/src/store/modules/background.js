@@ -19,7 +19,10 @@ const background = {
         url: "",
         words: ""
       };
-      let loadingInstance = Loading.service({ text: "loading" , background: "#000000"});
+      let loadingInstance = Loading.service({
+        text: "loading",
+        background: "#000000"
+      });
       Vue.axios.get(url).then(response => {
         info.url = "https://www.bing.com/" + response.data.images[0].url;
         info.words = response.data.images[0].copyright;

@@ -13,7 +13,7 @@
                 <el-menu-item index="1"><router-link to="/">Home</router-link></el-menu-item>
                 <el-menu-item index="2">Blog</el-menu-item>
                 <el-menu-item index="3">Music</el-menu-item>
-                <el-menu-item index="6">Function</el-menu-item>
+                <el-menu-item index="6"><router-link to="/functions">Function</router-link></el-menu-item>
             </el-menu>
         </el-header>
     </div>
