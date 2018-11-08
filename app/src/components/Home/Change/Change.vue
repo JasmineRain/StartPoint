@@ -14,7 +14,7 @@ export default {
 .change {
   position: absolute;
   bottom: 20px;
-  right: 120px;
+  right: 160px;
 }
 .icon {
   width: 25px;

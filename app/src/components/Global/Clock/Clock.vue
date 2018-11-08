@@ -63,14 +63,23 @@ export default {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  text-shadow: 5px, 5px, 5px, #a4d1ff;
+  text-shadow: 5px, 5px, 5px, #ff2b2f;
 }
 .time {
   color: #ffffff;
   font-size: 2vw;
 }
 .date {
-  font-size: 1.5vw;
+  font-size: 1.7vw;
   color: #ffffff;
+}
+
+@media screen and (max-width: 400px) {
+  .time {
+    font-size: 12px;
+  }
+  .date {
+    font-size: 12px;
+  }
 }
 </style>

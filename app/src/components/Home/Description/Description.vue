@@ -47,4 +47,9 @@ export default {
   font-size: 2vw;
   color: #fff;
 }
+@media screen and (max-width: 400px) {
+  .title {
+    font-size: 12px;
+  }
+}
 </style>
