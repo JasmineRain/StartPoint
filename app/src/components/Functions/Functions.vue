@@ -2,7 +2,7 @@
     <el-row :gutter="0"  class="content">
         <div>
             <el-col :sm="12" :md="8" :lg="6" class="item">
-                <router-link to="/">
+                <router-link to="/calendar">
                     <div class="mask">
                         <div class="icon-container">
                             <img src="../../assets/calendar.png" alt="">
