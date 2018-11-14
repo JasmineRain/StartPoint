@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     bgUrl() {
-      return this.$store.state.background.url;
+      return this.$store.getters.getBGUrl;
     }
   },
   methods: {

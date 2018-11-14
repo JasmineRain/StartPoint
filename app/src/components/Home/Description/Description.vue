@@ -13,9 +13,9 @@ export default {
   name: "Description",
   computed: {
     bgDes() {
-      return this.$store.state.background.words.substring(
+      return this.$store.getters.getBGWords.substring(
         0,
-        this.$store.state.background.words.indexOf("(")
+        this.$store.getters.getBGWords.indexOf("(")
       );
     }
   }

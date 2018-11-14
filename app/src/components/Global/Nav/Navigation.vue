@@ -12,7 +12,7 @@
                     active-text-color="rgba(255,255,255,0.7)">
                 <el-menu-item index="1"><router-link to="/">Home</router-link></el-menu-item>
                 <el-menu-item index="2">Blog</el-menu-item>
-                <el-menu-item index="3">Music</el-menu-item>
+                <el-menu-item index="3"><router-link to="/music">Music</router-link></el-menu-item>
                 <el-menu-item index="6"><router-link to="/functions">Function</router-link></el-menu-item>
             </el-menu>
         </el-header>
