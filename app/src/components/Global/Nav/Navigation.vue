@@ -40,7 +40,7 @@ export default {
   overflow: hidden;
 }
 header {
-  position: static !important;
+  position: relative !important;
 }
 @media screen and (max-width: 400px) {
   .nav {

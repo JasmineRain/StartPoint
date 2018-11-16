@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "PlayerModel"
+  name: "PlayerMode"
 };
 </script>
 

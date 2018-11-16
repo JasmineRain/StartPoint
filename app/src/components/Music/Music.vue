@@ -33,8 +33,9 @@ import Sheet from "./Sheet/Sheet";
 import FuncPanel from "./FuncPanel/FuncPanel";
 import PlayerCtrl from "./CtrlPanel/PlayerCtrl/PlayerCtrl";
 import Progress from "./CtrlPanel/Progress/Progress";
-import PlayerModel from "./CtrlPanel/PlayerModel/PlayerModel";
+import PlayerModel from "./CtrlPanel/PlayerMode/PlayerMode";
 import CD from "./CD/CD";
+import Audio from "./Audio/Audio";
 import "element-ui/lib/theme-chalk/display.css";
 export default {
   name: "Music",
@@ -44,7 +45,8 @@ export default {
     PlayerCtrl,
     Progress,
     PlayerModel,
-    CD
+    CD,
+    Audio
   }
 };
 </script>
