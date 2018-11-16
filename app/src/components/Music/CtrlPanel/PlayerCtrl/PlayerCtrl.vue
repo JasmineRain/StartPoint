@@ -1,13 +1,13 @@
 <template>
     <ul>
         <li>
-            <img src="../../../../assets/media-previous.png" alt="">
+            <img src="../../../../assets/previous.png" alt="">
         </li>
         <li>
             <img src="../../../../assets/play.png" alt="">
         </li>
         <li>
-            <img src="../../../../assets/media-next.png" alt="">
+            <img src="../../../../assets/next.png" alt="">
         </li>
     </ul>
 </template>
@@ -22,7 +22,7 @@ export default {
 li {
   float: left;
   list-style: none;
-  padding: 0 20px;
+  margin: 0 2vw 0 2vw;
 }
 ul {
   display: flex;

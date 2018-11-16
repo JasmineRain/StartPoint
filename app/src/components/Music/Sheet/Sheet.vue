@@ -1,30 +1,37 @@
 <template>
-    <div>
+    <div class="scroll">
         <el-table
-        :data="tableData3"
-        height="300px"
-        :default-sort = "{prop: 'date', order: 'descending'}">
+            :data="tableData3"
+            height="65vh"
+            class="music-list"
+            :default-sort = "{prop: 'date', order: 'descending'}">
             <el-table-column
                 type="index">
             </el-table-column>
             <el-table-column
+                :show-overflow-tooltip="true"
                 prop="date"
                 label="歌曲"
-                width="180"
                 sortable>
             </el-table-column>
             <el-table-column
+                :show-overflow-tooltip="true"
                 prop="name"
                 label="歌手"
-                width="180"
                 sortable>
             </el-table-column>
             <el-table-column
+                :show-overflow-tooltip="true"
                 prop="address"
-                label="专辑">
+                label="专辑"
+                v-if="show"
+                sortable>
             </el-table-column>
             <el-table-column
+                :show-overflow-tooltip="true"
                 prop="time"
+                width="80px"
+                align="center"
                 label="时长">
             </el-table-column>
         </el-table>
@@ -78,12 +85,74 @@ export default {
           name: "王小虎",
           address: "上海市普陀区金沙江路 1518 弄",
           time: "03:23"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+          time: "03:23"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+          time: "03:23"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+          time: "03:23"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+          time: "03:23"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+          time: "03:23"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+          time: "03:23"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+          time: "03:23"
         }
-      ]
+      ],
+      width: document.body.clientWidth
+    };
+  },
+  computed: {
+    show: function() {
+      return this.width > 500;
+    }
+  },
+  methods: {
+    setWidth: function() {
+      this.width = document.body.clientWidth;
+    }
+  },
+  mounted() {
+    window.onresize = () => {
+      this.setWidth();
     };
   }
 };
 </script>
 
 <style scoped>
+.music-list {
+  color: #fff;
+  background-color: transparent;
+}
 </style>

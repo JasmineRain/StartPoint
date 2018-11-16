@@ -33,10 +33,35 @@ a {
   text-decoration: none;
 }
 ul,
-li {
-  background: transparent !important;
+li,
+tr,
+th {
+  background-color: transparent !important;
+  border-bottom: none;
+}
+thead {
+  color: #fff !important;
+}
+td,
+th {
+  border-bottom: none !important;
+  text-overflow: ellipsis;
+}
+.el-table::before {
+  height: 0 !important;
+}
+.el-table__body tr:hover > td {
+  background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(256, 256, 256, 0.4);
+  border-radius: 3px;
+}
 /*animate as belows*/
 
 .fade-enter-active {
