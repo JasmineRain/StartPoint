@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="navigation">
         <el-header>
             <el-menu
                     :default-active="activeIndex"
@@ -36,6 +36,12 @@ export default {
 </script>
 
 <style scoped>
+.navigation {
+  overflow: hidden;
+}
+header {
+  position: static !important;
+}
 @media screen and (max-width: 400px) {
   .nav {
     font-size: 12px;

@@ -1,7 +1,6 @@
 <template>
 	<div class="content">
 		<el-row class="sheet">
-
 			<el-col :md="16" :lg="16" :sm="16" :xs="24">
 				<el-row>
 					<FuncPanel/>
@@ -10,15 +9,11 @@
 					<Sheet/>
 				</el-row>
 			</el-col>
-
-			<el-col :md="8" :lg="8" :sm="8" :xs="0">
-				aaa
+			<el-col :md="8" :lg="8" :sm="8" class="hidden-xs-only">
+				<CD/>
 			</el-col>
-
 		</el-row>
-
-
-		<el-row :gutter="20" style="margin-top: 10px">
+		<el-row :gutter="20">
 			<el-col :md="4" :lg="4" :sm="4" :xs="24">
 				<PlayerCtrl/>
 			</el-col>
@@ -39,6 +34,8 @@ import FuncPanel from "./FuncPanel/FuncPanel";
 import PlayerCtrl from "./CtrlPanel/PlayerCtrl/PlayerCtrl";
 import Progress from "./CtrlPanel/Progress/Progress";
 import PlayerModel from "./CtrlPanel/PlayerModel/PlayerModel";
+import CD from "./CD/CD";
+import "element-ui/lib/theme-chalk/display.css";
 export default {
   name: "Music",
   components: {
@@ -46,24 +43,19 @@ export default {
     FuncPanel,
     PlayerCtrl,
     Progress,
-    PlayerModel
+    PlayerModel,
+    CD
   }
 };
 </script>
 
 <style scoped>
 .content {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 75px 20px 20px 20px;
+  padding: 20px;
 }
 .sheet {
-  overflow: hidden;
 }
 </style>

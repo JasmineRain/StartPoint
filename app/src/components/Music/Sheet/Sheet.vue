@@ -2,7 +2,7 @@
     <div class="scroll">
         <el-table
             :data="tableData3"
-            height="65vh"
+            height="70vh"
             class="music-list"
             :default-sort = "{prop: 'date', order: 'descending'}">
             <el-table-column

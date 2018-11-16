@@ -33,6 +33,7 @@ export default {
 }
 ul {
   margin: 20px 0;
+  padding: 0;
 }
 li {
   float: left;

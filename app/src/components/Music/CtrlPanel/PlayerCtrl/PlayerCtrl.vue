@@ -22,7 +22,7 @@ export default {
 li {
   float: left;
   list-style: none;
-  margin: 0 2vw 0 2vw;
+  margin: 0 10px 0 10px;
 }
 ul {
   display: flex;
