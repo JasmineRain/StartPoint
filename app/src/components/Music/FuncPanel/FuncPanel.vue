@@ -21,6 +21,16 @@ export default {
   color: #fff;
   background: transparent;
 }
+.btn:hover {
+  border: 1px solid #fff !important;
+  box-shadow: #fff 0 0 10px 1px;
+  background-color: initial;
+  color: #fff;
+}
+.btn:focus {
+  background-color: initial;
+  color: #fff;
+}
 @media screen and (max-width: 400px) {
   .btn {
     font-size: 12px;

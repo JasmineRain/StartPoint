@@ -1,9 +1,9 @@
 <template>
     <div class="progress">
         <div class="name">
-            <span>author</span>
-            <span>music name</span>
-            <span>time</span>
+            <span>不能说的秘密（Live）</span>
+            <span>林俊杰</span>
+            <span>5:41</span>
         </div>
         <el-slider v-model="value1" label="4"></el-slider>
     </div>

@@ -15,7 +15,6 @@ export default {
   data() {
     return {
       url: "/BingAPI/HPImageArchive.aspx?format=js&idx=0&n=1"
-      // loading: true
     };
   },
   computed: {

@@ -45,7 +45,7 @@ export default {
 .lyric-content {
   padding: 20px;
   overflow: hidden;
-  height: 400px;
+  height: 50vh;
   color: #fff;
   text-align: center;
 }

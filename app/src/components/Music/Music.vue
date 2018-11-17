@@ -59,5 +59,11 @@ export default {
   padding: 20px;
 }
 .sheet {
+  margin-bottom: 20px;
+}
+@media screen and (min-width: 767px) {
+  .sheet {
+    margin-bottom: 60px;
+  }
 }
 </style>

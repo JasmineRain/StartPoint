@@ -53,7 +53,10 @@ th {
 .el-table__body tr:hover > td {
   background-color: rgba(0, 0, 0, 0.2) !important;
 }
-
+.el-popover {
+  color: #fff !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
 ::-webkit-scrollbar {
   width: 6px;
 }

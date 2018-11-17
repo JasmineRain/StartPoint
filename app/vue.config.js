@@ -13,10 +13,17 @@ module.exports = {
         }
       },
       "/BingAPI/*": {
-        target: "https://cn.bing.com/",
+        target: "https://cn.bing.com",
         changeOrigin: true,
         pathRewrite: {
           "/BingAPI/": "/"
+        }
+      },
+      "/cityAPI/*": {
+        target: "https://pv.sohu.com",
+        changeOrigin: true,
+        pathRewrite: {
+          "/cityAPI/": "/"
         }
       }
     }
