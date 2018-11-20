@@ -1,9 +1,8 @@
 <template>
     <div class="progress">
         <div class="name">
-            <span>不能说的秘密（Live）</span>
-            <span>林俊杰</span>
-            <span>5:41</span>
+            <span>{{this.song}}</span>
+            <span>{{this.duration}}</span>
         </div>
         <el-slider v-model="value1" label="4"></el-slider>
     </div>
@@ -16,6 +15,18 @@ export default {
     return {
       value1: 80
     };
+  },
+  computed: {
+    song: function() {
+      return (
+        this.$store.getters.getCurMusic.name +
+        " - " +
+        this.$store.getters.getCurMusic.singer
+      );
+    },
+    duration: function() {
+      return this.$store.getters.getCurMusic.duration;
+    }
   }
 };
 </script>

@@ -35,7 +35,6 @@ import PlayerCtrl from "./CtrlPanel/PlayerCtrl/PlayerCtrl";
 import Progress from "./CtrlPanel/Progress/Progress";
 import PlayerModel from "./CtrlPanel/PlayerMode/PlayerMode";
 import CD from "./CD/CD";
-import Audio from "./Audio/Audio";
 import "element-ui/lib/theme-chalk/display.css";
 export default {
   name: "Music",
@@ -45,8 +44,7 @@ export default {
     PlayerCtrl,
     Progress,
     PlayerModel,
-    CD,
-    Audio
+    CD
   }
 };
 </script>
@@ -59,9 +57,8 @@ export default {
   padding: 20px;
 }
 .sheet {
-  margin-bottom: 20px;
 }
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 1600px) {
   .sheet {
     margin-bottom: 60px;
   }

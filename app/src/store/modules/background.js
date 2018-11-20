@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Loading } from "element-ui";
 
+const bingUrl = "/BingAPI/HPImageArchive.aspx?format=js&idx=0&n=1";
+
 const background = {
   state: {
     url: "",
@@ -17,7 +19,7 @@ const background = {
     getBGWords: state => state.words
   },
   actions: {
-    getBGInfo(context, url) {
+    getBGInfo(context) {
       let info = {
         url: "",
         words: ""
@@ -26,7 +28,7 @@ const background = {
         text: "loading",
         background: "#000000"
       });
-      axios.get(url).then(response => {
+      axios.get(bingUrl).then(response => {
         info.url = "https://www.bing.com/" + response.data.images[0].url;
         info.words = response.data.images[0].copyright;
         context.commit("setBGInfo", info);

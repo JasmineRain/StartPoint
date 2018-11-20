@@ -1,7 +1,7 @@
 <template>
     <div class="cd">
         <div class="cover">
-            <img src="../../../assets/test.jpg" alt="" width="100%" height="100%" style="border-radius: 50%">
+            <img :src="this.cover" alt="" width="100%" height="100%" style="border-radius: 50%">
         </div>
         <div class="lyric-content">
             <div class="lyric-wrapper">
@@ -28,8 +28,17 @@
 </template>
 
 <script>
+import defaultImg from "../../../assets/test.jpg";
+
 export default {
-  name: "CD"
+  name: "CD",
+  computed: {
+    cover: function() {
+      return this.$store.getters.getCurMusic.coverUrl
+        ? this.$store.getters.getCurMusic.coverUrl
+        : defaultImg;
+    }
+  }
 };
 </script>
 

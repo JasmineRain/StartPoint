@@ -1,35 +1,42 @@
 <template>
     <div class="scroll">
         <el-table
-            :data="tableData3"
+            @row-dblclick="dbclickRow"
+            v-loading = "loading"
+            element-loading-text="request"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.6)"
+            :data="musicData"
             height="70vh"
             class="music-list"
-            :default-sort = "{prop: 'date', order: 'descending'}">
+            :default-sort = "{prop: 'date', order: ''}">
             <el-table-column
                 type="index">
             </el-table-column>
             <el-table-column
                 :show-overflow-tooltip="true"
-                prop="date"
+                prop="songname"
                 label="歌曲"
                 sortable>
             </el-table-column>
             <el-table-column
                 :show-overflow-tooltip="true"
-                prop="name"
+                width="90px"
+                prop="singer"
                 label="歌手"
                 sortable>
             </el-table-column>
             <el-table-column
                 :show-overflow-tooltip="true"
-                prop="address"
+                prop="albumname"
                 label="专辑"
                 v-if="show"
+                align="center"
                 sortable>
             </el-table-column>
             <el-table-column
                 :show-overflow-tooltip="true"
-                prop="time"
+                prop="duration"
                 width="80px"
                 align="center"
                 label="时长">
@@ -43,109 +50,35 @@ export default {
   name: "Sheet",
   data() {
     return {
-      tableData3: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          time: "03:23"
-        }
-      ],
       width: document.body.clientWidth
     };
   },
   computed: {
     show: function() {
-      return this.width > 500;
+      return this.width > 550;
+    },
+    musicData: function() {
+      return this.$store.getters.getMusicList;
+    },
+    loading: function() {
+      return !this.musicData.length;
     }
   },
   methods: {
     setWidth: function() {
       this.width = document.body.clientWidth;
+    },
+    dbclickRow: function(row) {
+      this.$store.dispatch("getQQMusicDetail", row);
     }
   },
   mounted() {
     window.onresize = () => {
       this.setWidth();
     };
+  },
+  created() {
+    this.$store.dispatch("getQQTopList");
   }
 };
 </script>

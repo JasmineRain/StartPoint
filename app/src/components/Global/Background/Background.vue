@@ -13,9 +13,7 @@
 export default {
   name: "Background",
   data() {
-    return {
-      url: "/BingAPI/HPImageArchive.aspx?format=js&idx=0&n=1"
-    };
+    return {};
   },
   computed: {
     bgUrl() {
@@ -23,8 +21,8 @@ export default {
     }
   },
   methods: {
-    getBackground: function(url) {
-      this.$store.dispatch("getBGInfo", url);
+    getBackground: function() {
+      this.$store.dispatch("getBGInfo");
     }
   },
   mounted() {

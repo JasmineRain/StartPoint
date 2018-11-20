@@ -25,6 +25,13 @@ module.exports = {
         pathRewrite: {
           "/cityAPI/": "/"
         }
+      },
+      "/QQMusicAPI/*": {
+        target: "https://c.y.qq.com",
+        changeOrigin: true,
+        pathRewrite: {
+          "/QQMusicAPI/": "/"
+        }
       }
     }
   }
