@@ -14,6 +14,7 @@
     "moment": "^2.22.2",
     "vue": "^2.5.17",
     "vue-axios": "^2.1.4",
+    "vue-circle-menu": "^1.1.1",
     "vue-router": "^3.0.1",
     "vue-simple-calendar": "^4.1.0",
     "vuex": "^3.0.1"

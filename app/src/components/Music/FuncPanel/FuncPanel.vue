@@ -15,7 +15,6 @@ export default {
 .funcBtn {
   display: flex;
   justify-content: start;
-  margin-bottom: 2vh;
 }
 .btn {
   color: #fff;

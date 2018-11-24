@@ -34,9 +34,12 @@ export default {
   name: "CD",
   computed: {
     cover: function() {
-      return this.$store.getters.getCurMusic.coverUrl
-        ? this.$store.getters.getCurMusic.coverUrl
+      return this.$store.getters.getCurrentMusic.coverUrl
+        ? this.$store.getters.getCurrentMusic.coverUrl
         : defaultImg;
+    },
+    lyric: function() {
+      return this.$store.getters.getLrc;
     }
   }
 };
@@ -57,6 +60,11 @@ export default {
   height: 50vh;
   color: #fff;
   text-align: center;
+}
+@media screen and (min-height: 767px) {
+  .lyric-content {
+    height: 40vh;
+  }
 }
 p {
   margin: 2px 0;

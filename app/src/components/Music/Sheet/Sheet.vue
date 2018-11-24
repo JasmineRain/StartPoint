@@ -36,7 +36,7 @@
             </el-table-column>
             <el-table-column
                 :show-overflow-tooltip="true"
-                prop="duration"
+                prop="time"
                 width="80px"
                 align="center"
                 label="时长">
@@ -50,7 +50,8 @@ export default {
   name: "Sheet",
   data() {
     return {
-      width: document.body.clientWidth
+      width: document.body.clientWidth,
+      height: document.body.clientHeight
     };
   },
   computed: {
@@ -62,11 +63,26 @@ export default {
     },
     loading: function() {
       return !this.musicData.length;
+    },
+    tableHeight: function() {
+      if (this.height > 900) {
+        return "75vh";
+      }
+      if (this.height <= 900 && this.height > 800) {
+        return "64vh";
+      }
+      if (this.height <= 800 && this.height > 700) {
+        return "59vh";
+      }
+      if (this.height <= 700 && this.height > 600) {
+        return "55vh";
+      }
     }
   },
   methods: {
-    setWidth: function() {
+    setSize: function() {
       this.width = document.body.clientWidth;
+      this.height = document.body.clientHeight;
     },
     dbclickRow: function(row) {
       this.$store.dispatch("getQQMusicDetail", row);
@@ -74,10 +90,8 @@ export default {
   },
   mounted() {
     window.onresize = () => {
-      this.setWidth();
+      this.setSize();
     };
-  },
-  created() {
     this.$store.dispatch("getQQTopList");
   }
 };

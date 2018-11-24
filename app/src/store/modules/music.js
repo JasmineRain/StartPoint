@@ -1,11 +1,13 @@
 import axios from "axios";
-//import { loading } from "element-ui";
+import { formatDuration } from "../../common/util";
 
 const QQTopList =
   "/QQMusicAPI/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8%C2%ACice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=27&_=1519963122923";
 
-const QQRecmList =
-  "/QQMusicAPI/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8%C2%ACice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472";
+// const QQRecmList =
+//   "/QQMusicAPI/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8%C2%ACice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472";
+
+const QQLyric = "/QQMusicLrc/music/lyric/";
 
 const QQvkey =
   "QQMusicAPI/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1278911659&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&cid=205361747&uin=0&guid=133371174";
@@ -41,63 +43,54 @@ const getQQsrc = function(mid) {
 const getQQcover = function(id) {
   return QQCover + (id % 100) + "/300_albumpic_" + id + "_0.jpg";
 };
-
-const formatDuration = function(interval) {
-  let min = parseInt(interval / 60)
-    .toString()
-    .padStart(2, "0");
-  let sec = (interval % 60).toString().padStart(2, "0");
-
-  return min + ":" + sec;
+//https://api.darlin.me/music/lyric/"+获取的音乐id+"/?
+const getQQlyric = function(id) {
+  let url = QQLyric + id + "/";
+  return new Promise(resolve => {
+    axios.get(url).then(response => {
+      let info = response.data;
+      let lrc = info.substring(info.indexOf("lyric") + 8, info.length - 3);
+      resolve(lrc);
+    });
+  });
 };
 
 const music = {
   state: {
-    curMusic: {
+    currentMusic: {
+      name: "",
       musicUrl: "",
       coverUrl: "",
-      mid: "",
-      index: "",
-      duration: "",
+      index: 0,
       singer: "",
       album: "",
-      name: ""
+      duration: 0
     },
     player: "",
     lrc: "",
     lrcIndex: "",
-    curTime: "00.00",
+    currentTime: 0,
     isPlaying: false,
-    playModel: 1,
-    musicList: [
-      // {
-      //   songname: "",
-      //   songmid: "",
-      //   albummid: "",
-      //   albumname: "",
-      //   singer: "",
-      //   singermid: "",
-      //   duration: "",
-      // }
-    ],
+    playMode: 1,
+    musicList: [],
     searchList: {},
     likeList: []
   },
   getters: {
-    getCurMusic: state => state.curMusic,
+    getCurrentMusic: state => state.currentMusic,
     getPlayer: state => state.player,
     getLrc: state => state.lrc,
     getLrcIndex: state => state.lrcIndex,
-    getCurTime: state => state.curTime,
+    getCurrentTime: state => state.currentTime,
     getIsPlaying: state => state.isPlaying,
-    getPlayModel: state => state.playModel,
+    getPlayMode: state => state.playMode,
     getMusicList: state => state.musicList,
     getSearchList: state => state.searchList,
     getLikeLikst: state => state.likeList
   },
   mutations: {
-    setCurMusic(state, payload) {
-      state.curMusic = payload;
+    setCurrentMusic(state, payload) {
+      state.currentMusic = payload;
     },
     setPlayer(state, payload) {
       state.player = payload;
@@ -108,14 +101,14 @@ const music = {
     setLrcIndex(state, payload) {
       state.lrcIndex = payload;
     },
-    setCurTime(state, payload) {
-      state.curTime = payload;
+    setCurrentTime(state, payload) {
+      state.currentTime = payload;
     },
     setIsPlaying(state, payload) {
       state.isPlaying = payload;
     },
-    setPlayModel(state, payload) {
-      state.playModel = payload;
+    setPlayMode(state, payload) {
+      state.playMode = payload;
     },
     setMusicList(state, payload) {
       state.musicList = payload;
@@ -128,39 +121,79 @@ const music = {
     }
   },
   actions: {
-    getQQTopList: function(context) {
+    getQQTopList(context) {
       axios.get(QQTopList).then(response => {
-        //console.log(response.data);
         let songList = response.data.songlist;
         let musicList = [];
         for (let song in songList) {
           musicList.push({
             songname: songList[song].data.songname,
             songmid: songList[song].data.songmid,
+            songid: songList[song].data.songid,
             albumid: songList[song].data.albumid,
             albummid: songList[song].data.albummid,
             albumname: songList[song].data.albumname,
             singer: songList[song].data.singer[0].name,
             singermid: songList[song].data.singer[0].mid,
-            duration: formatDuration(songList[song].data.interval)
+            duration: songList[song].data.interval,
+            time: formatDuration(songList[song].data.interval),
+            index: parseInt(song)
           });
         }
         context.commit("setMusicList", musicList);
       });
     },
-    getQQMusicDetail: function(context, row) {
+    getQQMusicDetail(context, row) {
       let cover = getQQcover(row.albumid);
+      context.commit("setIsPlaying", false);
       getQQsrc(row.songmid).then(function(src) {
-        context.commit("setCurMusic", {
+        context.commit("setCurrentMusic", {
+          name: row.songname,
           musicUrl: src,
           coverUrl: cover,
-          mid: row.songmid,
-          index: "1",
-          duration: row.duration,
+          index: row.index,
           singer: row.singer,
           album: row.albumname,
-          name: row.songname
+          duration: row.duration
         });
+        context.commit("setIsPlaying", true);
+      });
+      getQQlyric(row.songid).then(function(lyric) {
+        console.log(lyric);
+      });
+    },
+    playNext(context, index) {
+      context.commit("setIsPlaying", false);
+      let nextMusic = context.getters.getMusicList[index];
+      let cover = getQQcover(nextMusic.albumid);
+      getQQsrc(nextMusic.songmid).then(function(src) {
+        context.commit("setCurrentMusic", {
+          name: nextMusic.songname,
+          musicUrl: src,
+          coverUrl: cover,
+          index: nextMusic.index,
+          singer: nextMusic.singer,
+          album: nextMusic.albumname,
+          duration: nextMusic.duration
+        });
+        context.commit("setIsPlaying", true);
+      });
+    },
+    playPrevious(context, index) {
+      context.commit("setIsPlaying", false);
+      let preMusic = context.getters.getMusicList[index];
+      let cover = getQQcover(preMusic.albumid);
+      getQQsrc(preMusic.songmid).then(function(src) {
+        context.commit("setCurrentMusic", {
+          name: preMusic.songname,
+          musicUrl: src,
+          coverUrl: cover,
+          index: preMusic.index,
+          singer: preMusic.singer,
+          album: preMusic.albumname,
+          duration: preMusic.duration
+        });
+        context.commit("setIsPlaying", true);
       });
     }
   }

@@ -2,7 +2,7 @@
   <div id="app">
     <Navigation/>
     <Background/>
-    <audio :src="this.QQMusicSrc" ref="player"></audio>
+    <audio autoplay :src="QQMusicSrc" ref="player" @timeupdate="onTimeUpdate" @ended="onPlayEnded(index)"></audio>
     <transition name="fade" mode="out-in"><router-view/></transition>
   </div>
 </template>
@@ -17,11 +17,24 @@ export default {
   methods: {
     initAudio: function() {
       this.$store.commit("setPlayer", this.$refs.player);
+    },
+    onTimeUpdate: function(res) {
+      this.$store.commit("setCurrentTime", res.target.currentTime);
+    },
+    onPlayEnded: function(index) {
+      console.log("end");
+      this.$store.dispatch("playNext", index + 1);
     }
   },
   computed: {
+    /**
+     * @return {string}
+     */
     QQMusicSrc: function() {
-      return this.$store.getters.getCurMusic.musicUrl;
+      return this.$store.getters.getCurrentMusic.musicUrl;
+    },
+    index: function() {
+      return this.$store.getters.getCurrentMusic.index;
     }
   },
   mounted() {

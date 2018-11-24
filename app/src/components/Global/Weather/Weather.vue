@@ -59,7 +59,7 @@ export default {
       this.$store.dispatch("getWeatherInfo", payload);
     }
   },
-  mounted() {
+  created() {
     this.getInfo({ curl: this.cityUrl, wurl: this.weatherUrl });
   }
 };

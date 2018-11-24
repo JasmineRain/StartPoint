@@ -32,6 +32,13 @@ module.exports = {
         pathRewrite: {
           "/QQMusicAPI/": "/"
         }
+      },
+      "/QQMusicLrc/*": {
+        target: "https://api.darlin.me",
+        changeOrigin: true,
+        pathRewrite: {
+          "/QQMusicLrc/": "/"
+        }
       }
     }
   }

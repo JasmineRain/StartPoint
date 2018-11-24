@@ -25,14 +25,24 @@ export default {
   computed: {
     status: function() {
       return this.$store.getters.getIsPlaying;
+    },
+    num: function() {
+      return this.$store.getters.getMusicList.length;
     }
   },
   methods: {
     playPre: function() {
-      console.log("play pre");
+      this.$store.dispatch(
+        "playPrevious",
+        (parseInt(this.$store.getters.getCurrentMusic.index) + this.num - 1) %
+          this.num
+      );
     },
     playNext: function() {
-      console.log("play next");
+      this.$store.dispatch(
+        "playNext",
+        (parseInt(this.$store.getters.getCurrentMusic.index) + 1) % this.num
+      );
     },
     playOrStop: function() {
       let player = this.$store.getters.getPlayer;

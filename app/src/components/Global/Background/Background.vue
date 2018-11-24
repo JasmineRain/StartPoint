@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted() {
-    this.getBackground(this.url);
+    this.getBackground();
   }
 };
 </script>

@@ -4,6 +4,7 @@ import Home from "./components/Home/Home";
 import Functions from "./components/Functions/Functions";
 import Calendar from "./components/Functions/Calendar/Calendar";
 import Music from "./components/Music/Music";
+import Player from "./components/Music/Player/Player";
 
 Vue.use(Router);
 
@@ -26,8 +27,17 @@ export default new Router({
     },
     {
       path: "/music",
-      name: "music",
-      component: Music
+      component: Music,
+      children: [
+        {
+          path: "",
+          redirect: "sheet/mylist"
+        },
+        {
+          path: "sheet/:list",
+          component: Player
+        }
+      ]
     }
   ]
 });
