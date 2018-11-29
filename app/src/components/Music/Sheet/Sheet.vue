@@ -77,6 +77,9 @@ export default {
       if (this.height <= 700 && this.height > 600) {
         return "55vh";
       }
+    },
+    router: function() {
+      return this.$router;
     }
   },
   methods: {
