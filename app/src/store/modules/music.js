@@ -1,5 +1,5 @@
 import axios from "axios";
-import { formatDuration } from "../../common/util";
+import {formatDuration} from "../../common/util";
 
 const QQTopList =
   "/QQMusicAPI/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8%C2%ACice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=27&_=1519963122923";
@@ -15,7 +15,7 @@ const QQvkey =
 const QQCover = "http://imgcache.qq.com/music/photo/album_300/";
 
 // "http://imgcache.qq.com/music/photo/album_300/%i/300_albumpic_%i_0.jpg"
-const getQQvkey = function(mid) {
+const getQQvkey = function (mid) {
   let url = QQvkey + "&songmid=" + mid + "&filename=C400" + mid + ".m4a";
   return new Promise(resolve => {
     axios.get(url).then(response => {
@@ -25,9 +25,9 @@ const getQQvkey = function(mid) {
   });
 };
 
-const getQQsrc = function(mid) {
+const getQQsrc = function (mid) {
   return new Promise(resolve => {
-    getQQvkey(mid).then(function(vkey) {
+    getQQvkey(mid).then(function (vkey) {
       console.log("got vkey = " + vkey);
       let src =
         "http://dl.stream.qqmusic.qq.com/C400" +
@@ -40,11 +40,11 @@ const getQQsrc = function(mid) {
   });
 };
 
-const getQQcover = function(id) {
+const getQQcover = function (id) {
   return QQCover + (id % 100) + "/300_albumpic_" + id + "_0.jpg";
 };
 //https://api.darlin.me/music/lyric/"+获取的音乐id+"/?
-const getQQlyric = function(id) {
+const getQQlyric = function (id) {
   let url = QQLyric + id + "/";
   return new Promise(resolve => {
     axios.get(url).then(response => {
@@ -146,7 +146,7 @@ const music = {
     getQQMusicDetail(context, row) {
       let cover = getQQcover(row.albumid);
       context.commit("setIsPlaying", false);
-      getQQsrc(row.songmid).then(function(src) {
+      getQQsrc(row.songmid).then(function (src) {
         context.commit("setCurrentMusic", {
           name: row.songname,
           musicUrl: src,
@@ -158,7 +158,7 @@ const music = {
         });
         context.commit("setIsPlaying", true);
       });
-      getQQlyric(row.songid).then(function(lyric) {
+      getQQlyric(row.songid).then(function (lyric) {
         console.log(lyric);
       });
     },
@@ -166,7 +166,7 @@ const music = {
       context.commit("setIsPlaying", false);
       let nextMusic = context.getters.getMusicList[index];
       let cover = getQQcover(nextMusic.albumid);
-      getQQsrc(nextMusic.songmid).then(function(src) {
+      getQQsrc(nextMusic.songmid).then(function (src) {
         context.commit("setCurrentMusic", {
           name: nextMusic.songname,
           musicUrl: src,
@@ -183,7 +183,7 @@ const music = {
       context.commit("setIsPlaying", false);
       let preMusic = context.getters.getMusicList[index];
       let cover = getQQcover(preMusic.albumid);
-      getQQsrc(preMusic.songmid).then(function(src) {
+      getQQsrc(preMusic.songmid).then(function (src) {
         context.commit("setCurrentMusic", {
           name: preMusic.songname,
           musicUrl: src,

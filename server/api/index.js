@@ -3,7 +3,11 @@ const neteaseAPI = require('./netease/index');
 const xiamiAPI = require('./xiami/index');
 
 const getSong = (req, res) => {
-  return neteaseAPI.getSong(req, res);
+  switch (req.query.vendor) {
+    case 'netease': return neteaseAPI.getSongUrl(req, res);
+    case 'qq': return qqAPI.getSongUrl(req, res);
+    case 'xiami': return xiamiAPI.getSongUrl(req, res);
+  }
 };
 
 

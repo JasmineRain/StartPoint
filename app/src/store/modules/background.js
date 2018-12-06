@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Loading } from "element-ui";
+import {Loading} from "element-ui";
 
 const bingUrl = "/BingAPI/HPImageArchive.aspx?format=js&idx=0&n=1";
 

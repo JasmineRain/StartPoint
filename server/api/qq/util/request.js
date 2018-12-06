@@ -1,6 +1,4 @@
-const queryString = require('querystring');
-const axios = require('axios');
-
+import axios from "axios"
 
 const chooseUserAgent = ua => {
   const userAgentList = [
@@ -29,7 +27,7 @@ const chooseUserAgent = ua => {
 };
 
 
-const createRequest = (method, url, data, options) => {
+const createRequest = (method, url, params, data, options) => {
   return new Promise((resolve, reject) => {
     let headers = { 'User-Agent': chooseUserAgent(options.ua) };
     if (method.toUpperCase() == 'POST')
@@ -47,37 +45,29 @@ const createRequest = (method, url, data, options) => {
     else if (options.cookie) headers['Cookie'] = options.cookie;
 
     const answer = { status: 500, body: {}, cookie: [] };
-    request(
-      {
-        method: method,
-        url: url,
-        headers: headers,
-        body: queryString.stringify(data),
-        proxy: options.proxy
-      },
-      (err, res, body) => {
-        if (err) {
-          answer.status = 502;
-          answer.body = { code: 502, msg: err.stack };
-          reject(answer)
-        } else {
-          answer.cookie = (res.headers['set-cookie'] || []).map(x =>
-            x.replace(/\s*Domain=[^(;|$)]+;*/, '')
-          );
-          try {
-            answer.body = JSON.parse(body);
-            answer.status = answer.body.code || res.statusCode
-          } catch (e) {
-            answer.body = body;
-            answer.status = res.statusCode
-          }
-          answer.status =
-            100 < answer.status && answer.status < 600 ? answer.status : 400;
-          if (answer.status == 200) resolve(answer);
-          else reject(answer)
-        }
+    axios({
+      method: method,
+      url: url,
+      data: data,
+      params: params,
+      headers: headers
+    })
+    .then(response=>{
+      answer.body = response.data;
+      answer.status = response.status;
+      answer.cookie = response.config.headers.Cookie;
+      resolve(answer);
+    })
+    .catch(function (err) {
+      if(err.response){
+        answer.status = err.response.status;
+        answer.body = err.response.data;
+      } else {
+        answer.status = 502;
+        answer.body = {code: 502, msg: err.message}
       }
-    )
+      reject(answer);
+    });
   })
 };
 
