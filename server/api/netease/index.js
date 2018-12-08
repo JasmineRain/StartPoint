@@ -6,10 +6,12 @@ const getSongUrl = (req, res) => {
   return question(query, request);
 };
 
+const getLyric = (req, res) => {
+  let question = require('./module/lyric');
+  let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+  return question(query, request);
+};
 
 
 
-
-
-// export as neteaseAPI
-module.exports = {getSongUrl};
+module.exports = {getSongUrl, getLyric};

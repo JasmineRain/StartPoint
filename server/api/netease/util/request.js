@@ -93,7 +93,7 @@ const createRequest = (method, url, data, options) => {
           }
           answer.status =
             100 < answer.status && answer.status < 600 ? answer.status : 400;
-          if (answer.status == 200) resolve(answer);
+          if (answer.status === 200) resolve(answer);
           else reject(answer)
         }
       }

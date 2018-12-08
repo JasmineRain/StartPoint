@@ -10,14 +10,24 @@ const getSong = (req, res) => {
   }
 };
 
-
+const getLyric = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease': return neteaseAPI.getLyric(req, res);
+    case 'qq': return qqAPI.getLyric(req, res);
+    case 'xiami': return xiamiAPI.getLyric(req, res);
+  }
+};
 
 
 
 
 const musicAPI = {
-  getSong
+  getSong,
+  getLyric
 };
 
-//export as musicAPI
+
+
+
+
 module.exports = musicAPI;
