@@ -66,7 +66,7 @@ const createRequest = (method, url, data, options) => {
       url = 'https://music.163.com/api/linux/forward'
     }
 
-    const answer = { status: 500, body: {}, cookie: [] };
+    const answer = { status: 500, body: {}, cookie: [], vendor: "Netease" };
     request(
       {
         method: method,
