@@ -3,15 +3,15 @@ const dictionary = {
   lyric: 7,
   album: 8,
   singer: 9,
-  MV: 12
+  mv: 12
 };
 
 module.exports = (query, request) => {
   const params = {
-    p: query.p || 1,        //当前页
-    n: query.n || 20,       //每页数量
-    t: dictionary[query.t] || 0,        //0-单曲  7-歌词  8-专辑  9-歌手  12-MV
-    w: query.keywords,      //关键词
+    p: query.p || 1,                 //当前页
+    n: query.n || 20,                //每页数量
+    t: dictionary[query.t] || 0,     //0-单曲  7-歌词  8-专辑  9-歌手  12-MV
+    w: query.keywords,               //关键词
     g_tk: 5381,
     format: "json",
     loginUin: 0,
