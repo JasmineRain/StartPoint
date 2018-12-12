@@ -18,12 +18,19 @@ const getLyric = (req, res) => {
   }
 };
 
-
+const search = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease': return neteaseAPI.search(req, res);
+    case 'qq': return qqAPI.search(req, res);
+    case 'xiami': return xiamiAPI.search(req, res);
+  }
+};
 
 
 const musicAPI = {
   getSong,
-  getLyric
+  getLyric,
+  search
 };
 
 

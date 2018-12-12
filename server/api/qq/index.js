@@ -24,8 +24,12 @@ const getLyric = (req, res) => {
   });
 };
 
+const search = (req, res) => {
+  let question = require('./module/search');
+  let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+  return question(query, request);
+};
 
 
 
-
-module.exports = {getSongUrl, getLyric};
+module.exports = {getSongUrl, getLyric, search};

@@ -15,7 +15,11 @@ router.get('/lyric', function(req, res, next) {
   })
 });
 
-
+router.get('/search', function(req, res, next) {
+  musicAPI.search(req, res).then(answer=>{
+    res.json(answer);
+  })
+});
 
 
 
