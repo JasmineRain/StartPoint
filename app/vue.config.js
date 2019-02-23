@@ -3,7 +3,7 @@ module.exports = {
   outputDir: "dist",
   lintOnSave: true,
   devServer: {
-    port: 8080,
+    port: 8082,
     proxy: {
       "/weatherAPI/*": {
         target: "https://api.seniverse.com",
