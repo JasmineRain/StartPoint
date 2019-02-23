@@ -8,7 +8,7 @@ const global = {
     }
   },
   getters: {
-    getGlobal: state => state.clientWid
+    getClientWid: state => state.clientWid
   },
 
 };

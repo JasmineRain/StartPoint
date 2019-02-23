@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @resize="updateGlobal">
+  <div id="app">
     <Navigation/>
     <Background/>
     <audio autoplay :src="QQMusicSrc" ref="player" @timeupdate="onTimeUpdate" @ended="onPlayEnded(index)"></audio>
@@ -45,6 +45,9 @@ export default {
   },
   mounted() {
     this.initAudio();
+    window.onresize = () => {
+        this.updateGlobal()
+    }
   }
 };
 </script>

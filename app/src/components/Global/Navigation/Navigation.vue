@@ -70,7 +70,7 @@
         return /iPhone|iPod/i.test(navigator.userAgent)
       },
       isHigher768: function () {
-        return this.$store.getters.getGlobal.clientWid > 768
+        return this.$store.getters.getClientWid > 768
       }
     },
     mounted() {
