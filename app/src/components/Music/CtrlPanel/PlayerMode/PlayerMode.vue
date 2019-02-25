@@ -32,7 +32,7 @@ export default {
   justify-content: space-around;
 }
 ul {
-  margin: 20px 0;
+  margin: 10px 0;
   padding: 0;
 }
 li {

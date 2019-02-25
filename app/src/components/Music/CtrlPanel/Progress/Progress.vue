@@ -67,7 +67,4 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.progress {
-  margin-top: 10px;
-}
 </style>

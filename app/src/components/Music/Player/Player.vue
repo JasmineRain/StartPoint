@@ -1,27 +1,45 @@
 <template>
-	<el-row>
-		<el-row class="sheet">
-			<el-col :md="16" :lg="16" :sm="16" :xs="24">
-				<el-row>
-					<Sheet/>
-				</el-row>
-			</el-col>
-			<el-col :md="8" :lg="8" :sm="8" class="hidden-xs-only">
-				<CD/>
-			</el-col>
-		</el-row>
-		<el-row :gutter="20">
-			<el-col :md="4" :lg="4" :sm="4" :xs="24">
-				<PlayerCtrl/>
-			</el-col>
-			<el-col :md="12" :lg="12" :sm="12" :xs="24">
-				<Progress/>
-			</el-col>
-			<el-col :md="8" :lg="8" :sm="8" :xs="24">
-				<PlayerModel/>
-			</el-col>
-		</el-row>
-	</el-row>
+  <el-row class="music_content">
+
+    <!--小屏以上-->
+    <el-row class="music hidden-xs-only">
+      <FuncPanel/>
+      <el-row class="sheet">
+        <Sheet/>
+      </el-row>
+
+    </el-row>
+    <el-row class="panel hidden-xs-only" :gutter="20">
+      <el-col :md="6" :lg="6" :sm="6" :xs="24">
+        <PlayerCtrl/>
+      </el-col>
+      <el-col :md="12" :lg="12" :sm="12" :xs="24">
+        <Progress/>
+      </el-col>
+      <el-col :md="6" :lg="6" :sm="6">
+        <PlayerModel/>
+      </el-col>
+    </el-row>
+
+    <!--小屏-->
+    <el-row class="music_m hidden-sm-and-up">
+      <FuncPanel/>
+      <el-row class="sheet">
+        <Sheet/>
+      </el-row>
+
+    </el-row>
+    <el-row class="panel_m hidden-sm-and-up">
+      <el-col :span="24">
+        <PlayerCtrl/>
+      </el-col>
+      <el-col :span="24">
+        <Progress/>
+      </el-col>
+    </el-row>
+
+
+  </el-row>
 </template>
 
 <script>
@@ -33,9 +51,11 @@ import Progress from "../CtrlPanel/Progress/Progress";
 import PlayerModel from "../CtrlPanel/PlayerMode/PlayerMode";
 import CD from "../CD/CD";
 import "element-ui/lib/theme-chalk/display.css";
+import FuncPanel from "../FuncPanel/FuncPanel";
 export default {
   name: "Player",
   components: {
+    FuncPanel,
     Sheet,
     PlayerCtrl,
     Progress,
@@ -46,14 +66,26 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (min-height: 1000px) {
-  .sheet {
-    margin-bottom: 30px;
-  }
+.music {
+  height: calc(100% - 80px);
 }
-@media screen and (min-width: 1600px) {
-  .sheet {
-    margin-bottom: 50px;
-  }
+.music_m {
+  height: calc(100% - 121px);
+}
+.panel {
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+.panel_m {
+  padding: 0 20px;
+}
+.music_content {
+  width: 100%;
+  height: 100%;
+}
+.sheet {
+  height: calc(100% - 60px);
+  padding: 10px;
 }
 </style>

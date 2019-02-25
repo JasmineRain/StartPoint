@@ -45,6 +45,7 @@ export default {
   },
   mounted() {
     this.initAudio();
+    this.updateGlobal();
     window.onresize = () => {
         this.updateGlobal()
     }
@@ -53,6 +54,13 @@ export default {
 </script>
 
 <style lang="scss">
+#app {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 body,
 footer {
   margin: 0;
@@ -95,14 +103,8 @@ th {
   color: #fff !important;
   background-color: rgba(0, 0, 0, 0.6) !important;
 }
-::-webkit-scrollbar {
-  width: 6px;
-}
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(256, 256, 256, 0.4);
-  border-radius: 3px;
-}
+
 /*animate as belows*/
 
 .fade-enter-active {

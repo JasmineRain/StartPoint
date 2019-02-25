@@ -4,7 +4,7 @@
 		<!--<el-button size="medium" round class="btn">发现</el-button>-->
 	<!--</el-row>-->
 	<div class="ctrl_panel">
-		<div  class="select_button">
+		<div v-if="isHigher768" class="select_button">
 			<router-link tag="span" to="/music/playlist" class="todo_btn playing_btn">
 				正在播放
 			</router-link>
@@ -18,7 +18,7 @@
 				搜索音乐
 			</router-link>
 		</div>
-		<div class="select_m_button">
+		<div v-if="!isHigher768" class="select_m_button">
 			<router-link tag="span" to="/music/playlist" class="todo_btn playing_btn">
 				正在播放
 			</router-link>
@@ -37,7 +37,12 @@
 
 <script>
 export default {
-  name: "FuncPanel"
+  name: "FuncPanel",
+	computed: {
+		isHigher768: function () {
+			return this.$store.getters.getClientWid > 768
+		}
+	}
 };
 </script>
 

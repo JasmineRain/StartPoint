@@ -1,8 +1,8 @@
 <template>
 	<div class="content">
-		<el-row>
-			<FuncPanel/>
-		</el-row>
+		<!--<el-row>-->
+			<!--<FuncPanel/>-->
+		<!--</el-row>-->
 		<router-view></router-view>
 	</div>
 </template>
@@ -21,14 +21,28 @@ export default {
 
 <style scoped>
 .content {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 20px 20px 0 20px;
+	position: fixed;
+	top: 80px;
+	bottom: 30px;
+	right: 100px;
+	left: 100px;
+	padding: 15px;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 1440px) {
   .content {
-    padding-top: 0;
+		top: 40px;
+		bottom: 20px;
+		right: 20px;
+		left: 20px;
   }
+}
+@media screen and (max-width: 525px) {
+	.content {
+		top: 40px;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		padding: 0
+	}
 }
 </style>
