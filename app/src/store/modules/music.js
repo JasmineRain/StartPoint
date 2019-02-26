@@ -1,5 +1,5 @@
 import axios from "axios";
-import {formatDuration} from "../../common/util";
+import musicUtil from "../../common/js/music";
 
 const QQTopList =
   "/QQMusicAPI/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=27&_=1519963122923";
@@ -19,7 +19,7 @@ const getQQvkey = function (mid) {
   let url = QQvkey + "&songmid=" + mid + "&filename=C400" + mid + ".m4a";
   return new Promise(resolve => {
     axios.get(url).then(response => {
-      console.log(response.data);
+      //console.log(response.data);
       resolve(response.data.data.items[0].vkey);
     });
   });
@@ -28,7 +28,7 @@ const getQQvkey = function (mid) {
 const getQQsrc = function (mid) {
   return new Promise(resolve => {
     getQQvkey(mid).then(function (vkey) {
-      console.log("got vkey = " + vkey);
+      //console.log("got vkey = " + vkey);
       let src =
         "http://dl.stream.qqmusic.qq.com/C400" +
         mid +
@@ -66,10 +66,12 @@ const music = {
       album: "",
       duration: 0
     },
-    player: "",
+    player: '',
     lrc: "",
     lrcIndex: "",
     currentTime: 0,
+    currentDuration: 0,
+    buffered: 0,
     isPlaying: false,
     playMode: 1,
     musicList: [],
@@ -82,6 +84,8 @@ const music = {
     getLrc: state => state.lrc,
     getLrcIndex: state => state.lrcIndex,
     getCurrentTime: state => state.currentTime,
+    getCurrentDuration: state => state.currentDuration,
+    getBuffered: state => state.buffered,
     getIsPlaying: state => state.isPlaying,
     getPlayMode: state => state.playMode,
     getMusicList: state => state.musicList,
@@ -103,6 +107,12 @@ const music = {
     },
     setCurrentTime(state, payload) {
       state.currentTime = payload;
+    },
+    setCurrentDuration(state, payload) {
+      state.currentDuration = payload;
+    },
+    setBuffered(state, payload) {
+      state.buffered = payload;
     },
     setIsPlaying(state, payload) {
       state.isPlaying = payload;
@@ -136,7 +146,7 @@ const music = {
             singer: songList[song].data.singer[0].name,
             singermid: songList[song].data.singer[0].mid,
             duration: songList[song].data.interval,
-            time: formatDuration(songList[song].data.interval),
+            time: musicUtil.formatDuration(songList[song].data.interval),
             index: parseInt(song)
           });
         }
@@ -158,9 +168,9 @@ const music = {
         });
         context.commit("setIsPlaying", true);
       });
-      getQQlyric(row.songid).then(function (lyric) {
-        console.log(lyric);
-      });
+      // getQQlyric(row.songid).then(function (lyric) {
+      //   console.log(lyric);
+      // });
     },
     playNext(context, index) {
       context.commit("setIsPlaying", false);

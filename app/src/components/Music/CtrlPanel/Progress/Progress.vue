@@ -1,70 +1,289 @@
 <template>
-    <div class="progress">
-        <div class="name">
-            <span>{{this.song}}</span>
-            <span>{{this.duration}}</span>
+  <div>
+    <div class="music_progress" id="music_progress">
+      <div class="music_current_detail">
+        <span class="music_c_name">{{getCurrentMusic.name ? getCurrentMusic.name : '单击开始播放'}} - {{getCurrentMusic.singer ? getCurrentMusic.singer : ':)'}}</span>
+        <span class="music_c_time">{{time || "00:00"}}</span>
+      </div>
+      <div class="music_progress_bar" id="music_progress">
+        <div class="duration" id="music_progressD" @click="clickProgress">
+          <div class="buffering" :style="{width:`${buffered}%`}"></div>
+          <div class="real" :style="{width: getMusicProgress}"></div>
         </div>
-        <el-slider v-model="currentTime" :show-tooltip="false" @change="change" :max="length"></el-slider>
+        <div class="range" @mousedown="dragMouseDown" @touchstart="dragTouchStart" @touchmove="dragTouchMove"
+             @touchend="dragTouchEnd" :style="{left:`${getMusicProgress}`}"></div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import { formatDuration } from "../../../../common/util";
-export default {
-  name: "Progress",
-  data() {
-    return {
-      currentTime: 0,
-      updater: {}
-    };
-  },
-  computed: {
-    song: function() {
-      return (
-        this.$store.getters.getCurrentMusic.name +
-        " - " +
-        this.$store.getters.getCurrentMusic.singer
-      );
+  import musicUtil from "../../../../common/js/music";
+
+  export default {
+    name: "Progress",
+    data() {
+      return {
+        currentTime: 0,
+        isDrag: false,
+        maxProgressWidth: 0,
+        dragProgressTo: 0,
+        x: 0,  // x 的位置
+        l: 0,  // offsetleft
+      };
     },
-    duration: function() {
-      if (this.currentTime) {
-        return (
-          formatDuration(this.currentTime) +
-          " / " +
-          formatDuration(this.$store.getters.getCurrentMusic.duration)
-        );
-      } else {
-        return (
-          "00:00 / " +
-          formatDuration(this.$store.getters.getCurrentMusic.duration)
-        );
+    computed: {
+      getCurrentMusic: function () {
+        return this.$store.getters.getCurrentMusic;
+      },
+      getMusicProgress() {
+        const mp = this.$store.getters.getCurrentDuration;
+        return (mp).toFixed(4) + '%'
+      },
+      time() {
+        return musicUtil.formatDuration(this.$store.getters.getCurrentTime) + "/" +
+          musicUtil.formatDuration(this.getCurrentMusic.duration)
+      },
+      index: function() {
+        return this.$store.getters.getCurrentMusic.index;
+      },
+      buffered: function () {
+        return this.$store.getters.getBuffered;
       }
     },
-    length: function() {
-      return this.$store.getters.getCurrentMusic.duration;
-    }
-  },
-  methods: {
-    change: function(newValue) {
-      this.$store.getters.getPlayer.currentTime = newValue;
+    methods: {
+      //进度条控制
+      dragMouseDown(event) {
+        const player = this.$store.getters.getPlayer;
+        if (player.src.indexOf('.') < 0) return;
+        this.isDrag = true;
+        let e = event || window.event;
+        let x = e.clientX;
+        let l = e.target.offsetLeft;
+        this.maxProgressWidth = document.getElementById('music_progressD').offsetWidth;
+        const moveProgress = document.getElementById('music_progress');
+        moveProgress.onmousemove = (event) => {
+          if (this.isDrag) {
+            let e = event || window.event;
+            let thisX = e.clientX;
+            this.dragProgressTo = Math.min(this.maxProgressWidth, Math.max(0, l + (thisX - x)));
+            this.updateDragProgress(this.maxProgressWidth, this.dragProgressTo);
+          }
+        };
+        moveProgress.onmouseup = () => {
+          const durationT = player.duration;
+          if (this.isDrag) {
+            this.isDrag = false;
+            player.currentTime = Math.floor(this.dragProgressTo / this.maxProgressWidth * durationT)
+          }
+        };
+        moveProgress.onmouseleave = () => {
+          const durationT = player.duration;
+          if (this.isDrag) {
+            this.isDrag = false;
+            player.currentTime = Math.floor(this.dragProgressTo / this.maxProgressWidth * durationT)
+          }
+        }
+      },
+      dragTouchStart(event) {
+        const player = this.$store.getters.getPlayer;
+        if (player.src.indexOf('.') < 0) return;
+        this.isDrag = true;
+        const e = event || window.event;
+        this.x = e.touches[0].clientX;
+        this.l = e.target.offsetLeft;
+        this.maxProgressWidth = document.getElementById('music_progressD').offsetWidth
+      },
+      dragTouchMove(event) {
+        if (this.isDrag) {
+          let e = event || window.event;
+          let thisX = e.touches[0].clientX;
+          this.dragProgressTo = Math.min(this.maxProgressWidth, Math.max(0, this.l + (thisX - this.x)));
+          this.updateDragProgress(this.maxProgressWidth, this.dragProgressTo)
+        }
+      },
+      dragTouchEnd() {
+        const player = this.$store.getters.getPlayer;
+        const durationT = player.duration;
+        if (this.isDrag) {
+          this.isDrag = false;
+          player.currentTime = Math.floor(this.dragProgressTo / this.maxProgressWidth * durationT)
+        }
+      },
+      // 拖动  点击的进度效果   l length  to 移动的位置
+      updateDragProgress(l, to) {
+        const player = this.$store.getters.getPlayer;
+        const durationT = player.duration;
+        this.$store.commit('setCurrentTime', Math.floor(to / l * durationT));
+      },
+      clickProgress(event) {
+        const player = this.$store.getters.getPlayer;
+        const durationT = player.duration;
+        const e = event || window.event;
+        const l = e.offsetX;
+        const w = document.getElementById('music_progressD').offsetWidth;
+        console.log(l + '------------' + w);
+        player.currentTime = Math.floor(l / w * durationT);
+      },
+      setAudioEvents() {
+        const player = this.$store.getters.getPlayer;
+        player.ontimeupdate = () => {
+          const currentT = Math.floor(this.$store.getters.getPlayer.currentTime);
+          this.$store.commit("setCurrentTime", this.$store.getters.getPlayer.currentTime);
+          this.$store.commit("setCurrentDuration", currentT / this.$store.getters.getPlayer.duration * 100)
+        };
+        player.onplayended = () => {
+          this.$store.dispatch("playNext", this.index + 1);
+        };
+        player.onprogress = () => {
+          const durationT = Math.floor(player.duration);
+          try {
+            if (player.buffered.length > 0) {
+              let bufferedT = 0;
+              for (let i = 0; i < player.buffered.length; i++) {
+                bufferedT += player.buffered.end(i) - player.buffered.start(i);
+                if (bufferedT > durationT) {
+                  bufferedT = durationT;
+                  console.log('缓冲完成')
+                }
+              }
+              this.$store.commit("setBuffered",Math.floor((bufferedT / durationT) * 100));
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
     },
-    update: function() {
-      this.currentTime = this.$store.getters.getPlayer.currentTime;
+    mounted() {
+      this.setAudioEvents();
     }
-  },
-  mounted() {
-    this.updater = setInterval(this.update, 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.updater);
-  }
-};
+  };
 </script>
 
-<style scoped>
-.name {
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-}
+<style lang="stylus" rel="stylesheet/stylus" scoped>
+  @import '../../../../common/style/style.styl'
+  @import '../../../../common/style/global.styl'
+  .music_progress
+    width: 100%
+    padding: 0 20px
+    box-sizing: border-box
+    display: flex
+    align-items: center
+    flex-direction: column
+    justify-content: center
+
+    .music_current_detail
+      display: block
+      width: 100%
+      height: auto
+      color: $text_before_color
+      margin-bottom: 10px
+      font-size: 0
+      overflow: hidden
+
+      .music_c_name
+        display: inline-block
+        // text-align:left
+        width: calc(100% - 115px)
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        font-size: 16px
+        vertical-align: top
+
+      // float:left
+
+      .music_c_time
+        display: inline-block
+        font-size: 16px
+        vertical-align: top
+        text-align: right
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        // text-align:right
+        width: 110px
+
+    // float:right
+
+    .music_progress_bar
+      width: 100%
+      height: 2px
+      // background:$text_color_opacity
+      box-sizing: border-box
+      position: relative
+      cursor: pointer
+
+      &:before {
+        content: ''
+        position: absolute
+        bottom: 2px
+        width: 100%
+        height: 10px
+        background: transparent
+      }
+
+      .duration
+        width: 100%
+        height: 2px
+        position: relative
+        background: $progress_color
+        border-radius: 1px
+
+        .buffering
+          width: 20%
+          height: 100%
+          background: $buffering_color
+          border-radius: 1px
+          position: absolute
+          top: 0
+          left: 0
+          transition: width 0.3s
+
+        .real
+          width: 10%
+          position: absolute
+          height: 100%
+          left: 0
+          background: $real_color
+          border-radius: 1px
+
+      // transition:width 0.3s
+
+      .range
+        // position:absolute
+        // top:-4px
+        // right:-4px
+        // width:10px
+        // height:10px
+        // border-radius: 50%
+        // background:$range_color
+        // cursor:pointer
+        width: 6px
+        height: 6px
+        margin-top: -3px
+        margin-left: 0
+        border-radius: 50%
+        background-color: #f00
+        position: absolute
+        left: 0
+        top: 50%
+        z-index: 2
+        cursor: pointer
+
+        &:before
+          content: " ";
+          display: block;
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: radial-gradient(rgba(0, 0, 0, 0) 20%, rgba(255, 255, 255, 0.6) 50%, rgba(0, 0, 0, 0) 60%);
+          top: 50%;
+          margin-top: -12px;
+          margin-left: -9px;
+          cursor: pointer;
+          outline: 0;
+          -webkit-tap-highlight-color: transparent;
 </style>
