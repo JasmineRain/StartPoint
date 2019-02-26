@@ -41,9 +41,6 @@
 		name: "Weather",
 		data() {
 			return {
-				weatherUrl:
-					"/weatherAPI/v3/weather/daily.json?key=pgfx1t9fhgu7bbko&language=zh-Hans&unit=c",
-				cityUrl: "/cityAPI/cityjson?ie=utf-8"
 			};
 		},
 		computed: {
@@ -55,12 +52,12 @@
 			}
 		},
 		methods: {
-			getInfo: function (payload) {
-				this.$store.dispatch("getWeatherInfo", payload);
+			getInfo: function () {
+				this.$store.dispatch("getWeatherInfo");
 			}
 		},
 		created() {
-			this.getInfo({curl: this.cityUrl, wurl: this.weatherUrl});
+			this.getInfo();
 		}
 	};
 </script>
