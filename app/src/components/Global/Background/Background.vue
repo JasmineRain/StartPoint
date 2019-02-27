@@ -54,7 +54,7 @@ export default {
     50% 50%,
     ellipse closest-corner,
     rgba(0, 0, 0, 0) 10%,
-    rgb(0, 0, 0) 90%
+    rgb(0, 0, 0) 70%
   );
   opacity: 0.9;
 }

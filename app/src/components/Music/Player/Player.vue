@@ -5,7 +5,12 @@
     <el-row class="music hidden-xs-only">
       <FuncPanel/>
       <el-row class="sheet">
-        <Sheet/>
+        <el-col :span="16" class="list">
+          <Sheet/>
+        </el-col>
+        <el-col :span="8" class="lyric_cd">
+          <CD/>
+        </el-col>
       </el-row>
 
     </el-row>
@@ -87,5 +92,16 @@ export default {
 .sheet {
   height: calc(100% - 60px);
   padding: 10px;
+}
+@media screen and (max-width: 525px){
+  .panel_m {
+    padding: 0 10px;
+  }
+}
+.list {
+  height: 100%;
+}
+.lyric_cd {
+  height: 100%;
 }
 </style>

@@ -19,7 +19,6 @@
 
 <script>
   import musicUtil from "../../../../common/js/music";
-
   export default {
     name: "Progress",
     data() {
@@ -31,23 +30,34 @@
       };
     },
     computed: {
+      //当前曲目
       getCurrentMusic: function () {
         return this.$store.getters.getCurrentMusic;
       },
+
+      //播放进度
       getMusicProgress() {
         const mp = this.$store.getters.getCurrentDuration;
         return (mp).toFixed(4) + '%'
       },
+
+      //时长显示
       time() {
         return musicUtil.formatDuration(this.$store.getters.getCurrentTime) + "/" +
           musicUtil.formatDuration(this.getCurrentMusic.duration)
       },
+
+      //当前音乐序号
       index: function() {
         return this.$store.getters.getCurrentMusic.index;
       },
+
+      //已缓冲（0-100）
       buffered: function () {
         return this.$store.getters.getBuffered;
       },
+
+      //鼠标拖动
       isDrag: function () {
         return this.$store.getters.getIsDrag;
       }
@@ -147,7 +157,6 @@
                 bufferedT += player.buffered.end(i) - player.buffered.start(i);
                 if (bufferedT > durationT) {
                   bufferedT = durationT;
-                  console.log('缓冲完成')
                 }
               }
               this.$store.commit("setBuffered",Math.floor((bufferedT / durationT) * 100));
@@ -175,7 +184,6 @@
     align-items: center
     flex-direction: column
     justify-content: center
-
     .music_current_detail
       display: block
       width: 100%
@@ -184,7 +192,6 @@
       margin-bottom: 10px
       font-size: 0
       overflow: hidden
-
       .music_c_name
         display: inline-block
         // text-align:left
@@ -194,9 +201,6 @@
         text-overflow: ellipsis
         font-size: 16px
         vertical-align: top
-
-      // float:left
-
       .music_c_time
         display: inline-block
         font-size: 16px
@@ -207,17 +211,12 @@
         text-overflow: ellipsis
         // text-align:right
         width: 110px
-
-    // float:right
-
     .music_progress_bar
       width: 100%
       height: 2px
-      // background:$text_color_opacity
       box-sizing: border-box
       position: relative
       cursor: pointer
-
       &:before {
         content: ''
         position: absolute
@@ -226,14 +225,12 @@
         height: 10px
         background: transparent
       }
-
       .duration
         width: 100%
         height: 2px
         position: relative
         background: $progress_color
         border-radius: 1px
-
         .buffering
           width: 20%
           height: 100%
@@ -243,7 +240,6 @@
           top: 0
           left: 0
           transition: width 0.3s
-
         .real
           width: 10%
           position: absolute
@@ -251,18 +247,7 @@
           left: 0
           background: $real_color
           border-radius: 1px
-
-      // transition:width 0.3s
-
       .range
-        // position:absolute
-        // top:-4px
-        // right:-4px
-        // width:10px
-        // height:10px
-        // border-radius: 50%
-        // background:$range_color
-        // cursor:pointer
         width: 6px
         height: 6px
         margin-top: -3px
@@ -274,7 +259,6 @@
         top: 50%
         z-index: 2
         cursor: pointer
-
         &:before
           content: " ";
           display: block;

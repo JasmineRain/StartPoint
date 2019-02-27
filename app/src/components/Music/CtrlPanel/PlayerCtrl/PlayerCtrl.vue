@@ -23,9 +23,11 @@
 export default {
   name: "PlayerCtrl",
   computed: {
+    //播放暂停状态
     status: function() {
       return this.$store.getters.getIsPlaying;
     },
+    //当前歌单曲目数量
     num: function() {
       return this.$store.getters.getMusicList.length;
     }
@@ -77,6 +79,6 @@ button:hover {
   opacity: 0.7;
 }
 button:focus {
-  border: none;
+  outline: none;
 }
 </style>

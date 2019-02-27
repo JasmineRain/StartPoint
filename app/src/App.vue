@@ -46,6 +46,7 @@
 </script>
 
 <style lang="scss">
+@import "../static/font-icon/style.css";
 #app {
   position: fixed;
   top: 0;

@@ -81,7 +81,7 @@ export default {
       vertical-align:middle
       cursor:pointer
       &.music_name
-        width:calc(50% - 50px)
+        width:calc(50% - 56px)
         font-size:14px
       &.music_singer
         width:20%
@@ -116,15 +116,29 @@ export default {
         display:inline-block
         width: 100%
         height:100%
-        // background:red
         font-size:14px
       .hover_menu
         position:absolute
-        width:140px
+        width:60px
         height:100%
         right:0
         top:0
         display:none
+        i
+          font-size:18px
+          display:inline-block
+          width:36px
+          height:36px
+          line-height:36px
+          color:$border_bottom_color_deep
+          text-align:center
+          border-radius:50%
+          vertical-align:middle
+          border:2px solid $border_bottom_color_deep
+          cursor:pointer
+          &:hover
+            color:$text_before_color
+            border:2px solid $text_before_color
     &.border-1px
       border-1px($border_bottom_color,bottom)
   .music_list_content
@@ -133,9 +147,10 @@ export default {
     overflow:auto
     .music_list
       position:relative
-      .music_name
-        .hover_menu
-          display:block
+      &:hover
+        .music_name
+          .hover_menu
+            display:block
   @media screen and (max-width: 998px)
     .music_name
       width:calc(60% - 50px)

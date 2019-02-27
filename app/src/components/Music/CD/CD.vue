@@ -48,6 +48,7 @@ export default {
 <style scoped>
 .cd {
   position: relative;
+  height: 100%;
 }
 .cover {
   width: 180px;
@@ -55,16 +56,11 @@ export default {
   margin: 0 auto;
 }
 .lyric-content {
-  padding: 20px;
+  padding: 20px 0;
   overflow: hidden;
-  height: 50vh;
+  height: calc(100% - 220px);
   color: #fff;
   text-align: center;
-}
-@media screen and (min-height: 767px) {
-  .lyric-content {
-    height: 40vh;
-  }
 }
 p {
   margin: 2px 0;
