@@ -3,8 +3,8 @@
     <ul class="ul-header border-1px">
       <!-- pc 页面菜单 -->
       <div class="left-menu" v-show="isHigher768">
-        <router-link class="logo" tag="a" to="/home">
-          <img width="36" height="36" src="http://www.daiwei.org/new/dw.png" title="未曾遗忘的青春 | 萌芽 - web前端_技术分享_戴伟的个人网站"
+        <router-link class="logo" tag="a" to="/">
+          <img width="16" height="16" src="../../../assets/logo.png" title="StartPoint开源项目  欢迎加入"
                alt="">
         </router-link>
         <router-link tag="a" to="/">
@@ -112,27 +112,21 @@
           cursor: pointer
           font-family: "Segoe UI", Segoe, Tahoma, Arial, Verdana, sans-serif
           text-decoration: none
-
           &.router-link-active
             li
               color: $text_color_active
               border-bottom: 1px solid $border_color
-
           &.logo
             padding-left: 0
-
           img
-            width: 36px
             vertical-align: middle
             border: none
-
       .right-menu
         position: absolute
         right: 10px
         height: 40px
         top: 0
         font-size: 0
-
         .listmenu
           display: inline-block
           font-size: 14px

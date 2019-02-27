@@ -69,10 +69,11 @@ const music = {
     player: '',
     lrc: "",
     lrcIndex: "",
-    currentTime: 0,
-    currentDuration: 0,
-    buffered: 0,
+    currentTime: 0,      //当前播放时间（秒）
+    currentDuration: 0,  //当前播放百分比
+    buffered: 0,         //已缓冲（0-100）
     isPlaying: false,
+    isDrag: false,
     playMode: 1,
     musicList: [],
     searchList: {},
@@ -87,6 +88,7 @@ const music = {
     getCurrentDuration: state => state.currentDuration,
     getBuffered: state => state.buffered,
     getIsPlaying: state => state.isPlaying,
+    getIsDrag: state => state.isDrag,
     getPlayMode: state => state.playMode,
     getMusicList: state => state.musicList,
     getSearchList: state => state.searchList,
@@ -116,6 +118,9 @@ const music = {
     },
     setIsPlaying(state, payload) {
       state.isPlaying = payload;
+    },
+    setIsDrag(state, payload) {
+      state.isDrag = payload;
     },
     setPlayMode(state, payload) {
       state.playMode = payload;

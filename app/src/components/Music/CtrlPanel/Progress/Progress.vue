@@ -5,7 +5,7 @@
         <span class="music_c_name">{{getCurrentMusic.name ? getCurrentMusic.name : '单击开始播放'}} - {{getCurrentMusic.singer ? getCurrentMusic.singer : ':)'}}</span>
         <span class="music_c_time">{{time || "00:00"}}</span>
       </div>
-      <div class="music_progress_bar" id="music_progress">
+      <div class="music_progress_bar">
         <div class="duration" id="music_progressD" @click="clickProgress">
           <div class="buffering" :style="{width:`${buffered}%`}"></div>
           <div class="real" :style="{width: getMusicProgress}"></div>
@@ -24,8 +24,6 @@
     name: "Progress",
     data() {
       return {
-        currentTime: 0,
-        isDrag: false,
         maxProgressWidth: 0,
         dragProgressTo: 0,
         x: 0,  // x 的位置
@@ -49,6 +47,9 @@
       },
       buffered: function () {
         return this.$store.getters.getBuffered;
+      },
+      isDrag: function () {
+        return this.$store.getters.getIsDrag;
       }
     },
     methods: {
@@ -56,7 +57,7 @@
       dragMouseDown(event) {
         const player = this.$store.getters.getPlayer;
         if (player.src.indexOf('.') < 0) return;
-        this.isDrag = true;
+        this.$store.commit("setIsDrag", true);
         let e = event || window.event;
         let x = e.clientX;
         let l = e.target.offsetLeft;
@@ -73,14 +74,14 @@
         moveProgress.onmouseup = () => {
           const durationT = player.duration;
           if (this.isDrag) {
-            this.isDrag = false;
+            this.$store.commit("setIsDrag", false);
             player.currentTime = Math.floor(this.dragProgressTo / this.maxProgressWidth * durationT)
           }
         };
         moveProgress.onmouseleave = () => {
           const durationT = player.duration;
           if (this.isDrag) {
-            this.isDrag = false;
+            this.$store.commit("setIsDrag", false);
             player.currentTime = Math.floor(this.dragProgressTo / this.maxProgressWidth * durationT)
           }
         }
@@ -88,7 +89,7 @@
       dragTouchStart(event) {
         const player = this.$store.getters.getPlayer;
         if (player.src.indexOf('.') < 0) return;
-        this.isDrag = true;
+        this.$store.commit("setIsDrag", true);
         const e = event || window.event;
         this.x = e.touches[0].clientX;
         this.l = e.target.offsetLeft;
@@ -106,7 +107,7 @@
         const player = this.$store.getters.getPlayer;
         const durationT = player.duration;
         if (this.isDrag) {
-          this.isDrag = false;
+          this.$store.commit("setIsDrag", false);
           player.currentTime = Math.floor(this.dragProgressTo / this.maxProgressWidth * durationT)
         }
       },
@@ -115,6 +116,7 @@
         const player = this.$store.getters.getPlayer;
         const durationT = player.duration;
         this.$store.commit('setCurrentTime', Math.floor(to / l * durationT));
+        this.$store.commit('setCurrentDuration', (Math.floor(to / l * durationT)) / durationT * 100)
       },
       clickProgress(event) {
         const player = this.$store.getters.getPlayer;
@@ -122,15 +124,16 @@
         const e = event || window.event;
         const l = e.offsetX;
         const w = document.getElementById('music_progressD').offsetWidth;
-        console.log(l + '------------' + w);
         player.currentTime = Math.floor(l / w * durationT);
       },
       setAudioEvents() {
         const player = this.$store.getters.getPlayer;
         player.ontimeupdate = () => {
-          const currentT = Math.floor(this.$store.getters.getPlayer.currentTime);
-          this.$store.commit("setCurrentTime", this.$store.getters.getPlayer.currentTime);
-          this.$store.commit("setCurrentDuration", currentT / this.$store.getters.getPlayer.duration * 100)
+          if(!this.isDrag) {
+            const currentT = Math.floor(this.$store.getters.getPlayer.currentTime);
+            this.$store.commit("setCurrentTime", this.$store.getters.getPlayer.currentTime);
+            this.$store.commit("setCurrentDuration", currentT / this.$store.getters.getPlayer.duration * 100)
+          }
         };
         player.onplayended = () => {
           this.$store.dispatch("playNext", this.index + 1);
