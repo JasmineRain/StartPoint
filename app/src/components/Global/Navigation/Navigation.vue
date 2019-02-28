@@ -3,11 +3,11 @@
     <ul class="ul-header border-1px">
       <!-- pc 页面菜单 -->
       <div class="left-menu" v-show="isHigher768">
-        <router-link class="logo" tag="a" to="/">
+        <router-link class="logo" tag="a" to="/home">
           <img width="16" height="16" src="../../../assets/logo.png" title="StartPoint开源项目  欢迎加入"
                alt="">
         </router-link>
-        <router-link tag="a" to="/">
+        <router-link tag="a" to="/home">
           <li>Home</li>
         </router-link>
         <router-link tag="a" to="/music">
@@ -112,21 +112,26 @@
           cursor: pointer
           font-family: "Segoe UI", Segoe, Tahoma, Arial, Verdana, sans-serif
           text-decoration: none
+
           &.router-link-active
             li
               color: $text_color_active
               border-bottom: 1px solid $border_color
+
           &.logo
             padding-left: 0
+
           img
             vertical-align: middle
             border: none
+
       .right-menu
         position: absolute
         right: 10px
         height: 40px
         top: 0
         font-size: 0
+
         .listmenu
           display: inline-block
           font-size: 14px
@@ -159,7 +164,6 @@
               border-bottom: 1px solid $border_color
 
           li
-            // border-bottom:none
             display: flex
             height: 40px
             align-items: center
@@ -228,8 +232,6 @@
             &.router-link-active
               li
                 color: $border_color
-
-    // border-bottom:1px solid $border_color
 
     .li_list
       transform: translate3d(0, 0, 0)

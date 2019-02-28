@@ -7,24 +7,24 @@
 </template>
 
 <script>
-export default {
-  name: "CopyrightInfo"
-};
+  export default {
+    name: "CopyrightInfo"
+  };
 </script>
 
 <style scoped>
-.copyright {
-  position: absolute;
-  bottom: 0;
-  right: 20px;
-  left: 30px;
-  color: #fff;
-  font-size: 10px;
-  line-height: 40px;
-  height: 40px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  text-align: right;
-}
+  .copyright {
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    left: 30px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 40px;
+    height: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: right;
+  }
 </style>
