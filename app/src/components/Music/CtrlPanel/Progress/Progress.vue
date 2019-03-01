@@ -2,16 +2,16 @@
   <div>
     <div class="music_progress" id="music_progress">
       <div class="music_current_detail">
-        <span class="music_c_name">{{getCurrentMusic.name ? getCurrentMusic.name : '单击开始播放'}} - {{getCurrentMusic.singer ? getCurrentMusic.singer : ':)'}}</span>
+        <span class="music_c_name">{{currentMusic.name ? currentMusic.name : '单击开始播放'}} - {{currentMusic.singer ? currentMusic.singer : ':)'}}</span>
         <span class="music_c_time">{{time || "00:00"}}</span>
       </div>
       <div class="music_progress_bar">
         <div class="duration" id="music_progressD" @click="clickProgress">
           <div class="buffering" :style="{width:`${buffered}%`}"></div>
-          <div class="real" :style="{width: getMusicProgress}"></div>
+          <div class="real" :style="{width: musicProgress}"></div>
         </div>
         <div class="range" @mousedown="dragMouseDown" @touchstart="dragTouchStart" @touchmove="dragTouchMove"
-             @touchend="dragTouchEnd" :style="{left:`${getMusicProgress}`}"></div>
+             @touchend="dragTouchEnd" :style="{left:`${musicProgress}`}"></div>
       </div>
     </div>
   </div>
@@ -32,12 +32,12 @@
     },
     computed: {
       //当前曲目
-      getCurrentMusic: function () {
+      currentMusic: function () {
         return this.$store.getters.getCurrentMusic;
       },
 
       //播放进度
-      getMusicProgress() {
+      musicProgress() {
         const mp = this.$store.getters.getCurrentDuration;
         return (mp).toFixed(4) + '%'
       },
@@ -45,7 +45,7 @@
       //时长显示
       time() {
         return musicUtil.formatDuration(this.$store.getters.getCurrentTime) + "/" +
-          musicUtil.formatDuration(this.getCurrentMusic.duration)
+          musicUtil.formatDuration(this.currentMusic.duration)
       },
 
       //当前音乐序号
@@ -61,6 +61,11 @@
       //鼠标拖动
       isDrag: function () {
         return this.$store.getters.getIsDrag;
+      },
+
+      //歌词滚动控制
+      lyric: function () {
+        return this.$store.getters.getLyric;
       }
     },
     methods: {
@@ -126,6 +131,7 @@
       updateDragProgress(l, to) {
         const player = this.$store.getters.getPlayer;
         const durationT = player.duration;
+        this.scrollLyric(Math.floor(to / l * durationT));
         this.$store.commit('setCurrentTime', Math.floor(to / l * durationT));
         this.$store.commit('setCurrentDuration', (Math.floor(to / l * durationT)) / durationT * 100)
       },
@@ -142,12 +148,12 @@
         player.ontimeupdate = () => {
           if (!this.isDrag) {
             const currentT = Math.floor(this.$store.getters.getPlayer.currentTime);
+            this.scrollLyric(currentT);
             this.$store.commit("setCurrentTime", this.$store.getters.getPlayer.currentTime);
             this.$store.commit("setCurrentDuration", currentT / this.$store.getters.getPlayer.duration * 100)
           }
         };
         player.onended = () => {
-          console.log("end");
           this.$store.dispatch("playNext", this.index + 1);
         };
         player.onprogress = () => {
@@ -159,7 +165,6 @@
                 bufferedT += player.buffered.end(i) - player.buffered.start(i);
                 if (bufferedT > durationT) {
                   bufferedT = durationT;
-                  console.log("buffer finish");
                 }
               }
               this.$store.commit("setBuffered", Math.floor((bufferedT / durationT) * 100));
@@ -167,6 +172,32 @@
           } catch (err) {
             console.log(err);
           }
+        }
+      },
+      scrollLyric (time) {
+        let lastLyric = 0;
+        if (this.lyric === '')
+          return false;
+        time = parseInt(time);
+        if (this.lyric === undefined || this.lyric[time] === undefined)
+          return false;
+        if (lastLyric === time)
+          return true;
+        let i = 0;
+        this.$store.commit("setLyricIndex",i);
+        for (let k in this.lyric) {
+          if (k > time)
+            break;
+          i++
+        }
+        lastLyric = time;  // 记录方便下次使用
+        this.$store.commit("setLyricIndex",i);
+        try {
+          let scroll = (document.getElementsByClassName('lrc-item')[0].offsetHeight * i) - this.$store.getters.getLyricContent.offsetHeight / 2;
+          let content = this.$store.getters.getLyricContent;
+          content.scrollTop = scroll;
+        } catch (e) {
+          console.log(e);
         }
       }
     },

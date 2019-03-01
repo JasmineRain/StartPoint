@@ -9,10 +9,10 @@
         <span class="music_duration">时长</span>
       </div>
       <div class="music_list_content" v-if="musicData">
-        <div class="music_list border-1px" v-for="(list, index) in musicData" :key="list.songid" @click="dbclickRow(list)">
+        <div class="music_list border-1px" v-for="(list, index) in musicData" :key="list.songid" @click="clickRow(list)">
           <span class="music_index">
-            <span v-show="getCurrentMusic.index !== list.index">{{index + 1}}</span>
-            <img v-show="getCurrentMusic.index === list.index" src="../../../assets/wave.gif">
+            <span v-show="currentMusic.index !== list.index">{{index + 1}}</span>
+            <img v-show="currentMusic.index === list.index" src="../../../assets/wave.gif">
           </span>
           <div class="music_name">
             <span class="span_name">{{list.songname}}</span>
@@ -43,12 +43,12 @@ export default {
     musicData: function() {
       return this.$store.getters.getMusicList;
     },
-    getCurrentMusic: function() {
+    currentMusic: function() {
       return this.$store.getters.getCurrentMusic;
     }
   },
   methods: {
-    dbclickRow: function(row) {
+    clickRow: function(row) {
       this.$store.dispatch("getQQMusicDetail", row);
     }
   },
@@ -62,7 +62,7 @@ export default {
   @import '../../../common/style/global.styl'
   @import '../../../common/style/border-1px/index.styl'
   .music_sheet {
-    height :100%;
+    height: calc(100% - 60px);
   }
   .list_content_info
     height:100%

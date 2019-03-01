@@ -98,7 +98,7 @@
   }
 
   .sheet {
-    height: calc(100% - 60px);
+    height: 100%;
     padding: 10px;
   }
 

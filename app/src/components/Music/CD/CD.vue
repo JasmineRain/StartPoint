@@ -3,25 +3,10 @@
     <div class="cover">
       <img :src="this.cover" alt="" width="100%" height="100%" style="border-radius: 50%">
     </div>
-    <div class="lyric-content">
-      <div class="lyric-wrapper">
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
-        <p>lyriccccccccccccc</p>
+    <div class="lyric-content" ref="lyricContent">
+      <div class="lyric-wrapper" ref="lyricWrapper">
+        <p class="lrc-item" v-if="!lyric" >歌词获取中</p>
+        <p class="lrc-item" v-if="lyric" v-for="(item, key, index) in lyric" :class="lyricIndex === index + 1 ? `active` : ``">{{item}}</p>
       </div>
     </div>
   </div>
@@ -39,13 +24,24 @@
           : defaultImg;
       },
       lyric: function () {
-        return this.$store.getters.getLrc;
+        return this.$store.getters.getLyric;
+      },
+      lyricIndex: function () {
+        return this.$store.getters.getLyricIndex
       }
+    },
+    methods: {
+      setLyricRef: function () {
+        this.$store.commit("setLyricContent", this.$refs.lyricContent);
+      }
+    },
+    mounted() {
+      this.setLyricRef();
     }
   };
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
   .cd {
     position: relative;
     height: 100%;
@@ -64,8 +60,15 @@
     color: #fff;
     text-align: center;
   }
-
-  p {
-    margin: 2px 0;
-  }
+  .lrc-item
+    width:100%
+    height:auto
+    min-height:26px
+    line-height:26px
+    text-align:center
+    margin:0
+    color:$text_before_color
+    font-size:12px
+    &.active
+      color:#A7EEBE
 </style>
