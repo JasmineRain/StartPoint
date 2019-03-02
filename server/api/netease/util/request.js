@@ -24,8 +24,8 @@ const chooseUserAgent = ua => {
   let index = 0;
   if (typeof ua == 'undefined')
     index = Math.floor(Math.random() * userAgentList.length);
-  else if (ua == 'mobile') index = Math.floor(Math.random() * 7);
-  else if (ua == 'pc') index = Math.floor(Math.random() * 5) + 8;
+  else if (ua === 'mobile') index = Math.floor(Math.random() * 7);
+  else if (ua === 'pc') index = Math.floor(Math.random() * 5) + 8;
   else return ua;
   return userAgentList[index]
 };
@@ -33,7 +33,7 @@ const chooseUserAgent = ua => {
 const createRequest = (method, url, data, options) => {
   return new Promise((resolve, reject) => {
     let headers = { 'User-Agent': chooseUserAgent(options.ua) };
-    if (method.toUpperCase() == 'POST')
+    if (method.toUpperCase() === 'POST')
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
     if (url.includes('music.163.com'))
       headers['Referer'] = 'https://music.163.com';
@@ -50,12 +50,12 @@ const createRequest = (method, url, data, options) => {
         .join('; ');
     else if (options.cookie) headers['Cookie'] = options.cookie;
 
-    if (options.crypto == 'weapi') {
+    if (options.crypto === 'weapi') {
       let csrfToken = (headers['Cookie'] || '').match(/_csrf=([^(;|$)]+)/);
       data.csrf_token = csrfToken ? csrfToken[1] : '';
       data = encrypt.weapi(data);
       url = url.replace(/\w*api/, 'weapi')
-    } else if (options.crypto == 'linuxapi') {
+    } else if (options.crypto === 'linuxapi') {
       data = encrypt.linuxapi({
         method: method,
         url: url.replace(/\w*api/, 'api'),

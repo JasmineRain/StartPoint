@@ -4,11 +4,17 @@ module.exports = (query, request)=> {
     question(query, request).then(answer=>{
       if(answer.status === 200){
         let item = answer.body.data.items[0];
-        answer.body.data.items[0].url = `http://dl.stream.qqmusic.qq.com/C400${item.songmid}.m4a?vkey=${item.vkey}&guid=133371174&fromtag=66`;
+        let url = `http://dl.stream.qqmusic.qq.com/C400${item.songmid}.m4a?vkey=${item.vkey}&guid=133371174&fromtag=66`;
+        answer.body = {
+          url: url
+        };
         resolve(answer);
       }
       else
         reject(answer);
+    })
+    .catch(function (err) {
+      console.log("err module");
     })
   })
 };

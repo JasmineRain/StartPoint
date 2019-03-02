@@ -20,8 +20,8 @@ const chooseUserAgent = ua => {
   let index = 0;
   if (typeof ua == 'undefined')
     index = Math.floor(Math.random() * userAgentList.length);
-  else if (ua == 'mobile') index = Math.floor(Math.random() * 7);
-  else if (ua == 'pc') index = Math.floor(Math.random() * 5) + 8;
+  else if (ua === 'mobile') index = Math.floor(Math.random() * 7);
+  else if (ua === 'pc') index = Math.floor(Math.random() * 5) + 8;
   else return ua;
   return userAgentList[index]
 };
@@ -30,7 +30,7 @@ const chooseUserAgent = ua => {
 const createRequest = (method, url, params, data, options) => {
   return new Promise((resolve, reject) => {
     let headers = { 'User-Agent': chooseUserAgent(options.ua) };
-    if (method.toUpperCase() == 'POST')
+    if (method.toUpperCase() === 'POST')
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
     if (typeof options.cookie === 'object')
@@ -55,7 +55,7 @@ const createRequest = (method, url, params, data, options) => {
     .then(response=>{
       answer.body = response.data;
       answer.status = response.status;
-      answer.cookie = response.config.headers.Cookie;
+      //answer.cookie = response.config.headers.Cookie;
       resolve(answer);
     })
     .catch(function (err) {
