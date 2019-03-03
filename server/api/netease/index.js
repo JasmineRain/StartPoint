@@ -10,7 +10,7 @@ const getSongUrl = (req, res) => {
       //保存源返回值，重新包装数据
       let rowData = answer;
 
-      if(answer.status === 200) {
+      if (answer.status === 200) {
         let bd = answer.body.data[0];
         answer.body = {
           url: bd.url
@@ -35,7 +35,7 @@ const getLyric = (req, res) => {
       //保存源返回值，重新包装数据
       let rowData = answer;
 
-      if(answer.status === 200) {
+      if (answer.status === 200) {
         let lyric = musicUtil.parseLyric(answer.body.lrc.lyric);
         answer.body = {
           lyric: lyric
@@ -60,7 +60,7 @@ const search = (req, res) => {
       //保存源返回值，重新包装数据
       let rowData = answer;
 
-      if(answer.status === 200) {
+      if (answer.status === 200) {
         let result = answer.body.result;
         let list;
         let totalnum;

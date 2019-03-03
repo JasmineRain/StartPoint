@@ -3,8 +3,8 @@ const router = express.Router();
 const musicAPI = require('../api/index');
 
 
-router.get('/song_url', function(req, res, next) {
-  musicAPI.getSongUrl(req, res).then(answer=>{
+router.get('/song_url', function (req, res, next) {
+  musicAPI.getSongUrl(req, res).then(answer => {
     res.json(answer);
   })
   .catch(function (err) {
@@ -16,8 +16,8 @@ router.get('/song_url', function(req, res, next) {
   })
 });
 
-router.get('/lyric', function(req, res, next) {
-  musicAPI.getLyric(req, res).then(answer=>{
+router.get('/lyric', function (req, res, next) {
+  musicAPI.getLyric(req, res).then(answer => {
     res.json(answer);
   })
   .catch(function (err) {
@@ -29,8 +29,8 @@ router.get('/lyric', function(req, res, next) {
   })
 });
 
-router.get('/search', function(req, res, next) {
-  musicAPI.search(req, res).then(answer=>{
+router.get('/search', function (req, res, next) {
+  musicAPI.search(req, res).then(answer => {
     res.json(answer);
   })
   .catch(function (err) {
@@ -41,11 +41,6 @@ router.get('/search', function(req, res, next) {
     })
   })
 });
-
-
-
-
-
 
 
 module.exports = router;

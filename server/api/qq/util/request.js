@@ -29,7 +29,7 @@ const chooseUserAgent = ua => {
 
 const createRequest = (method, url, params, data, options) => {
   return new Promise((resolve, reject) => {
-    let headers = { 'User-Agent': chooseUserAgent(options.ua) };
+    let headers = {'User-Agent': chooseUserAgent(options.ua)};
     if (method.toUpperCase() === 'POST')
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -44,7 +44,7 @@ const createRequest = (method, url, params, data, options) => {
       .join('; ');
     else if (options.cookie) headers['Cookie'] = options.cookie;
 
-    const answer = { status: 500, body: {}, cookie: [], vendor: "QQ" };
+    const answer = {status: 500, body: {}, cookie: [], vendor: "QQ"};
     axios({
       method: method,
       url: url,
@@ -52,14 +52,14 @@ const createRequest = (method, url, params, data, options) => {
       params: params,
       headers: headers
     })
-    .then(response=>{
+    .then(response => {
       answer.body = response.data;
       answer.status = response.status;
       //answer.cookie = response.config.headers.Cookie;
       resolve(answer);
     })
     .catch(function (err) {
-      if(err.response){
+      if (err.response) {
         answer.status = err.response.status;
         answer.body = err.response.data;
       } else {

@@ -19,7 +19,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use((req, res, next) => {
   req.cookies = {}, (req.headers.cookie || '').split(/\s*;\s*/).forEach(pair => {
     let crack = pair.indexOf('=');
-    if(crack < 1 || crack === pair.length - 1) return
+    if (crack < 1 || crack === pair.length - 1) return
     req.cookies[decodeURIComponent(pair.slice(0, crack)).trim()] = decodeURIComponent(pair.slice(crack + 1)).trim()
   });
   next()
@@ -48,12 +48,12 @@ app.use((req, res, next) => {
 app.use(cache('2 minutes', ((req, res) => res.statusCode === 200)));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

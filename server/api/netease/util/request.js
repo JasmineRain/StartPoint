@@ -32,7 +32,7 @@ const chooseUserAgent = ua => {
 
 const createRequest = (method, url, data, options) => {
   return new Promise((resolve, reject) => {
-    let headers = { 'User-Agent': chooseUserAgent(options.ua) };
+    let headers = {'User-Agent': chooseUserAgent(options.ua)};
     if (method.toUpperCase() === 'POST')
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
     if (url.includes('music.163.com'))
@@ -41,13 +41,13 @@ const createRequest = (method, url, data, options) => {
 
     if (typeof options.cookie === 'object')
       headers['Cookie'] = Object.keys(options.cookie)
-        .map(
-          key =>
-            encodeURIComponent(key) +
-            '=' +
-            encodeURIComponent(options.cookie[key])
-        )
-        .join('; ');
+      .map(
+        key =>
+          encodeURIComponent(key) +
+          '=' +
+          encodeURIComponent(options.cookie[key])
+      )
+      .join('; ');
     else if (options.cookie) headers['Cookie'] = options.cookie;
 
     if (options.crypto === 'weapi') {
@@ -66,7 +66,7 @@ const createRequest = (method, url, data, options) => {
       url = 'https://music.163.com/api/linux/forward'
     }
 
-    const answer = { status: 500, body: {}, cookie: [], vendor: "Netease" };
+    const answer = {status: 500, body: {}, cookie: [], vendor: "Netease"};
     request(
       {
         method: method,
@@ -78,7 +78,7 @@ const createRequest = (method, url, data, options) => {
       (err, res, body) => {
         if (err) {
           answer.status = 502;
-          answer.body = { code: 502, msg: err.stack };
+          answer.body = {code: 502, msg: err.stack};
           reject(answer)
         } else {
           answer.cookie = (res.headers['set-cookie'] || []).map(x =>
