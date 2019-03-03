@@ -17,7 +17,7 @@ const getLyric = (req, res) => {
     question(query, request).then(answer => {
 
       //保存源数据 重新包装数据
-      let rowData =answer;
+      let rowData = answer;
 
       if(answer.status === 200){
         let lyric = answer.body.split('"')[13];
@@ -37,9 +37,57 @@ const getLyric = (req, res) => {
 };
 
 const search = (req, res) => {
-  let question = require('./module/search');
-  let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
-  return question(query, request);
+  return new Promise((resolve, reject) => {
+    let question = require('./module/search');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(function (answer) {
+
+      //保存源数据 重新包装数据
+      let rowData = answer;
+
+      if(answer.status === 200){
+        let data = answer.body.data;
+        let list;
+        let totalnum;
+        switch (query.t) {
+          case 'song':
+            list = data.song.list;
+            totalnum = data.song.totalnum;
+            break;
+          case 'lyric':
+            list = data.lyric.list;
+            totalnum = data.lyric.totalnum;
+            break;
+          case 'mv':
+            list = data.mv.list;
+            totalnum = data.mv.totalnum;
+            break;
+          case 'album':
+            list = data.album.list;
+            totalnum = data.album.totalnum;
+            break;
+          case 'singer':
+            list = data.singer.list;
+            totalnum = data.singer.totalnum;
+            break;
+          default:
+            list = data.song.list;
+            totalnum = data.song.totalnum;
+            break;
+        }
+        answer.body = {
+          list: list,
+          totalnum: totalnum
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error at module file");
+    })
+  });
 };
 
 
