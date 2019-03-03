@@ -3,11 +3,26 @@ const Base64 = require('../../public/javascripts/base64');
 const musicUtil = require('../../public/javascripts/music');
 
 const getSongUrl = (req, res) => {
-  let question = require('./module/song_url');
-  let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+  return new Promise((resolve, reject) => {
+    let question = require('./module/song_url');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
 
-  //因Url获取和vkey相关，数据包装放在了./module/song_url中
-  return question(query, request);
+    return question(query, request).then(answer => {
+      if(answer.status === 200) {
+        let item = answer.body.data.items[0];
+        let url = `http://dl.stream.qqmusic.qq.com/C400${item.songmid}.m4a?vkey=${item.vkey}&guid=133371174&fromtag=66`;
+        answer.body = {
+          url: url
+        };
+        resolve(answer);
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api");
+    })
+  })
 };
 
 const getLyric = (req, res) => {

@@ -1,19 +1,21 @@
 module.exports = (query, request) => {
-  const question = require('./song_vkey');
-  return new Promise((resolve, reject) => {
-    question(query, request).then(answer => {
-      if (answer.status === 200) {
-        let item = answer.body.data.items[0];
-        let url = `http://dl.stream.qqmusic.qq.com/C400${item.songmid}.m4a?vkey=${item.vkey}&guid=133371174&fromtag=66`;
-        answer.body = {
-          url: url
-        };
-        resolve(answer);
-      } else
-        reject(answer);
-    })
-    .catch(function (err) {
-      console.log("request origin failed");
-    })
-  })
+  const params = {
+    songmid: query.id,
+    g_tk: 1278911659,
+    hostUin: 0,
+    format: "json",
+    inCharset: "utf8",
+    outCharset: "utf-8",
+    notice: 0,
+    platform: "yqq",
+    needNewCode: 0,
+    cid: 205361747,
+    uin: 0,
+    guid: 133371174,
+    filename: `C400${query.id}.m4a`
+  };
+  return request(
+    'GET', `https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg`, params, {},
+    {cookie: query.cookie, proxy: query.proxy}
+  )
 };
