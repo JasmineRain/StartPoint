@@ -2,12 +2,6 @@
   <div class="model">
     <ul class="modelBtn">
       <li>
-        <img src="../../../../assets/like.png" alt="">
-      </li>
-      <li>
-        <img src="../../../../assets/download.png" alt="">
-      </li>
-      <li>
         <img src="../../../../assets/model.png" alt="">
       </li>
       <li>

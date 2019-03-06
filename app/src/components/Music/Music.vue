@@ -20,10 +20,10 @@
 <style scoped>
   .content {
     position: fixed;
-    top: 80px;
-    bottom: 30px;
-    right: 80px;
-    left: 80px;
+    top: 50px;
+    bottom: 10px;
+    right: 40px;
+    left: 40px;
     padding: 10px;
   }
 

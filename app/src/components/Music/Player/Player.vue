@@ -15,14 +15,14 @@
       </el-row>
 
     </el-row>
-    <el-row class="panel hidden-xs-only" :gutter="20">
-      <el-col :md="6" :lg="6" :sm="6" :xs="24">
+    <el-row class="panel hidden-xs-only">
+      <el-col :md="4" :lg="4" :sm="4" :xs="24">
         <PlayerCtrl/>
       </el-col>
       <el-col :md="12" :lg="12" :sm="12" :xs="24">
         <Progress/>
       </el-col>
-      <el-col :md="6" :lg="6" :sm="6">
+      <el-col :md="8" :lg="8" :sm="8">
         <PlayerModel/>
       </el-col>
     </el-row>

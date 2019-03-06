@@ -2,7 +2,7 @@
   <div>
     <div class="music_progress" id="music_progress">
       <div class="music_current_detail">
-        <span class="music_c_name">{{currentMusic.name ? currentMusic.name : '单击开始播放'}} - {{currentMusic.singer ? currentMusic.singer : ':)'}}</span>
+        <span class="music_c_name">{{currentMusic.name ? currentMusic.name : '单击开始播放'}} - {{currentMusic.singer ? currentMusic.singer : '^v^'}}</span>
         <span class="music_c_time">{{time || "00:00"}}</span>
       </div>
       <div class="music_progress_bar">

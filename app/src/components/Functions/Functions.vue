@@ -1,5 +1,5 @@
 <template>
-  <el-row :gutter="0" class="content">
+  <el-row class="content">
     <div>
       <el-col :sm="12" :md="8" :lg="6" class="item">
         <router-link to="/calendar">
@@ -62,13 +62,22 @@
 <style scoped>
   .content {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
+    left: 100px;
+    right: 100px;
+    bottom: 100px;
+    top: 100px;
     display: flex;
     justify-content: center;
     flex-direction: column;
+  }
+
+  @media screen and (max-width: 525px){
+    .content {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+    }
   }
 
   span {

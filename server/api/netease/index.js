@@ -21,7 +21,7 @@ const getSongUrl = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error at module file");
+      reject("error netease api");
     })
   })
 };
@@ -46,7 +46,7 @@ const getLyric = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error at module file");
+      reject("error netease api");
     })
   })
 };
@@ -116,9 +116,81 @@ const search = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error at module file");
+      reject("error netease api");
     })
   })
 };
 
-module.exports = {getSongUrl, getLyric, search};
+const getAlbumCover = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/album');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+
+      if(answer.status === 200) {
+        let url = answer.body.album.picUrl;
+        answer.body = {
+          url: url
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api");
+    })
+  })
+};
+
+const getAlbumDetail = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/album');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+
+      if(answer.status === 200) {
+        let paid = answer.body.album.paid;
+        let des = answer.body.album.description;
+        let album = answer.body.album.name;
+        let albumid = answer.body.album.id;
+        let singer = answer.body.album.artist.name;
+        let singerid = answer.body.album.artist.id;
+        let songs = [];
+        answer.body.songs.forEach(function (song) {
+          songs.push({
+            name: song.name,
+            id: song.id
+          })
+        });
+        let num = songs.length;
+
+        answer.body = {
+          paid,
+          des,
+          album,
+          albumid,
+          singer,
+          singerid,
+          songs,
+          num
+        };
+
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api");
+    })
+  })
+};
+
+module.exports = {getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail};

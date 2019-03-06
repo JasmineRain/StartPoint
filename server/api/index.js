@@ -54,18 +54,31 @@ const search = (req, res) => {
 const getAlbumCover = (req, res) => {
   switch (req.query.vendor) {
     case 'netease':
-      return neteaseAPI.search(req, res);
+      return neteaseAPI.getAlbumCover(req, res);
     case 'qq':
-      return qqAPI.search(req, res);
+      return qqAPI.getAlbumCover(req, res);
     case 'xiami':
       return xiamiAPI.search(req, res);
+  }
+};
+
+const getAlbumDetail = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getAlbumDetail(req, res);
+    case 'qq':
+      return qqAPI.getAlbumDetail(req, res);
+    case 'xiami':
+      return xiamiAPI.getAlbumDetail(req, res);
   }
 };
 
 const musicAPI = {
   getSongUrl,
   getLyric,
-  search
+  search,
+  getAlbumCover,
+  getAlbumDetail
 };
 
 

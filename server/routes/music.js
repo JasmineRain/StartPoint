@@ -42,5 +42,30 @@ router.get('/search', function (req, res, next) {
   })
 });
 
+router.get('/album_cover', function (req, res, next) {
+  musicAPI.getAlbumCover(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
+
+router.get('/album', function (req, res, next) {
+  musicAPI.getAlbumDetail(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
 
 module.exports = router;
