@@ -20,7 +20,7 @@ const getSongUrl = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error qq api");
+      reject("error qq api" + err);
     })
   })
 };
@@ -35,7 +35,7 @@ const getLyric = (req, res) => {
       let rowData = answer;
 
       if (answer.status === 200) {
-        let lyric = answer.body.split('"')[13];
+        let lyric = answer.body.lyric;
         lyric = musicUtil.parseLyric(Base64.decode(lyric));
         answer.body = {
           lyric: lyric
@@ -46,7 +46,7 @@ const getLyric = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error qq api");
+      reject("error qq api" + err);
     })
   });
 };
@@ -100,7 +100,7 @@ const search = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error at qq api");
+      reject("error at qq api" + err);
     })
   });
 };
@@ -165,10 +165,67 @@ const getAlbumDetail = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error qq api");
+      reject("error qq api" + err);
     })
   })
 
 };
 
-module.exports = {getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail};
+const getPlaylistDetail = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/playlist_detail');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源数据 重新包装数据
+      let rowData = answer;
+
+      if (answer.status === 200) {
+        let isvip = answer.body.cdlist[0].isvip;
+        let des = answer.body.cdlist[0].desc;
+        let songlist = answer.body.cdlist[0].dissname;
+        let songlistid = answer.body.cdlist[0].disstid;
+        let songlistlogo = answer.body.cdlist[0].logo;
+        let author = answer.body.cdlist[0].nickname;
+        let songs = [];
+        let num = answer.body.cdlist[0].songnum;
+        answer.body.cdlist[0].songlist.forEach(function (song) {
+          songs.push({
+            name: song.songname,
+            mid: song.songmid,
+            id: song.songid,
+            albumname: song.albumname,
+            albumid: song.albumid,
+            albummid: song.albummid,
+            albumdes: song.albumdesc,
+            singer: song.singer
+          })
+        });
+
+        answer.body = {
+          isvip,
+          des,
+          songlist,
+          songlistid,
+          songlistlogo,
+          author,
+          songs,
+          num
+        };
+        resolve(answer);
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api\n" + err);
+    })
+  })
+};
+
+//playlist
+//toplist
+//userinfo
+//artist songs
+//mv
+module.exports = {getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail};

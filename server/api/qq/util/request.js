@@ -30,9 +30,9 @@ const chooseUserAgent = ua => {
 const createRequest = (method, url, params, data, options) => {
   return new Promise((resolve, reject) => {
     let headers = {'User-Agent': chooseUserAgent(options.ua)};
+    headers['Referer'] = 'https://y.qq.com/portal/player.html';
     if (method.toUpperCase() === 'POST')
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
     if (typeof options.cookie === 'object')
       headers['Cookie'] = Object.keys(options.cookie)
       .map(

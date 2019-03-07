@@ -73,12 +73,24 @@ const getAlbumDetail = (req, res) => {
   }
 };
 
+const getPlaylistDetail = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getPlaylistDetail(req, res);
+    case 'qq':
+      return qqAPI.getPlaylistDetail(req, res);
+    case 'xiami':
+      return xiamiAPI.getAlbumDetail(req, res);
+  }
+};
+
 const musicAPI = {
   getSongUrl,
   getLyric,
   search,
   getAlbumCover,
-  getAlbumDetail
+  getAlbumDetail,
+  getPlaylistDetail
 };
 
 

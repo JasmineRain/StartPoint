@@ -21,7 +21,7 @@ const getSongUrl = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error netease api");
+      reject("error netease api" + err);
     })
   })
 };
@@ -46,7 +46,7 @@ const getLyric = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error netease api");
+      reject("error netease api" + err);
     })
   })
 };
@@ -116,7 +116,7 @@ const search = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error netease api");
+      reject("error netease api" + err);
     })
   })
 };
@@ -141,7 +141,7 @@ const getAlbumCover = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error netease api");
+      reject("error netease api" + err);
     })
   })
 };
@@ -188,9 +188,60 @@ const getAlbumDetail = (req, res) => {
       }
     })
     .catch(function (err) {
-      reject("error netease api");
+      reject("error netease api" + err);
     })
   })
 };
 
-module.exports = {getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail};
+const getPlaylistDetail = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/playlist_detail');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+
+      if(answer.status === 200) {
+        answer.body.creator = answer.body.playlist.creator;
+        answer.body.tracks = answer.body.playlist.tracks;
+        answer.body.privileges = [];
+        resolve(answer)
+        // let paid = answer.body.album.paid;
+        // let des = answer.body.album.description;
+        // let album = answer.body.album.name;
+        // let albumid = answer.body.album.id;
+        // let singer = answer.body.album.artist.name;
+        // let singerid = answer.body.album.artist.id;
+        // let songs = [];
+        // answer.body.songs.forEach(function (song) {
+        //   songs.push({
+        //     name: song.name,
+        //     id: song.id
+        //   })
+        // });
+        // let num = songs.length;
+        //
+        // answer.body = {
+        //   paid,
+        //   des,
+        //   album,
+        //   albumid,
+        //   singer,
+        //   singerid,
+        //   songs,
+        //   num
+        // };
+        //
+        // resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
+module.exports = {getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail};
