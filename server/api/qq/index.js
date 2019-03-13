@@ -223,9 +223,33 @@ const getPlaylistDetail = (req, res) => {
   })
 };
 
-//playlist
+const getTopListDetail = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/top_list');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源数据 重新包装数据
+      let rowData = answer;
+
+      if (answer.status === 200) {
+        resolve(answer);
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api\n" + err);
+    })
+  })
+};
+
 //toplist
 //userinfo
 //artist songs
 //mv
-module.exports = {getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail};
+
+module.exports = {
+  getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
+  getTopListDetail
+};

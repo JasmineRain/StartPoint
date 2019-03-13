@@ -81,4 +81,17 @@ router.get('/playlist', function (req, res, next) {
   })
 });
 
+router.get('/toplist', function (req, res, next) {
+  musicAPI.getTopListDetail(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
+
 module.exports = router;

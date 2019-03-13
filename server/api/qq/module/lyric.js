@@ -1,13 +1,3 @@
-// module.exports = (query, request) => {
-//   return request(
-//     'GET', `http://api.darlin.me/music/lyric/${query.id}`, {}, {},
-//     {}
-//   )
-// };
-
-// https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?
-// `https://api.darlin.me/music/lyric/${query.id}`
-
 module.exports = (query, request) => {
   let params = {
     pcachetime: 1544318154057,
