@@ -203,37 +203,46 @@ const getPlaylistDetail = (req, res) => {
       let rowData = answer;
 
       if(answer.status === 200) {
-        answer.body.creator = answer.body.playlist.creator;
-        answer.body.tracks = answer.body.playlist.tracks;
-        answer.body.privileges = [];
+        let subscribed = answer.body.playlist.subscribed; //是否为收藏的歌单
+        let name = answer.body.playlist.name;
+        let trackCount = answer.body.playlist.trackCount;
+        let coverUrl = answer.body.playlist.coverImgUrl;
+        let id = answer.body.playlist.id;
+        let privileges = answer.body.privileges;  //收费信息 待明确
+        let creator = {
+          nickname: answer.body.playlist.creator.nickname,
+          signature: answer.body.playlist.creator.signature,
+          description: answer.body.playlist.creator.description,
+          avatarUrl: answer.body.playlist.creator.avatarUrl,
+          userId: answer.body.playlist.creator.userId
+        };
+        let tracks = [];
+        answer.body.playlist.tracks.forEach(function (track) {
+          let ar = [];
+          track.ar.forEach(function (item) {
+            ar.push({
+              id: item.id,
+              name: item.name
+            })
+          });
+          tracks.push({
+            name: track.name,
+            id: track.id,
+            al: {id: track.al.id, name: track.al.name, picUrl: track.al.picUrl},//专辑
+            ar: ar //作者
+          })
+        });
+        answer.body = {
+          subscribed,
+          name,
+          trackCount,
+          coverUrl,
+          id,
+          creator,
+          tracks,
+          privileges
+        };
         resolve(answer)
-        // let paid = answer.body.album.paid;
-        // let des = answer.body.album.description;
-        // let album = answer.body.album.name;
-        // let albumid = answer.body.album.id;
-        // let singer = answer.body.album.artist.name;
-        // let singerid = answer.body.album.artist.id;
-        // let songs = [];
-        // answer.body.songs.forEach(function (song) {
-        //   songs.push({
-        //     name: song.name,
-        //     id: song.id
-        //   })
-        // });
-        // let num = songs.length;
-        //
-        // answer.body = {
-        //   paid,
-        //   des,
-        //   album,
-        //   albumid,
-        //   singer,
-        //   singerid,
-        //   songs,
-        //   num
-        // };
-        //
-        // resolve(answer);
       } else {
         reject("request failed");
       }
