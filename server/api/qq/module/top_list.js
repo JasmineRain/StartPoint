@@ -17,7 +17,7 @@ const topList = {
 
   //QQ音乐全球榜
   //type=global
-  13: { topid:"17", date: "2019_09", type: "global"}, //美国公告牌榜   topid=108  date=2019_11
+  13: { topid:"108", date: "2019_09", type: "global"}, //美国公告牌榜   topid=108  date=2019_11
   14: { topid:"123", date: "2019_09", type: "global"},//美国iTunes榜  topid=123  date=2019_7
   15: { topid:"106", date: "2019_09", type: "global"},//韩国Mnet榜    topid=106  date=2019_10
   16: { topid:"107", date: "2019_09", type: "global"},//英国UK榜      topid=107  date=2019_9

@@ -129,7 +129,6 @@ const getAlbumCover = (req, res) => {
 
       //保存源返回值，重新包装数据
       let rowData = answer;
-
       if(answer.status === 200) {
         let url = answer.body.album.picUrl;
         answer.body = {
@@ -259,7 +258,6 @@ const getTopListDetail = (req, res) => {
 
       //保存源返回值，重新包装数据
       let rowData = answer;
-
       if(answer.status === 200) {
         let creator = {
           name: answer.body.playlist.creator.nickname,
@@ -268,16 +266,13 @@ const getTopListDetail = (req, res) => {
           avatar: answer.body.playlist.creator.avatarUrl,
           id: answer.body.playlist.creator.userId
         };
-
         let list = {
           name: answer.body.playlist.name,
           id: answer.body.playlist.id,
           cover: answer.body.playlist.coverImgUrl,
           desc: answer.body.playlist.description
         };
-
         let total = answer.body.playlist.trackCount;
-
         let songs = [];
         answer.body.playlist.tracks.forEach(function (track) {
           let ar = [];
@@ -296,15 +291,46 @@ const getTopListDetail = (req, res) => {
             singer: ar
           })
         });
-
         answer.body = {
           creator,
           list,
           songs,
           total
         };
-
         resolve(answer)
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
+const getTopLists = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/toplist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if(answer.status === 200) {
+        let list = [];
+        answer.body.list.forEach(function (item) {
+          list.push({
+            name: item.name,
+            id: item.id,
+            desc: item.description,
+            play: item.playCount,
+            cover: item.coverImgUrl
+          })
+        });
+        answer.body = {
+          list
+        };
+        resolve(answer);
       } else {
         reject("request failed");
       }
@@ -317,5 +343,5 @@ const getTopListDetail = (req, res) => {
 
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getTopListDetail
+  getTopListDetail, getTopLists
 };

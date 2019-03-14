@@ -240,9 +240,7 @@ const getTopListDetail = (req, res) => {
 
       //保存源数据 重新包装数据
       let rowData = answer;
-
       if (answer.status === 200) {
-
         let creator = {
           name: "QQ音乐",
           desc: "QQ音乐巅峰榜推荐"
@@ -265,12 +263,62 @@ const getTopListDetail = (req, res) => {
             }
           })
         });
+        answer.body = {
+          creator,
+          total,
+          songs
+        };
+        resolve(answer);
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api\n" + err);
+    })
+  })
+};
 
-        // answer.body = {
-        //   total,
-        //   songs
-        // };
+const getTopLists = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/toplist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
 
+      //保存源数据 重新包装数据
+      let rowData = answer;
+      if (answer.status === 200) {
+
+        let s = answer.body.indexOf("([{");
+        let l1 = answer.body.lastIndexOf("GroupID");
+        let list1 = JSON.parse(answer.body.slice(s+2,l1-3));
+        let list2 = JSON.parse(answer.body.slice(l1-2,-3));
+
+        let list = [];
+
+        list1.List.forEach(function (item) {
+          list.push({
+            name: item.ListName,
+            cover: item.pic,
+            play: item.listennum,
+            id: item.topID,
+            update_key: item.update_key, //请求详情URL参数
+            desc: item.ListName
+          })
+        });
+        list2.List.forEach(function (item) {
+          list.push({
+            name: item.ListName,
+            cover: item.pic,
+            play: item.listennum,
+            id: item.topID,
+            update_key: item.update_key,
+            desc: item.ListName
+          })
+        });
+        answer.body = {
+          list
+        };
         resolve(answer);
       } else {
         reject("request origin failed");
@@ -289,5 +337,5 @@ const getTopListDetail = (req, res) => {
 
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getTopListDetail
+  getTopListDetail, getTopLists
 };
