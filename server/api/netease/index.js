@@ -156,12 +156,16 @@ const getAlbumDetail = (req, res) => {
       let rowData = answer;
 
       if(answer.status === 200) {
-        let paid = answer.body.album.paid;
-        let des = answer.body.album.description;
-        let album = answer.body.album.name;
-        let albumid = answer.body.album.id;
-        let singer = answer.body.album.artist.name;
-        let singerid = answer.body.album.artist.id;
+        let album = {
+          paid: answer.body.album.paid,
+          name: answer.body.album.name,
+          desc: answer.body.album.description,
+          id: answer.body.album.id,
+        };
+        let singer = {
+          name: answer.body.album.artist.name,
+          id: answer.body.album.artist.id
+        };
         let songs = [];
         answer.body.songs.forEach(function (song) {
           songs.push({
@@ -169,19 +173,13 @@ const getAlbumDetail = (req, res) => {
             id: song.id
           })
         });
-        let num = songs.length;
-
+        let total = songs.length;
         answer.body = {
-          paid,
-          des,
           album,
-          albumid,
           singer,
-          singerid,
           songs,
-          num
+          total
         };
-
         resolve(answer);
       } else {
         reject("request failed");
@@ -203,20 +201,21 @@ const getPlaylistDetail = (req, res) => {
       let rowData = answer;
 
       if(answer.status === 200) {
-        let subscribed = answer.body.playlist.subscribed; //是否为收藏的歌单
-        let name = answer.body.playlist.name;
-        let trackCount = answer.body.playlist.trackCount;
-        let coverUrl = answer.body.playlist.coverImgUrl;
-        let id = answer.body.playlist.id;
-        let privileges = answer.body.privileges;  //收费信息 待明确
-        let creator = {
-          nickname: answer.body.playlist.creator.nickname,
-          signature: answer.body.playlist.creator.signature,
-          description: answer.body.playlist.creator.description,
-          avatarUrl: answer.body.playlist.creator.avatarUrl,
-          userId: answer.body.playlist.creator.userId
+        let total = answer.body.playlist.trackCount;
+        let list = {
+          name: answer.body.playlist.name,
+          cover: answer.body.playlist.coverImgUrl,
+          id: answer.body.playlist.id,
+          desc: answer.body.playlist.description
         };
-        let tracks = [];
+        let creator = {
+          name: answer.body.playlist.creator.nickname,
+          signature: answer.body.playlist.creator.signature,
+          desc: answer.body.playlist.creator.description,
+          avatar: answer.body.playlist.creator.avatarUrl,
+          id: answer.body.playlist.creator.userId
+        };
+        let songs = [];
         answer.body.playlist.tracks.forEach(function (track) {
           let ar = [];
           track.ar.forEach(function (item) {
@@ -225,22 +224,21 @@ const getPlaylistDetail = (req, res) => {
               name: item.name
             })
           });
-          tracks.push({
-            name: track.name,
-            id: track.id,
-            al: {id: track.al.id, name: track.al.name, picUrl: track.al.picUrl},//专辑
-            ar: ar //作者
+          songs.push({
+            song: {
+              name: track.name,
+              id: track.id
+            },
+            album: {id: track.al.id, name: track.al.name, picUrl: track.al.picUrl},
+            singer: ar
           })
         });
         answer.body = {
-          subscribed,
-          name,
-          trackCount,
-          coverUrl,
-          id,
           creator,
-          tracks,
-          privileges
+          list,
+          songs,
+          total
+          //privileges
         };
         resolve(answer)
       } else {
@@ -263,6 +261,48 @@ const getTopListDetail = (req, res) => {
       let rowData = answer;
 
       if(answer.status === 200) {
+        let creator = {
+          name: answer.body.playlist.creator.nickname,
+          signature: answer.body.playlist.creator.signature,
+          desc: answer.body.playlist.creator.description,
+          avatar: answer.body.playlist.creator.avatarUrl,
+          id: answer.body.playlist.creator.userId
+        };
+
+        let list = {
+          name: answer.body.playlist.name,
+          id: answer.body.playlist.id,
+          cover: answer.body.playlist.coverImgUrl,
+          desc: answer.body.playlist.description
+        };
+
+        let total = answer.body.playlist.trackCount;
+
+        let songs = [];
+        answer.body.playlist.tracks.forEach(function (track) {
+          let ar = [];
+          track.ar.forEach(function (item) {
+            ar.push({
+              id: item.id,
+              name: item.name
+            })
+          });
+          songs.push({
+            song: {
+              name: track.name,
+              id: track.id
+            },
+            album: {id: track.al.id, name: track.al.name, picUrl: track.al.picUrl},
+            singer: ar
+          })
+        });
+
+        answer.body = {
+          creator,
+          list,
+          songs,
+          total
+        };
 
         resolve(answer)
       } else {

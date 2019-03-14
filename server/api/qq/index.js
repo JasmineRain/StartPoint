@@ -128,15 +128,22 @@ const getAlbumDetail = (req, res) => {
         let rowData = answer;
 
         if(answer.status === 200) {
-          let paid = answer.body.data.list[0].pay.payalbum;
-          let des = answer.body.data.desc;
-          let album = answer.body.data.name;
-          let albumid = answer.body.data.id;
-          let albummid = answer.body.data.mid;
-          let singer = answer.body.data.singername;
-          let singerid = answer.body.data.singerid;
-          let singermid = answer.body.data.singermid;
+          let album = {
+            name: answer.body.data.name,
+            id: answer.body.data.id,
+            mid: answer.body.data.mid,
+            desc: answer.body.data.desc,
+            paid: answer.body.data.list[0].pay.payalbum
+          };
+
+          let singer = {
+            name: answer.body.data.singername,
+            id: answer.body.data.singerid,
+            mid: answer.body.data.singermid
+          };
+
           let songs = [];
+
           answer.body.data.list.forEach(function (song) {
             songs.push({
               name: song.songname,
@@ -144,19 +151,14 @@ const getAlbumDetail = (req, res) => {
               mid:song.songmid
             })
           });
-          let num = songs.length;
+
+          let total = songs.length;
 
           answer.body = {
-            paid,
-            des,
             album,
-            albumid,
-            albummid,
             singer,
-            singerid,
-            singermid,
             songs,
-            num
+            total
           };
         }
         resolve(answer);
@@ -181,36 +183,43 @@ const getPlaylistDetail = (req, res) => {
       let rowData = answer;
 
       if (answer.status === 200) {
-        let isvip = answer.body.cdlist[0].isvip;
-        let des = answer.body.cdlist[0].desc;
-        let songlist = answer.body.cdlist[0].dissname;
-        let songlistid = answer.body.cdlist[0].disstid;
-        let songlistlogo = answer.body.cdlist[0].logo;
-        let author = answer.body.cdlist[0].nickname;
+        let list = {
+          name: answer.body.cdlist[0].dissname,
+          id: answer.body.cdlist[0].disstid,
+          cover: answer.body.cdlist[0].logo,
+          desc: answer.body.cdlist[0].desc
+        };
+        let creator = {
+          name: answer.body.cdlist[0].nickname,
+          avatar: answer.body.cdlist[0].headurl,
+          id: answer.body.cdlist[0].uin
+        };
         let songs = [];
-        let num = answer.body.cdlist[0].songnum;
+
+        let total = answer.body.cdlist[0].songnum;
+
         answer.body.cdlist[0].songlist.forEach(function (song) {
           songs.push({
-            name: song.songname,
-            mid: song.songmid,
-            id: song.songid,
-            albumname: song.albumname,
-            albumid: song.albumid,
-            albummid: song.albummid,
-            albumdes: song.albumdesc,
+            song: {
+              name: song.songname,
+              mid: song.songmid,
+              id: song.songid,
+            },
+            album: {
+              name: song.albumname,
+              id: song.albumid,
+              mid: song.albummid,
+              desc: song.albumdesc,
+            },
             singer: song.singer
           })
         });
 
         answer.body = {
-          isvip,
-          des,
-          songlist,
-          songlistid,
-          songlistlogo,
-          author,
+          creator,
+          list,
           songs,
-          num
+          total
         };
         resolve(answer);
       } else {
@@ -233,6 +242,35 @@ const getTopListDetail = (req, res) => {
       let rowData = answer;
 
       if (answer.status === 200) {
+
+        let creator = {
+          name: "QQ音乐",
+          desc: "QQ音乐巅峰榜推荐"
+        };
+        let total = answer.body.total_song_num;
+        let songs = [];
+        answer.body.songlist.forEach(function (song) {
+          songs.push({
+            album: {
+              desc: song.data.albumdesc,
+              id: song.data.albumid,
+              mid: song.data.albummid,
+              name: song.data.albumname
+            },
+            singer: song.data.singer,
+            song: {
+              name: song.data.songname,
+              id: song.data.songid,
+              mid: song.data.songmid
+            }
+          })
+        });
+
+        // answer.body = {
+        //   total,
+        //   songs
+        // };
+
         resolve(answer);
       } else {
         reject("request origin failed");
