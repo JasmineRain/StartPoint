@@ -40,13 +40,13 @@ const search = (req, res) => {
       values.forEach(function (value) {
         answer.body[value.vendor] = value.body.list;
         answer.totalnum += value.body.totalnum;
-        answer.vendornum ++;
+        answer.vendornum++;
       });
       answer.status = 200;
       resolve(answer);
     })
     .catch(function (err) {
-      reject("error at search request");
+      reject("error at search request" + err);
     })
   })
 };
@@ -106,6 +106,17 @@ const getTopLists = (req, res) => {
   }
 };
 
+const getUserPlaylists = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getUserPlaylists(req, res);
+    case 'qq':
+      return qqAPI.getUserPlaylists(req, res);
+    case 'xiami':
+      return xiamiAPI.getUserPlaylists(req, res);
+  }
+};
+
 const musicAPI = {
   getSongUrl,
   getLyric,
@@ -114,7 +125,8 @@ const musicAPI = {
   getAlbumDetail,
   getPlaylistDetail,
   getTopListDetail,
-  getTopLists
+  getTopLists,
+  getUserPlaylists
 };
 
 

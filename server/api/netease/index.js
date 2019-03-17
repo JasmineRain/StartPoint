@@ -102,8 +102,7 @@ const search = (req, res) => {
             totalnum = result.videoCount;
             break;
           default:
-            list = result.songs;
-            totalnum = result.songCount;
+            list = result;
             break;
         }
         answer.body = {
@@ -341,7 +340,49 @@ const getTopLists = (req, res) => {
   })
 };
 
+const getUserPlaylists = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/user_playlist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if(answer.status === 200) {
+
+        let creator = {
+          name: answer.body.playlist[0].creator.nickname,
+          signature: answer.body.playlist[0].creator.signature,
+          id: answer.body.playlist[0].creator.userId,
+          avatar: answer.body.playlist[0].creator.avatarUrl
+        };
+
+        let lists = [];
+        answer.body.playlist.forEach(function (list) {
+          lists.push({
+            name: list.name,
+            id: list.id,
+            description: list.description || "",
+            cover: list.coverImgUrl,
+            total: list.trackCount
+          })
+        });
+        answer.body = {
+          creator,
+          lists
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getTopListDetail, getTopLists
+  getTopListDetail, getTopLists, getUserPlaylists
 };

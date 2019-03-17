@@ -85,9 +85,12 @@ const search = (req, res) => {
             list = data.singer.list;
             totalnum = data.singer.totalnum;
             break;
+          case 'user':
+            list = data.user.list;
+            totalnum = data.user.totalnum;
+            break;
           default:
-            list = data.song.list;
-            totalnum = data.song.totalnum;
+            list = data;
             break;
         }
         answer.body = {
@@ -192,7 +195,7 @@ const getPlaylistDetail = (req, res) => {
         let creator = {
           name: answer.body.cdlist[0].nickname,
           avatar: answer.body.cdlist[0].headurl,
-          id: answer.body.cdlist[0].uin
+          id: answer.body.cdlist[0].uin           //user docid
         };
         let songs = [];
 
@@ -330,12 +333,62 @@ const getTopLists = (req, res) => {
   })
 };
 
-//toplist
-//userinfo
+const getUserPlaylists = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/user_playlist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源数据 重新包装数据
+      let rowData = answer;
+      if (answer.status === 200) {
+        let creator = {
+          name: answer.body.data.creator.nick,
+          avatar: answer.body.data.creator.headpic,
+          id: answer.body.data.creator.uin,
+          eid: answer.body.data.creator.encrypt_uin,
+          desc: answer.body.data.creator.cfinfo.title
+        };
+
+        let lists = [];
+        lists.push({
+          id: answer.body.data.mymusic[0].id,
+          cover: answer.body.data.mymusic[0].laypic,
+          name: answer.body.data.mymusic[0].name,
+          total: answer.body.data.mymusic[0].num0,
+          desc: ""
+        });
+        answer.body.data.mydiss.list.forEach(function (list) {
+          lists.push({
+            id: list.dissid,
+            cover: list.picurl,
+            name: list.title,
+            total: list.subtitle.substring(0, list.subtitle.indexOf("首")),
+            desc: ""
+          })
+        });
+
+        answer.body = {
+          creator,
+          lists
+        };
+        resolve(answer);
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api\n" + err);
+    })
+  })
+};
+
 //artist songs
 //mv
+//搜索接口未统一数据格式
+
 
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getTopListDetail, getTopLists
+  getTopListDetail, getTopLists, getUserPlaylists
 };

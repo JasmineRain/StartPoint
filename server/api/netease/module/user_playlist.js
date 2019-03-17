@@ -2,7 +2,7 @@
 
 module.exports = (query, request) => {
     const data = {
-        uid: query.uid,
+        uid: query.id,
         limit: query.limit || 30,
         offset: query.offset || 0
     }

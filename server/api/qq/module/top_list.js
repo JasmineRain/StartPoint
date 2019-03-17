@@ -51,6 +51,3 @@ module.exports = (query, request) => {
     {cookie: query.cookie, proxy: query.proxy}
   )
 };
-
-//mv https://c.y.qq.com/mv/fcgi-bin/fcg_musicshow_mvtoplist.fcg?g_tk=912124890&loginUin=530781348&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&listtype=all&listid=all_musicshow_mvtoplist_current_new
-
