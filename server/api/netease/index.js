@@ -382,7 +382,80 @@ const getUserPlaylists = (req, res) => {
   })
 };
 
+const getHotCategories = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/playlist_catlist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if(answer.status === 200) {
+
+        let category = [];
+        answer.body.sub.forEach(function (item) {
+          if(item.hot === true){
+            category.push({
+              name: item.name,
+              id: item.name
+            });
+          }
+        });
+        answer.body = {
+          category
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
+const getTopPlaylists = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/top_playlist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if(answer.status === 200) {
+        let lists = [];
+        answer.body.playlists.forEach(function (list) {
+          lists.push({
+            creator: {
+              name: list.creator.nickname,
+              id: list.creator.userId
+            },
+            list: {
+              name: list.name,
+              cover: list.coverImgUrl,
+              id: list.id,
+              play: list.playCount,
+              desc: list.description
+            }
+          })
+        });
+
+        answer.body = {
+          lists
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getTopListDetail, getTopLists, getUserPlaylists
+  getTopListDetail, getTopLists, getUserPlaylists, getHotCategories, getTopPlaylists
 };

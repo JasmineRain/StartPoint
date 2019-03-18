@@ -383,12 +383,102 @@ const getUserPlaylists = (req, res) => {
   })
 };
 
+const getHotCategories = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/playlist_catlist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源数据 重新包装数据
+      let rowData = answer;
+      if (answer.status === 200) {
+
+        let category = [];
+        let items = answer.body.category.data.category[0].items;
+        items.forEach(function (item) {
+          category.push({
+            id: item.item_id,
+            name: item.item_name
+          })
+        });
+        answer.body = {
+          category
+        };
+        resolve(answer);
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api\n" + err);
+    })
+  })
+};
+
+const getTopPlaylists = (req, res) =>{
+  return new Promise((resolve, reject) => {
+    let question = require('./module/top_playlist');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源数据 重新包装数据
+      let rowData = answer;
+      if (answer.status === 200) {
+        let lists = [];
+
+        if(!req.query.id){
+          answer.body.recomPlaylist.data.v_hot.forEach(function (list) {
+            lists.push({
+              creator: {
+                name: list.username,
+                id: list.creator
+              },
+              list: {
+                name: list.title,
+                cover: list.cover,
+                id: list.content_id,
+                play: list.listen_num
+              }
+            })
+          })
+        }
+        else {
+          answer.body.playlist.data.v_playlist.forEach(function (list) {
+            lists.push({
+              creator: {
+                name: list.creator_info.nick,
+                id: list.creator_info.uin
+              },
+              list: {
+                name: list.title,
+                cover: list.cover_url_big,
+                id: list.tid,
+                play: list.access_num
+              }
+            })
+          })
+        }
+        answer.body = {
+          lists
+        };
+        resolve(answer);
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api\n" + err);
+    })
+  })
+};
+
 //artist songs
 //mv
 //搜索接口未统一数据格式
+//top_playlists未统一接口url
 
 
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getTopListDetail, getTopLists, getUserPlaylists
+  getTopListDetail, getTopLists, getUserPlaylists, getHotCategories, getTopPlaylists
 };

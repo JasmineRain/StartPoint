@@ -120,4 +120,30 @@ router.get('/userplaylists', function (req, res, next) {
   })
 });
 
+router.get('/hotcategories', function (req, res, next) {
+  musicAPI.getHotCategories(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
+
+router.get('/topplaylists', function (req, res, next) {
+  musicAPI.getTopPlaylists(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
+
 module.exports = router;

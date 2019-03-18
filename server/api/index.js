@@ -117,6 +117,28 @@ const getUserPlaylists = (req, res) => {
   }
 };
 
+const getHotCategories = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getHotCategories(req, res);
+    case 'qq':
+      return qqAPI.getHotCategories(req, res);
+    case 'xiami':
+      return xiamiAPI.getHotCategories(req, res);
+  }
+};
+
+const getTopPlaylists = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getTopPlaylists(req, res);
+    case 'qq':
+      return qqAPI.getTopPlaylists(req, res);
+    case 'xiami':
+      return xiamiAPI.getTopPlaylists(req, res);
+  }
+};
+
 const musicAPI = {
   getSongUrl,
   getLyric,
@@ -126,7 +148,9 @@ const musicAPI = {
   getPlaylistDetail,
   getTopListDetail,
   getTopLists,
-  getUserPlaylists
+  getUserPlaylists,
+  getHotCategories,
+  getTopPlaylists
 };
 
 
