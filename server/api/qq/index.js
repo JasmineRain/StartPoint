@@ -189,11 +189,11 @@ const search = (req, res) => {
             list = data;
             break;
         }
-        // answer.body = {
-        //   keyword: req.query.keywords,
-        //   list: list,
-        //   totalnum: totalnum
-        // };
+        answer.body = {
+          keyword: req.query.keywords,
+          list: list,
+          totalnum: totalnum
+        };
         resolve(answer);
       } else {
         reject("request origin failed");
