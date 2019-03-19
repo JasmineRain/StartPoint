@@ -304,6 +304,7 @@ const getPlaylistDetail = (req, res) => {
               name: song.songname,
               mid: song.songmid,
               id: song.songid,
+              duration: song.interval
             },
             album: {
               name: song.albumname,
@@ -359,7 +360,8 @@ const getTopListDetail = (req, res) => {
             song: {
               name: song.data.songname,
               id: song.data.songid,
-              mid: song.data.songmid
+              mid: song.data.songmid,
+              duration: song.data.interval
             }
           })
         });
@@ -571,7 +573,6 @@ const getTopPlaylists = (req, res) =>{
 
 //artist songs
 //mv
-//搜索接口未统一数据格式
 //top_playlists未统一接口url
 
 
