@@ -62,43 +62,166 @@ const search = (req, res) => {
 
       if (answer.status === 200) {
         let result = answer.body.result;
-        let list;
+        let list=[];
         let totalnum;
         switch (query.t) {
           case 'song':
-            list = result.songs;
+            result.songs.forEach(function (song) {
+              let singers = [];
+              song.artists.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id
+                })
+              });
+              list.push({
+                song: {
+                  name: song.name,
+                  id: song.id
+                },
+                album: {
+                  name: song.album.name,
+                  id: song.album.id
+                },
+                singer: singers
+              })
+            });
             totalnum = result.songCount;
             break;
           case 'lyric':
-            list = result.songs;
+            result.songs.forEach(function (song) {
+              let singers = [];
+              song.artists.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id
+                })
+              });
+              list.push({
+                song: {
+                  name: song.name,
+                  id: song.id
+                },
+                album: {
+                  name: song.album.name,
+                  id: song.album.id
+                },
+                singer: singers,
+                lyric: song.lyrics.txt
+              })
+            });
             totalnum = result.songCount;
             break;
           case 'mv':
-            list = result.mvs;
+            result.mvs.forEach(function (mv) {
+              let singers = [];
+              mv.artists.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id
+                })
+              });
+              list.push({
+                song: {
+                  name: mv.name,
+                  id: mv.id
+                },
+                singer: singers,
+                play: mv.playCount
+              })
+            });
             totalnum = result.mvCount;
             break;
           case 'album':
-            list = result.albums;
+            result.albums.forEach(function (album) {
+              let singers = [];
+              album.artists.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id
+                })
+              });
+              list.push({
+                album: {
+                  name: album.name,
+                  id: album.id
+                },
+                singer: singers
+              })
+            });
             totalnum = result.albumCount;
             break;
           case 'singer':
-            list = result.artists;
+            result.artists.forEach(function (singer) {
+              list.push({
+                name: singer.name,
+                id: singer.id,
+                album: singer.albumSize,
+                mv: singer.mvSize
+              })
+            });
             totalnum = result.artistCount;
             break;
           case 'fm':
-            list = result.djRadios;
+            result.djRadios.forEach(function (radio) {
+              list.push({
+                name: radio.name,
+                id: radio.id,
+                desc: radio.desc,
+                dj: {
+                  name: radio.dj.nickname,
+                  id: radio.dj.userId,
+                  desc: radio.dj.description
+                }
+              })
+            });
             totalnum = result.djRadiosCount;
             break;
           case 'user':
-            list = result.userprofiles;
+            result.userprofiles.forEach(function (user) {
+              list.push({
+                name: user.nickname,
+                id: user.userId,
+                signature: user.signature,
+                avatar: user.avatarUrl
+              })
+            });
             totalnum = result.userprofileCount;
             break;
           case 'playlist':
-            list = result.playlists;
+            result.playlists.forEach(function (playlist) {
+              list.push({
+                playlist: {
+                  name: playlist.name,
+                  id: playlist.id,
+                  cover: playlist.coverImgUrl,
+                  play: playlist.playCount
+                },
+                creator: {
+                  name: playlist.creator.nickname,
+                  id: playlist.creator.userId
+                }
+              })
+            });
             totalnum = result.playlistCount;
             break;
           case 'video':
-            list = result.videos;
+            result.videos.forEach(function (video) {
+              let creators = [];
+              video.creator.forEach(function (creator) {
+                creators.push({
+                  name: creator.userName,
+                  id: creator.userId
+                })
+              });
+              list.push({
+                video: {
+                  name: video.title,
+                  id: video.vid
+                },
+                creator: creators
+              })
+            });
             totalnum = result.videoCount;
             break;
           default:

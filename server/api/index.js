@@ -38,7 +38,8 @@ const search = (req, res) => {
         vendornum: 0
       };
       values.forEach(function (value) {
-        answer.body[value.vendor] = value.body.list;
+        //answer.body[value.vendor] = value.body.list;
+        answer.body[value.vendor] = value.body;
         answer.totalnum += value.body.totalnum;
         answer.vendornum++;
       });

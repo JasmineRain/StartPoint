@@ -59,44 +59,141 @@ const search = (req, res) => {
 
       //保存源数据 重新包装数据
       let rowData = answer;
-
       if (answer.status === 200) {
         let data = answer.body.data;
-        let list;
+        let list = [];
         let totalnum;
         switch (query.t) {
           case 'song':
-            list = data.song.list;
+            data.song.list.forEach(function (song) {
+              let singers = [];
+              song.singer.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id,
+                  mid: singer.mid
+                })
+              });
+              list.push({
+                song: {
+                  name: song.songname,
+                  id: song.songid,
+                  mid: song.songmid
+                },
+                album: {
+                  name: song.albumname,
+                  id: song.albumid,
+                  mid: song.albummid
+                },
+                singer: singers
+              })
+            });
             totalnum = data.song.totalnum;
             break;
           case 'lyric':
-            list = data.lyric.list;
+            data.lyric.list.forEach(function (song) {
+              let singers = [];
+              song.singer.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id,
+                  mid: singer.mid
+                })
+              });
+              list.push({
+                song: {
+                  name: song.songname,
+                  id: song.songid,
+                  mid: song.songmid
+                },
+                album: {
+                  name: song.albumname,
+                  id: song.albumid,
+                  mid: song.albummid
+                },
+                singer: singers,
+                lyric: song.content
+              })
+            });
             totalnum = data.lyric.totalnum;
             break;
           case 'mv':
-            list = data.mv.list;
+            data.mv.list.forEach(function (mv) {
+              let singers = [];
+              mv.singer_list.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id,
+                  mid: singer.mid
+                })
+              });
+              list.push({
+                mv: {
+                  name: mv.mv_name,
+                  id: mv.mv_id,
+                  docid: mv.docid
+                },
+                singer: singers,
+                play: mv.play_count
+              })
+            });
             totalnum = data.mv.totalnum;
             break;
           case 'album':
-            list = data.album.list;
+            data.album.list.forEach(function (album) {
+              let singers = [];
+              album.singer_list.forEach(function (singer) {
+                singers.push({
+                  name: singer.name,
+                  id: singer.id,
+                  mid: singer.mid
+                })
+              });
+              list.push({
+                album: {
+                  name: album.albumName,
+                  id: album.albumID,
+                  mid: album.albumMID,
+                  total: album.song_count
+                },
+                singer: singers
+              })
+            });
             totalnum = data.album.totalnum;
             break;
           case 'singer':
-            list = data.singer.list;
+            data.singer.list.forEach(function (singer) {
+              list.push({
+                name: singer.singerName,
+                id: singer.singerID,
+                mid: singer.singerMID,
+                album: singer.albumNum,
+                mv: singer.mvNum,
+                song: singer.songNum
+              })
+            });
             totalnum = data.singer.totalnum;
             break;
           case 'user':
-            list = data.user.list;
+            data.user.list.forEach(function (user) {
+              list.push({
+                name: user.title,
+                id: user.docid,
+                fans: user.fans_num,
+                avatar: user.pic
+              })
+            });
             totalnum = data.user.totalnum;
             break;
           default:
             list = data;
             break;
         }
-        answer.body = {
-          list: list,
-          totalnum: totalnum
-        };
+        // answer.body = {
+        //   keyword: req.query.keywords,
+        //   list: list,
+        //   totalnum: totalnum
+        // };
         resolve(answer);
       } else {
         reject("request origin failed");
