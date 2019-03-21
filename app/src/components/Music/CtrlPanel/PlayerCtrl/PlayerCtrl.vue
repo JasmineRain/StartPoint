@@ -36,7 +36,6 @@
 
       playPre: function () {
         let index = (this.$store.getters.getCurrentMusic.index - 1 + this.num) % this.num;
-        console.log(index);
         let pmusic = this.$store.getters.getMusicList[index];
         let songId = 0;
         let albumId = 0;
@@ -65,9 +64,8 @@
           vendor: pmusic.vendor,
           id: lyricId
         };
-        this.$store.dispatch("playPrevious",urlParams);
-        this.$store.dispatch("getMusicCover", coverParams);
-        this.$store.dispatch("getMusicLyric", lyricParams);
+        let params = {urlParams, coverParams, lyricParams};
+        this.$store.dispatch("playPrevious",params);
         this.$store.commit("setCurrentMusic", {
           album: pmusic.album.name,
           duration: pmusic.song.duration,
@@ -80,8 +78,6 @@
 
       playNext: function () {
         let index = (this.$store.getters.getCurrentMusic.index + 1) % this.num;
-
-        console.log(index);
         let nmusic = this.$store.getters.getMusicList[index];
         let songId = 0;
         let albumId = 0;
@@ -110,9 +106,8 @@
           vendor: nmusic.vendor,
           id: lyricId
         };
-        this.$store.dispatch("playNext",urlParams);
-        this.$store.dispatch("getMusicCover", coverParams);
-        this.$store.dispatch("getMusicLyric", lyricParams);
+        let params = {urlParams, coverParams, lyricParams};
+        this.$store.dispatch("playNext", params);
         this.$store.commit("setCurrentMusic", {
           album: nmusic.album.name,
           duration: nmusic.song.duration,

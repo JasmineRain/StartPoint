@@ -172,10 +172,14 @@ const music = {
     },
 
     playNext(context, params) {
-      this.dispatch("getMusicUrl", params);
+      context.dispatch("getMusicUrl", params.urlParams);
+      context.dispatch("getMusicCover", params.coverParams);
+      context.dispatch("getMusicLyric", params.lyricParams);
     },
     playPrevious(context, params) {
-      this.dispatch("getMusicUrl", params);
+      context.dispatch("getMusicUrl", params.urlParams);
+      context.dispatch("getMusicCover", params.coverParams);
+      context.dispatch("getMusicLyric", params.lyricParams);
     }
   }
 };

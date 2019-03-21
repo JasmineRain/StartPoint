@@ -1,9 +1,8 @@
 import axios from 'axios'
-import store from './index'
 
 const api = {
 
-  SERVER_ADDRESS : "http://localhost:8081",
+  SERVER_ADDRESS : "http://192.168.31.50:8081",
   PATH_SONG_URL: "/music/song_url",
   PATH_LYRIC: "/music/lyric",
   PATH_SEARCH: "/music/search",

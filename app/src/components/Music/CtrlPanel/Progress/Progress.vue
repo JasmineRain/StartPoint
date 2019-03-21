@@ -53,6 +53,11 @@
         return this.$store.getters.getCurrentMusic.index;
       },
 
+      //当前列表音乐总数
+      num: function () {
+        return this.$store.getters.getMusicList.length;
+      },
+
       //已缓冲（0-100）
       buffered: function () {
         return this.$store.getters.getBuffered;
@@ -154,7 +159,44 @@
           }
         };
         player.onended = () => {
-          this.$store.dispatch("playNext", this.index + 1);
+          let nmusic = this.$store.getters.getMusicList[(this.index + 1) % this.num];
+          let songId = 0;
+          let albumId = 0;
+          let lyricId = 0;
+          switch (nmusic.vendor) {
+            case "netease":
+              songId = nmusic.song.id;
+              albumId = nmusic.album.id;
+              lyricId = nmusic.song.id;
+              break;
+            case "qq":
+              songId = nmusic.song.mid;
+              albumId = nmusic.album.id;
+              lyricId = nmusic.song.mid;
+              break;
+          }
+          let urlParams = {
+            vendor: nmusic.vendor,
+            id: songId
+          };
+          let coverParams = {
+            vendor: nmusic.vendor,
+            id: albumId
+          };
+          let lyricParams = {
+            vendor: nmusic.vendor,
+            id: lyricId
+          };
+          let params = {urlParams, coverParams, lyricParams};
+          this.$store.dispatch("playNext", params);
+          this.$store.commit("setCurrentMusic", {
+            album: nmusic.album.name,
+            duration: nmusic.song.duration,
+            index: nmusic.index,
+            vendor: nmusic.vendor,
+            name: nmusic.song.name,
+            singer: nmusic.singer
+          });
         };
         player.onprogress = () => {
           const durationT = Math.floor(player.duration);
