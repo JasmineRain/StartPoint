@@ -4,7 +4,8 @@ import Home from "./components/Home/Home";
 import Functions from "./components/Functions/Functions";
 import Calendar from "./components/Functions/Calendar/Calendar";
 import Music from "./components/Music/Music";
-import Player from "./components/Music/Player/Player";
+import Sheet from "./components/Music/Sheet/Sheet"
+import Search from "./components/Music/Search/Search"
 
 Vue.use(Router);
 
@@ -39,7 +40,11 @@ export default new Router({
         },
         {
           path: "sheet/:list",
-          component: Player
+          component: Sheet
+        },
+        {
+          path: "search",
+          component: Search
         }
       ]
     }

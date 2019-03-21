@@ -33,19 +33,96 @@
       }
     },
     methods: {
+
       playPre: function () {
-        this.$store.dispatch(
-          "playPrevious",
-          (parseInt(this.$store.getters.getCurrentMusic.index) + this.num - 1) %
-          this.num
-        );
+        let index = (this.$store.getters.getCurrentMusic.index - 1 + this.num) % this.num;
+        console.log(index);
+        let pmusic = this.$store.getters.getMusicList[index];
+        let songId = 0;
+        let albumId = 0;
+        let lyricId = 0;
+        switch (pmusic.vendor) {
+          case "netease":
+            songId = pmusic.song.id;
+            albumId = pmusic.album.id;
+            lyricId = pmusic.song.id;
+            break;
+          case "qq":
+            songId = pmusic.song.mid;
+            albumId = pmusic.album.id;
+            lyricId = pmusic.song.mid;
+            break;
+        }
+        let urlParams = {
+          vendor: pmusic.vendor,
+          id: songId
+        };
+        let coverParams = {
+          vendor: pmusic.vendor,
+          id: albumId
+        };
+        let lyricParams = {
+          vendor: pmusic.vendor,
+          id: lyricId
+        };
+        this.$store.dispatch("playPrevious",urlParams);
+        this.$store.dispatch("getMusicCover", coverParams);
+        this.$store.dispatch("getMusicLyric", lyricParams);
+        this.$store.commit("setCurrentMusic", {
+          album: pmusic.album.name,
+          duration: pmusic.song.duration,
+          index: pmusic.index,
+          vendor: pmusic.vendor,
+          name: pmusic.song.name,
+          singer: pmusic.singer
+        });
       },
+
       playNext: function () {
-        this.$store.dispatch(
-          "playNext",
-          (parseInt(this.$store.getters.getCurrentMusic.index) + 1) % this.num
-        );
+        let index = (this.$store.getters.getCurrentMusic.index + 1) % this.num;
+
+        console.log(index);
+        let nmusic = this.$store.getters.getMusicList[index];
+        let songId = 0;
+        let albumId = 0;
+        let lyricId = 0;
+        switch (nmusic.vendor) {
+          case "netease":
+            songId = nmusic.song.id;
+            albumId = nmusic.album.id;
+            lyricId = nmusic.song.id;
+            break;
+          case "qq":
+            songId = nmusic.song.mid;
+            albumId = nmusic.album.id;
+            lyricId = nmusic.song.mid;
+            break;
+        }
+        let urlParams = {
+          vendor: nmusic.vendor,
+          id: songId
+        };
+        let coverParams = {
+          vendor: nmusic.vendor,
+          id: albumId
+        };
+        let lyricParams = {
+          vendor: nmusic.vendor,
+          id: lyricId
+        };
+        this.$store.dispatch("playNext",urlParams);
+        this.$store.dispatch("getMusicCover", coverParams);
+        this.$store.dispatch("getMusicLyric", lyricParams);
+        this.$store.commit("setCurrentMusic", {
+          album: nmusic.album.name,
+          duration: nmusic.song.duration,
+          index: nmusic.index,
+          vendor: nmusic.vendor,
+          name: nmusic.song.name,
+          singer: nmusic.singer
+        });
       },
+
       playOrStop: function () {
         let player = this.$store.getters.getPlayer;
         if (player.paused) {

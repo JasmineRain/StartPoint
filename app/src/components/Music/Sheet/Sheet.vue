@@ -9,24 +9,24 @@
         <span class="music_duration">时长</span>
       </div>
       <div class="music_list_content" v-if="musicData">
-        <div class="music_list border-1px" v-for="(list, index) in musicData" :key="list.songid" @click="clickRow(list)">
+        <div class="music_list border-1px" v-for="(list, index) in musicData" :key="list.song.songid" @click="clickRow(list)">
           <span class="music_index">
             <span v-show="currentMusic.index !== list.index">{{index + 1}}</span>
             <img v-show="currentMusic.index === list.index" src="../../../assets/wave.gif">
           </span>
           <div class="music_name">
-            <span class="span_name">{{list.songname}}</span>
+            <span class="span_name">{{list.song.name}}</span>
             <div class="hover_menu">
               <i class="icon-add"></i>
             </div>
           </div>
           <span class="music_singer" v-if="list.singer">
-            <span>{{list.singer}}</span>
+            <span>{{list.singer[0].name}}</span>
           </span>
-          <span class="music_album" v-if="list.albumid">
-            <span>{{list.albumname}}</span>
+          <span class="music_album" v-if="list.album">
+            <span>{{list.album.name}}</span>
           </span>
-          <span class="music_duration">{{list.time}}</span>
+          <span class="music_duration">{{list.song.time}}</span>
         </div>
       </div>
     </div>
@@ -49,11 +49,48 @@ export default {
   },
   methods: {
     clickRow: function(row) {
-      this.$store.dispatch("getQQMusicDetail", row);
+      let songId = 0;
+      let albumId = 0;
+      let lyricId = 0;
+      switch (row.vendor) {
+        case "netease":
+          songId = row.song.id;
+          albumId = row.album.id;
+          lyricId = row.song.id;
+          break;
+        case "qq":
+          songId = row.song.mid;
+          albumId = row.album.id;
+          lyricId = row.song.mid;
+          break;
+      }
+      let urlParams = {
+        vendor: row.vendor,
+        id: songId
+      };
+      let coverParams = {
+        vendor: row.vendor,
+        id: albumId
+      };
+      let lyricParams = {
+        vendor: row.vendor,
+        id: lyricId
+      };
+      this.$store.dispatch("getMusicUrl", urlParams);
+      this.$store.dispatch("getMusicCover", coverParams);
+      this.$store.dispatch("getMusicLyric", lyricParams);
+      this.$store.commit("setCurrentMusic", {
+        album: row.album.name,
+        duration: row.song.duration,
+        index: row.index,
+        vendor: row.vendor,
+        name: row.song.name,
+        singer: row.singer
+      });
     }
   },
   mounted() {
-    this.$store.dispatch("getQQTopList");
+    this.$store.dispatch("getRecmList");
   }
 };
 </script>

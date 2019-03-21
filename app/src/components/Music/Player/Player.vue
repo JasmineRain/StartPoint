@@ -1,52 +1,5 @@
 <template>
-  <el-row class="music_content">
 
-    <!--小屏以上-->
-    <el-row class="music hidden-xs-only">
-
-      <el-row class="sheet">
-        <el-col :span="16" class="list">
-          <FuncPanel/>
-          <Sheet/>
-        </el-col>
-        <el-col :span="8" class="lyric_cd">
-          <CD/>
-        </el-col>
-      </el-row>
-
-    </el-row>
-    <el-row class="panel hidden-xs-only">
-      <el-col :md="4" :lg="4" :sm="4" :xs="24">
-        <PlayerCtrl/>
-      </el-col>
-      <el-col :md="12" :lg="12" :sm="12" :xs="24">
-        <Progress/>
-      </el-col>
-      <el-col :md="8" :lg="8" :sm="8">
-        <PlayerModel/>
-      </el-col>
-    </el-row>
-
-    <!--小屏-->
-    <el-row class="music_m hidden-sm-and-up">
-
-      <el-row class="sheet">
-        <FuncPanel/>
-        <Sheet/>
-      </el-row>
-
-    </el-row>
-    <el-row class="panel_m hidden-sm-and-up">
-      <el-col :span="24">
-        <PlayerCtrl/>
-      </el-col>
-      <el-col :span="24">
-        <Progress/>
-      </el-col>
-    </el-row>
-
-
-  </el-row>
 </template>
 
 <script>
@@ -74,45 +27,5 @@
 </script>
 
 <style scoped>
-  .music {
-    height: calc(100% - 80px);
-  }
 
-  .music_m {
-    height: calc(100% - 121px);
-  }
-
-  .panel {
-    height: 80px;
-    display: flex;
-    align-items: center;
-  }
-
-  .panel_m {
-    padding: 0 20px;
-  }
-
-  .music_content {
-    width: 100%;
-    height: 100%;
-  }
-
-  .sheet {
-    height: 100%;
-    padding: 10px;
-  }
-
-  @media screen and (max-width: 525px) {
-    .panel_m {
-      padding: 0 10px;
-    }
-  }
-
-  .list {
-    height: 100%;
-  }
-
-  .lyric_cd {
-    height: 100%;
-  }
 </style>

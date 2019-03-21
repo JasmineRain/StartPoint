@@ -1,60 +1,5 @@
-import axios from "axios";
 import musicUtil from "../../common/js/music";
-import Base64 from "../../common/js/base64";
-
-const QQTopList =
-  "/QQMusicAPI/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=27&_=1519963122923";
-
-// const QQRecmList =
-//   "/QQMusicAPI/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8%C2%ACice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472";
-
-const QQLyric = "/QQMusicLrc/music/lyric/";
-
-const QQvkey =
-  "QQMusicAPI/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1278911659&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&cid=205361747&uin=0&guid=133371174";
-
-const QQCover = "http://imgcache.qq.com/music/photo/album_300/";
-
-// "http://imgcache.qq.com/music/photo/album_300/%i/300_albumpic_%i_0.jpg"
-const getQQvkey = function (mid) {
-  let url = QQvkey + "&songmid=" + mid + "&filename=C400" + mid + ".m4a";
-  return new Promise(resolve => {
-    axios.get(url).then(response => {
-      resolve(response.data.data.items[0].vkey);
-    });
-  });
-};
-
-const getQQsrc = function (mid) {
-  return new Promise(resolve => {
-    getQQvkey(mid).then(function (vkey) {
-      let src =
-        "http://dl.stream.qqmusic.qq.com/C400" +
-        mid +
-        ".m4a?vkey=" +
-        vkey +
-        "&guid=133371174&fromtag=66";
-      resolve(src);
-    });
-  });
-};
-
-const getQQcover = function (id) {
-  return QQCover + (id % 100) + "/300_albumpic_" + id + "_0.jpg";
-};
-
-//https://api.darlin.me/music/lyric/"+获取的音乐id+"/?
-const getQQlyric = function (id) {
-  let url = QQLyric + id + "/";
-  return new Promise(resolve => {
-    axios.get(url).then(response => {
-      let info = response.data;
-      let lyric = info.substring(info.indexOf("lyric") + 8, info.length - 3);
-      let parsedLyric = musicUtil.parseLyric(Base64.decode(lyric))
-      resolve(parsedLyric);
-    });
-  });
-};
+import api from "../api";
 
 const music = {
   state: {
@@ -65,7 +10,8 @@ const music = {
       index: -1,
       singer: "",
       album: "",
-      duration: 0
+      duration: 0,
+      vendor: ""
     },
     player: '',
     lyric: "",
@@ -99,7 +45,7 @@ const music = {
   },
   mutations: {
     setCurrentMusic(state, payload) {
-      state.currentMusic = payload;
+      state.currentMusic = { ...state.currentMusic, ...payload};
     },
     setPlayer(state, payload) {
       state.player = payload;
@@ -142,57 +88,94 @@ const music = {
     }
   },
   actions: {
-    getQQTopList(context) {
-      axios.get(QQTopList).then(response => {
-        let songList = response.data.songlist;
-        let musicList = [];
-        for (let song in songList) {
+    getRecmList(context) {
+      let musicList = [];
+      let params1 = {
+        vendor: "qq",
+        idx: 4
+      };
+      let params2 = {
+        vendor: "netease",
+        idx: 1
+      };
+      // api.reqTopListDetail(params1).then(function (answer) {
+      //   answer.body.songs.forEach(function (item, index) {
+      //     musicList.push({
+      //       song: {
+      //         name: item.song.name,
+      //         id: item.song.id,
+      //         mid: item.song.mid,
+      //         duration: item.song.duration,
+      //         time: musicUtil.formatDuration(item.song.duration)
+      //       },
+      //       singer: item.singer,
+      //       album: {
+      //         name: item.album.name,
+      //         id: item.album.id,
+      //         mid: item.album.mid,
+      //         desc: item.album.desc
+      //       },
+      //       vendor: 'qq',
+      //       index: index
+      //     });
+      //     context.commit("setMusicList", musicList);
+      //   })
+      // });
+      api.reqTopListDetail(params2).then(function (answer) {
+        answer.body.songs.forEach(function (item, index) {
           musicList.push({
-            songname: songList[song].data.songname,
-            songmid: songList[song].data.songmid,
-            songid: songList[song].data.songid,
-            albumid: songList[song].data.albumid,
-            albummid: songList[song].data.albummid,
-            albumname: songList[song].data.albumname,
-            singer: songList[song].data.singer[0].name,
-            singermid: songList[song].data.singer[0].mid,
-            duration: songList[song].data.interval,
-            time: musicUtil.formatDuration(songList[song].data.interval),
-            index: parseInt(song)
+            song: {
+              name: item.song.name,
+              id: item.song.id,
+              mid: item.song.mid,
+              duration: item.song.duration,
+              time: musicUtil.formatDuration(item.song.duration)
+            },
+            singer: item.singer,
+            album: {
+              name: item.album.name,
+              id: item.album.id,
+              mid: item.album.mid,
+              desc: item.album.desc
+            },
+            vendor: 'netease',
+            index: index
           });
-        }
-        context.commit("setMusicList", musicList);
-      });
-    },
-    getQQMusicDetail(context, row) {
-      context.commit("setIsPlaying", false);
-      context.commit("setLyric", "");
-      let cover = getQQcover(row.albumid);
-      let src = getQQsrc(row.songmid);
-      Promise.all([cover, src]).then(function (values) {
-        context.commit("setCurrentMusic", {
-          name: row.songname,
-          musicUrl: values[1],
-          coverUrl: values[0],
-          index: row.index,
-          singer: row.singer,
-          album: row.albumname,
-          duration: row.duration
-        });
-        context.commit("setIsPlaying", true);
-      });
-      getQQlyric(row.songid).then(function (lyric) {
-        context.commit("setLyric",lyric)
+          context.commit("setMusicList", musicList);
+        })
       })
     },
-    playNext(context, index) {
-      let nextMusic = context.getters.getMusicList[index];
-      this.dispatch("getQQMusicDetail", nextMusic);
+
+    getMusicUrl(context, params) {
+      context.commit("setIsPlaying", false);
+      context.commit("setLyric", "");
+      api.reqSongUrl(params).then(function (answer) {
+        context.commit("setCurrentMusic", {
+          musicUrl: answer.body.url
+        });
+        context.commit("setIsPlaying", true);
+      })
     },
-    playPrevious(context, index) {
-      //context.commit("setIsPlaying", false);
-      let preMusic = context.getters.getMusicList[index];
-      this.dispatch("getQQMusicDetail", preMusic);
+
+    getMusicCover(context, params) {
+      api.reqAlbumCover(params).then(function (answer) {
+        context.commit("setCurrentMusic", {
+          coverUrl: answer.body.url
+        })
+      })
+    },
+
+    getMusicLyric(context, params) {
+      api.reqLyric(params).then(function (answer) {
+        context.commit("setLyric", answer.body.lyric)
+      })
+    },
+
+    playNext(context, params) {
+      this.dispatch("getMusicUrl", params);
+    },
+    playPrevious(context, params) {
+      this.dispatch("getMusicUrl", params);
     }
   }
 };
