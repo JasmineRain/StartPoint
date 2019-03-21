@@ -78,7 +78,8 @@ const search = (req, res) => {
                 song: {
                   name: song.songname,
                   id: song.songid,
-                  mid: song.songmid
+                  mid: song.songmid,
+                  duration: song.duration
                 },
                 album: {
                   name: song.albumname,
@@ -104,7 +105,8 @@ const search = (req, res) => {
                 song: {
                   name: song.songname,
                   id: song.songid,
-                  mid: song.songmid
+                  mid: song.songmid,
+                  duration: song.interval
                 },
                 album: {
                   name: song.albumname,

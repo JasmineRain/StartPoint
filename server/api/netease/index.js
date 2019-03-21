@@ -77,7 +77,8 @@ const search = (req, res) => {
               list.push({
                 song: {
                   name: song.name,
-                  id: song.id
+                  id: song.id,
+                  duration: Math.round((song.duration) / 1000)
                 },
                 album: {
                   name: song.album.name,
@@ -100,7 +101,8 @@ const search = (req, res) => {
               list.push({
                 song: {
                   name: song.name,
-                  id: song.id
+                  id: song.id,
+                  duration: Math.round((song.duration) / 1000)
                 },
                 album: {
                   name: song.album.name,
@@ -122,9 +124,10 @@ const search = (req, res) => {
                 })
               });
               list.push({
-                song: {
+                mv: {
                   name: mv.name,
-                  id: mv.id
+                  id: mv.id,
+                  duration: Math.round((mv.duration) / 1000)
                 },
                 singer: singers,
                 play: mv.playCount
@@ -217,7 +220,8 @@ const search = (req, res) => {
               list.push({
                 video: {
                   name: video.title,
-                  id: video.vid
+                  id: video.vid,
+                  duration: video.durationms
                 },
                 creator: creators
               })
@@ -229,6 +233,7 @@ const search = (req, res) => {
             break;
         }
         answer.body = {
+          keyword: req.query.keywords,
           list: list,
           totalnum: totalnum
         };
@@ -291,7 +296,8 @@ const getAlbumDetail = (req, res) => {
         answer.body.songs.forEach(function (song) {
           songs.push({
             name: song.name,
-            id: song.id
+            id: song.id,
+            duration: Math.round((song.dt) / 1000)
           })
         });
         let total = songs.length;
@@ -337,9 +343,9 @@ const getPlaylistDetail = (req, res) => {
           id: answer.body.playlist.creator.userId
         };
         let songs = [];
-        answer.body.playlist.tracks.forEach(function (track) {
+        answer.body.playlist.tracks.forEach(function (song) {
           let ar = [];
-          track.ar.forEach(function (item) {
+          song.ar.forEach(function (item) {
             ar.push({
               id: item.id,
               name: item.name
@@ -347,10 +353,11 @@ const getPlaylistDetail = (req, res) => {
           });
           songs.push({
             song: {
-              name: track.name,
-              id: track.id
+              name: song.name,
+              id: song.id,
+              duration: Math.round((song.dt) / 1000)
             },
-            album: {id: track.al.id, name: track.al.name, picUrl: track.al.picUrl},
+            album: {id: song.al.id, name: song.al.name, picUrl: song.al.picUrl},
             singer: ar
           })
         });
@@ -396,9 +403,9 @@ const getTopListDetail = (req, res) => {
         };
         let total = answer.body.playlist.trackCount;
         let songs = [];
-        answer.body.playlist.tracks.forEach(function (track) {
+        answer.body.playlist.tracks.forEach(function (song) {
           let ar = [];
-          track.ar.forEach(function (item) {
+          song.ar.forEach(function (item) {
             ar.push({
               id: item.id,
               name: item.name
@@ -406,10 +413,11 @@ const getTopListDetail = (req, res) => {
           });
           songs.push({
             song: {
-              name: track.name,
-              id: track.id
+              name: song.name,
+              id: song.id,
+              duration: Math.round((song.dt) / 1000)
             },
-            album: {id: track.al.id, name: track.al.name, picUrl: track.al.picUrl},
+            album: {id: song.al.id, name: song.al.name, picUrl: song.al.picUrl},
             singer: ar
           })
         });
