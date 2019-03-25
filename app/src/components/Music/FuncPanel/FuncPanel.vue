@@ -5,13 +5,13 @@
         正在播放
       </router-link>
       <router-link tag="span" to="/music/collection" class="todo_btn collect_btn">
-        我的收藏
+        收藏
       </router-link>
-      <router-link tag="span" to="/music/toplist" class="todo_btn top_btn">
-        排行榜/歌单
+      <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">
+        排行榜
       </router-link>
       <router-link tag="span" to="/music/search" class="todo_btn search_btn">
-        搜索音乐
+        搜索
       </router-link>
     </div>
     <div v-if="!isHigher768" class="select_m_button">
@@ -21,8 +21,8 @@
       <router-link tag="span" to="/music/collection" class="todo_btn collect_btn">
         收藏
       </router-link>
-      <router-link tag="span" to="/music/toplist" class="todo_btn top_btn">
-        排行榜/歌单
+      <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">
+        排行榜
       </router-link>
       <router-link tag="span" to="/music/search" class="todo_btn search_btn">
         搜索

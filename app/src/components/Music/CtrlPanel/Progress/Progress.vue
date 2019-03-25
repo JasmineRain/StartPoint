@@ -244,7 +244,9 @@
       }
     },
     mounted() {
-      this.setAudioEvents();
+      this.$nextTick(()=> {
+        this.setAudioEvents();
+      })
     }
   };
 </script>

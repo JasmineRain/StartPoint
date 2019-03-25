@@ -23,9 +23,10 @@ const music = {
     isPlaying: false,
     isDrag: false,
     playMode: 1,
-    musicList: [],
+    musicList: [],       //当前歌曲数组
     searchList: {},
-    likeList: []
+    likeList: [],
+    toplists: {}         //排行榜
   },
   getters: {
     getCurrentMusic: state => state.currentMusic,
@@ -41,7 +42,8 @@ const music = {
     getPlayMode: state => state.playMode,
     getMusicList: state => state.musicList,
     getSearchList: state => state.searchList,
-    getLikeLikst: state => state.likeList
+    getLikeLikst: state => state.likeList,
+    getToplists: state => state.toplists
   },
   mutations: {
     setCurrentMusic(state, payload) {
@@ -85,6 +87,9 @@ const music = {
     },
     setLikeList(state, payload) {
       state.likeList = payload;
+    },
+    setToplists(state, payload) {
+      state.toplists = payload;
     }
   },
   actions: {
@@ -168,6 +173,20 @@ const music = {
     getMusicLyric(context, params) {
       api.reqLyric(params).then(function (answer) {
         context.commit("setLyric", answer.body.lyric)
+      })
+    },
+
+    getToplists(context) {
+      let params1 = {vendor:"qq"};
+      let params2 = {vendor:"netease"};
+      let p1 = api.reqTopLists(params1);
+      let p2 = api.reqTopLists(params2);
+      Promise.all([p1, p2]).then(values => {
+        let list = {};
+        values.forEach(function (value) {
+          list[value.vendor] = value.body.list;
+        });
+        context.commit("setToplists", list)
       })
     },
 

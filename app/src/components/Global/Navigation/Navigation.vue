@@ -40,7 +40,7 @@
       <!-- pc 移动端设置按钮 -->
       <div class="right-menu">
         <router-link class="listmenu" tag="a" to="/user/login">
-          登陆
+          登录
         </router-link>
         <router-link tag="a" to="/setting" class="a-icon">
           <li class="li-icon" title="设置" @click="hideLeftContent"><i class="icon-setting"></i></li>

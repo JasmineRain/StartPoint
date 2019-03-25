@@ -6,6 +6,7 @@ import Calendar from "./components/Functions/Calendar/Calendar";
 import Music from "./components/Music/Music";
 import Sheet from "./components/Music/Sheet/Sheet"
 import Search from "./components/Music/Search/Search"
+import Toplists from "./components/Music/Toplists/Toplists"
 
 Vue.use(Router);
 
@@ -45,6 +46,10 @@ export default new Router({
         {
           path: "search",
           component: Search
+        },
+        {
+          path: "toplists",
+          component: Toplists
         }
       ]
     }

@@ -82,7 +82,7 @@
   .content {
     position: fixed;
     top: 50px;
-    bottom: 10px;
+    bottom: 0;
     right: 40px;
     left: 40px;
     padding: 10px;

@@ -48,6 +48,8 @@
   .title {
     font-size: 2vw;
     color: #fff;
+    text-align: center;
+    line-height: 2.5vw;
   }
 
   @media screen and (max-width: 400px) {
