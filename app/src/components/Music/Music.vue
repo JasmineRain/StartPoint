@@ -74,6 +74,9 @@
       Progress,
       PlayerModel,
       CD
+    },
+    mounted() {
+      this.$store.dispatch("getRecmList");
     }
   };
 </script>

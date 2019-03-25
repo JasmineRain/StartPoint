@@ -20,10 +20,11 @@ const music = {
     currentTime: 0,      //当前播放时间（秒）
     currentDuration: 0,  //当前播放百分比
     buffered: 0,         //已缓冲（0-100）
-    isPlaying: false,
-    isDrag: false,
-    playMode: 1,
-    musicList: [],       //当前歌曲数组
+    isPlaying: false,    //播放状态
+    isDrag: false,       //是否拖动进度条
+    playMode: 1,         //播放模式，1顺序，2随机，3单曲循环
+    musicList: [],       //正在播放的歌曲列表
+    musicSheetList: [],  //音乐显示列表，用于Sheet组件
     searchList: {},
     likeList: [],
     toplists: {}         //排行榜
@@ -41,6 +42,7 @@ const music = {
     getIsDrag: state => state.isDrag,
     getPlayMode: state => state.playMode,
     getMusicList: state => state.musicList,
+    getMusicSheetList: state => state.musicSheetList,
     getSearchList: state => state.searchList,
     getLikeLikst: state => state.likeList,
     getToplists: state => state.toplists
@@ -82,6 +84,9 @@ const music = {
     setMusicList(state, payload) {
       state.musicList = payload;
     },
+    setMusicSheetList(state, payload) {
+      state.musicSheetList = payload;
+    },
     setSearchList(state, payload) {
       state.searchList = payload;
     },
@@ -95,37 +100,10 @@ const music = {
   actions: {
     getRecmList(context) {
       let musicList = [];
-      let params1 = {
-        vendor: "qq",
-        idx: 4
-      };
       let params2 = {
         vendor: "netease",
         idx: 1
       };
-      // api.reqTopListDetail(params1).then(function (answer) {
-      //   answer.body.songs.forEach(function (item, index) {
-      //     musicList.push({
-      //       song: {
-      //         name: item.song.name,
-      //         id: item.song.id,
-      //         mid: item.song.mid,
-      //         duration: item.song.duration,
-      //         time: musicUtil.formatDuration(item.song.duration)
-      //       },
-      //       singer: item.singer,
-      //       album: {
-      //         name: item.album.name,
-      //         id: item.album.id,
-      //         mid: item.album.mid,
-      //         desc: item.album.desc
-      //       },
-      //       vendor: 'qq',
-      //       index: index
-      //     });
-      //     context.commit("setMusicList", musicList);
-      //   })
-      // });
       api.reqTopListDetail(params2).then(function (answer) {
         answer.body.songs.forEach(function (item, index) {
           musicList.push({

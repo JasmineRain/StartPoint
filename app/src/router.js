@@ -37,11 +37,12 @@ export default new Router({
       children: [
         {
           path: "",
-          redirect: "sheet/mylist"
+          redirect: "sheet/playlist"
         },
         {
           path: "sheet/:list",
-          component: Sheet
+          component: Sheet,
+          props: true
         },
         {
           path: "search",

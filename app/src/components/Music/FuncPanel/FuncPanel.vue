@@ -1,10 +1,10 @@
 <template>
   <div class="ctrl_panel">
     <div v-if="isHigher768" class="select_button">
-      <router-link tag="span" to="/music/playlist" class="todo_btn playing_btn">
+      <router-link tag="span" to="/music/sheet/playlist" class="todo_btn playing_btn">
         正在播放
       </router-link>
-      <router-link tag="span" to="/music/collection" class="todo_btn collect_btn">
+      <router-link tag="span" to="/music/sheet/collection" class="todo_btn collect_btn">
         收藏
       </router-link>
       <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">
@@ -15,10 +15,10 @@
       </router-link>
     </div>
     <div v-if="!isHigher768" class="select_m_button">
-      <router-link tag="span" to="/music/playlist" class="todo_btn playing_btn">
+      <router-link tag="span" to="/music/sheet/playing" class="todo_btn playing_btn">
         正在播放
       </router-link>
-      <router-link tag="span" to="/music/collection" class="todo_btn collect_btn">
+      <router-link tag="span" to="/music/sheet/collection" class="todo_btn collect_btn">
         收藏
       </router-link>
       <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">

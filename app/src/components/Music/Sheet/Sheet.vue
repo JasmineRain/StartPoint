@@ -36,12 +36,16 @@
 <script>
 export default {
   name: "Sheet",
+  props: ["list"],
   data() {
     return {};
   },
   computed: {
     musicData: function() {
-      return this.$store.getters.getMusicList;
+      if (this.list === "playlist")
+        return this.$store.getters.getMusicList;
+      else
+        return this.$store.getters.getMusicSheetList;
     },
     currentMusic: function() {
       return this.$store.getters.getCurrentMusic;
@@ -90,7 +94,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getRecmList");
   }
 };
 </script>

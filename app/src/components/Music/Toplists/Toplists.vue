@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane class="item" label="QQ音乐" name="QQ">
         <el-row class="container">
-          <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" class="list_item">
+          <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" :key="item.id" class="list_item">
             <div class="item_detail" :title="item.name">
               <img :src="item.cover" alt="" style="width: 110px; height: 110px">
             </div>
