@@ -82,7 +82,7 @@ router.get('/playlist', function (req, res, next) {
 });
 
 router.get('/toplist', function (req, res, next) {
-  musicAPI.getTopListDetail(req, res).then(answer => {
+  musicAPI.getToplistDetail(req, res).then(answer => {
     res.json(answer);
   })
   .catch(function (err) {
@@ -95,7 +95,7 @@ router.get('/toplist', function (req, res, next) {
 });
 
 router.get('/toplists', function (req, res, next) {
-  musicAPI.getTopLists(req, res).then(answer => {
+  musicAPI.getToplists(req, res).then(answer => {
     res.json(answer);
   })
   .catch(function (err) {

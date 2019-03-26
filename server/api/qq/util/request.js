@@ -44,7 +44,7 @@ const createRequest = (method, url, params, data, options) => {
       .join('; ');
     else if (options.cookie) headers['Cookie'] = options.cookie;
 
-    const answer = {status: 500, body: {}, cookie: [], vendor: "QQ"};
+    const answer = {status: 500, body: {}, cookie: [], vendor: "qq"};
     axios({
       method: method,
       url: url,

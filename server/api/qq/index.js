@@ -335,7 +335,7 @@ const getPlaylistDetail = (req, res) => {
   })
 };
 
-const getTopListDetail = (req, res) => {
+const getToplistDetail = (req, res) => {
   return new Promise((resolve, reject) => {
     let question = require('./module/top_list');
     let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
@@ -383,7 +383,7 @@ const getTopListDetail = (req, res) => {
   })
 };
 
-const getTopLists = (req, res) => {
+const getToplists = (req, res) => {
   return new Promise((resolve, reject) => {
     let question = require('./module/toplist');
     let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
@@ -580,5 +580,5 @@ const getTopPlaylists = (req, res) =>{
 
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getTopListDetail, getTopLists, getUserPlaylists, getHotCategories, getTopPlaylists
+  getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists
 };

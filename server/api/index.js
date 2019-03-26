@@ -85,25 +85,25 @@ const getPlaylistDetail = (req, res) => {
   }
 };
 
-const getTopListDetail = (req, res) => {
+const getToplistDetail = (req, res) => {
   switch (req.query.vendor) {
     case 'netease':
-      return neteaseAPI.getTopListDetail(req, res);
+      return neteaseAPI.getToplistDetail(req, res);
     case 'qq':
-      return qqAPI.getTopListDetail(req, res);
+      return qqAPI.getToplistDetail(req, res);
     case 'xiami':
-      return xiamiAPI.getAlbumDetail(req, res);
+      return xiamiAPI.getToplistDetail(req, res);
   }
 };
 
-const getTopLists = (req, res) => {
+const getToplists = (req, res) => {
   switch (req.query.vendor) {
     case 'netease':
-      return neteaseAPI.getTopLists(req, res);
+      return neteaseAPI.getToplists(req, res);
     case 'qq':
-      return qqAPI.getTopLists(req, res);
+      return qqAPI.getToplists(req, res);
     case 'xiami':
-      return xiamiAPI.getTopLists(req, res);
+      return xiamiAPI.getToplists(req, res);
   }
 };
 
@@ -147,8 +147,8 @@ const musicAPI = {
   getAlbumCover,
   getAlbumDetail,
   getPlaylistDetail,
-  getTopListDetail,
-  getTopLists,
+  getToplistDetail,
+  getToplists,
   getUserPlaylists,
   getHotCategories,
   getTopPlaylists

@@ -29,11 +29,11 @@ const topList = {
 
 module.exports = (query, request) => {
     const data = {
-        id: topList[query.idx],
+        id: query.idx,
         n: 10000
-    }
+    };
     return request(
         'POST', `https://music.163.com/weapi/v3/playlist/detail`, data,
         {crypto: 'linuxapi', cookie: query.cookie, proxy: query.proxy}
     )
-}
+};
