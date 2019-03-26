@@ -2,6 +2,7 @@
   <div class="maincontent">
     <div class="fixed-bg"
          v-bind:style="{backgroundImage:'url('+bgUrl+')'} "
+         v-loading="loading"
          element-loading-background="rgba(0, 0, 0, 0.8)">
       <div class="mask-fixedbg">
       </div>
@@ -18,6 +19,9 @@
     computed: {
       bgUrl() {
         return this.$store.getters.getBGUrl;
+      },
+      loading: function () {
+        return this.$store.getters.getBGLoading
       }
     },
     methods: {

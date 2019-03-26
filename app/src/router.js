@@ -45,6 +45,11 @@ export default new Router({
           props: true
         },
         {
+          path: "sheet/:list/:vendor/:id",
+          component: Sheet,
+          props: true
+        },
+        {
           path: "search",
           component: Search
         },

@@ -111,7 +111,7 @@ const api = {
     })
   },
 
-  reqTopListDetail(params) {
+  reqToplistDetail(params) {
     return new Promise((resolve, reject) => {
       axios({
         method: 'get',
@@ -127,7 +127,7 @@ const api = {
     })
   },
 
-  reqTopLists(params) {
+  reqToplists(params) {
     return new Promise((resolve, reject) => {
       axios({
         method: 'get',

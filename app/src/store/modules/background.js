@@ -20,19 +20,16 @@ const background = {
   },
   actions: {
     getBGInfo(context) {
+      context.commit("setBGLoading", true);
       let info = {
         url: "",
         words: ""
       };
-      let loadingInstance = Loading.service({
-        text: "loading",
-        background: "#000000"
-      });
       axios.get(bingUrl).then(response => {
         info.url = "https://www.bing.com/" + response.data.images[0].url;
         info.words = response.data.images[0].copyright;
         context.commit("setBGInfo", info);
-        loadingInstance.close();
+        context.commit("setBGLoading", false);
       });
     }
   }

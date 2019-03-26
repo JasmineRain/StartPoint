@@ -22,7 +22,7 @@ const music = {
     buffered: 0,         //已缓冲（0-100）
     isPlaying: false,    //播放状态
     isDrag: false,       //是否拖动进度条
-    playMode: 1,         //播放模式，1顺序，2随机，3单曲循环
+    playMode: 0,         //播放模式，1顺序，2随机，3单曲循环
     musicList: [],       //正在播放的歌曲列表
     musicSheetList: [],  //音乐显示列表，用于Sheet组件
     searchList: {},
@@ -99,12 +99,13 @@ const music = {
   },
   actions: {
     getRecmList(context) {
+      context.commit("setSheetLoading", true);
       let musicList = [];
       let params2 = {
         vendor: "netease",
         idx: 1
       };
-      api.reqTopListDetail(params2).then(function (answer) {
+      api.reqToplistDetail(params2).then(function (answer) {
         answer.body.songs.forEach(function (item, index) {
           musicList.push({
             song: {
@@ -124,8 +125,9 @@ const music = {
             vendor: 'netease',
             index: index
           });
-          context.commit("setMusicList", musicList);
-        })
+        });
+        context.commit("setMusicList", musicList);
+        context.commit("setSheetLoading", false);
       })
     },
 
@@ -157,14 +159,45 @@ const music = {
     getToplists(context) {
       let params1 = {vendor:"qq"};
       let params2 = {vendor:"netease"};
-      let p1 = api.reqTopLists(params1);
-      let p2 = api.reqTopLists(params2);
+      let p1 = api.reqToplists(params1);
+      let p2 = api.reqToplists(params2);
+      context.commit("setToplistsLoading", true);
       Promise.all([p1, p2]).then(values => {
         let list = {};
         values.forEach(function (value) {
           list[value.vendor] = value.body.list;
         });
-        context.commit("setToplists", list)
+        context.commit("setToplists", list);
+        context.commit("setToplistsLoading", false);
+      })
+    },
+
+    getToplistDetail(context, params) {
+      context.commit("setSheetLoading", true);
+      api.reqToplistDetail(params).then(function (answer) {
+        let musicList = [];
+        answer.body.songs.forEach(function (item, index) {
+          musicList.push({
+            song: {
+              name: item.song.name,
+              id: item.song.id,
+              mid: item.song.mid,
+              duration: item.song.duration,
+              time: musicUtil.formatDuration(item.song.duration)
+            },
+            singer: item.singer,
+            album: {
+              name: item.album.name,
+              id: item.album.id,
+              mid: item.album.mid,
+              desc: item.album.desc
+            },
+            vendor: answer.vendor,
+            index: index
+          });
+        });
+        context.commit("setMusicSheetList", musicList);
+        context.commit("setSheetLoading", false);
       })
     },
 

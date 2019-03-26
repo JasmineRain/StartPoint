@@ -8,25 +8,25 @@
         <span class="music_album">专辑</span>
         <span class="music_duration">时长</span>
       </div>
-      <div class="music_list_content" v-if="musicData">
-        <div class="music_list border-1px" v-for="(list, index) in musicData" :key="list.song.songid" @click="clickRow(list)">
+      <div class="music_list_content" v-if="musicData" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.1)">
+        <div class="music_list border-1px" v-for="(item, index) in musicData" :key="item.song.songid" @click="clickRow(item)">
           <span class="music_index">
-            <span v-show="currentMusic.index !== list.index">{{index + 1}}</span>
-            <img v-show="currentMusic.index === list.index" src="../../../assets/wave.gif">
+            <span v-show="currentMusic.index !== item.index || list !== 'playlist'">{{index + 1}}</span>
+            <img v-show="currentMusic.index === item.index && list === 'playlist' " src="../../../assets/wave.gif">
           </span>
           <div class="music_name">
-            <span class="span_name">{{list.song.name}}</span>
+            <span class="span_name">{{item.song.name}}</span>
             <div class="hover_menu">
               <i class="icon-add"></i>
             </div>
           </div>
-          <span class="music_singer" v-if="list.singer">
-            <span>{{list.singer[0].name}}</span>
+          <span class="music_singer" v-if="item.singer">
+            <span>{{item.singer[0].name}}</span>
           </span>
-          <span class="music_album" v-if="list.album">
-            <span>{{list.album.name}}</span>
+          <span class="music_album" v-if="item.album">
+            <span>{{item.album.name}}</span>
           </span>
-          <span class="music_duration">{{list.song.time}}</span>
+          <span class="music_duration">{{item.song.time}}</span>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
 <script>
 export default {
   name: "Sheet",
-  props: ["list"],
+  props: ["list", "vendor", "id"],
   data() {
     return {};
   },
@@ -49,6 +49,9 @@ export default {
     },
     currentMusic: function() {
       return this.$store.getters.getCurrentMusic;
+    },
+    loading: function () {
+      return this.$store.getters.getSheetLoading;
     }
   },
   methods: {
@@ -91,6 +94,8 @@ export default {
         name: row.song.name,
         singer: row.singer
       });
+      if( this.$store.getters.getMusicSheetList.length > 0)
+        this.$store.commit("setMusicList", this.$store.getters.getMusicSheetList);
     }
   },
   mounted() {
