@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="music_progress" id="music_progress">
+    <div class="music_progress" ref="mp">
       <div class="music_current_detail">
         <span class="music_c_name">{{currentMusic.name ? currentMusic.name : '单击开始播放'}} - {{currentMusic.singer ? currentMusic.singer[0].name : '^v^'}}</span>
         <span class="music_c_time">{{time || "00:00"}}</span>
       </div>
       <div class="music_progress_bar">
-        <div class="duration" id="music_progressD" @click="clickProgress">
+        <div class="duration" ref="mpd" @click="clickProgress">
           <div class="buffering" :style="{width:`${buffered}%`}"></div>
           <div class="real" :style="{width: musicProgress}"></div>
         </div>
@@ -82,8 +82,8 @@
         let e = event || window.event;
         let x = e.clientX;
         let l = e.target.offsetLeft;
-        this.maxProgressWidth = document.getElementById('music_progressD').offsetWidth;
-        const moveProgress = document.getElementById('music_progress');
+        this.maxProgressWidth = this.$refs.mpd.offsetWidth;
+        const moveProgress = this.$refs.mp;
         moveProgress.onmousemove = (event) => {
           if (this.isDrag) {
             let e = event || window.event;
@@ -114,7 +114,7 @@
         const e = event || window.event;
         this.x = e.touches[0].clientX;
         this.l = e.target.offsetLeft;
-        this.maxProgressWidth = document.getElementById('music_progressD').offsetWidth
+        this.maxProgressWidth = this.$refs.mpd.offsetWidth
       },
       dragTouchMove(event) {
         if (this.isDrag) {
@@ -145,7 +145,7 @@
         const durationT = player.duration;
         const e = event || window.event;
         const l = e.offsetX;
-        const w = document.getElementById('music_progressD').offsetWidth;
+        const w = this.$refs.mpd.offsetWidth;
         player.currentTime = Math.floor(l / w * durationT);
       },
       setAudioEvents() {
