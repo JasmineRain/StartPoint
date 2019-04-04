@@ -103,7 +103,7 @@ const music = {
       let musicList = [];
       let params2 = {
         vendor: "netease",
-        idx: 1
+        idx: 3778678
       };
       api.reqToplistDetail(params2).then(function (answer) {
         answer.body.songs.forEach(function (item, index) {

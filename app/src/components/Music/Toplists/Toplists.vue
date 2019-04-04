@@ -99,18 +99,18 @@
     font-size: 12px;
   }
   .el-tabs__item:hover {
-    color: rgba(255, 255, 255, 0.8)!important;
+    color: rgba(255, 255, 255, 0.9)!important;
   }
   .el-tabs__item {
-    color: rgba(225, 225, 225, 0.6)!important;
+    color: rgba(225, 225, 225, 0.8)!important;
   }
   .el-tabs__item.is-active {
-    color: rgba(255, 255, 255, 0.8)!important;
+    color: rgba(255, 255, 255, 0.9)!important;
   }
   .el-tabs__active-bar {
     background-color: red!important;
   }
   .el-tabs__nav-wrap::after{
-    background-color: rgba(255, 255, 255, 0.6)!important;
+    background-color: rgba(255, 255, 255, 0.8)!important;
   }
 </style>
