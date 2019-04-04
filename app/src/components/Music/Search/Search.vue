@@ -1,22 +1,12 @@
 <template>
   <div class="search">
-    <el-input placeholder="search" v-model="input" class="input-with-select">
-      <!--<el-select v-model="select" slot="prepend" placeholder="type">-->
-        <!--<el-option label="单曲" value="song"></el-option>-->
-        <!--<el-option label="专辑" value="album"></el-option>-->
-        <!--<el-option label="歌单" value="songlist"></el-option>-->
-        <!--<el-option label="歌词" value="lyric"></el-option>-->
-        <!--<el-option label="MV" value="mv"></el-option>-->
-        <!--<el-option label="用户" value="user"></el-option>-->
-      <!--</el-select>-->
+    <el-input placeholder="搜索全平台" v-model="input" class="input-with-select">
       <el-button slot="append" icon="el-icon-search"></el-button>
     </el-input>
     <div class="result">
       <el-tabs v-model="activeName">
         <el-tab-pane class="item" label="单曲" name="song">
-          <div class="song">
-            <Sheet></Sheet>
-          </div>
+
         </el-tab-pane>
         <el-tab-pane class="item" label="歌手" name="singer">
 
@@ -49,7 +39,7 @@
     data() {
       return {
         input: '',
-        select: ''
+        activeName: 'song'
       }
     }
   }
@@ -63,15 +53,11 @@
     background-color: transparent !important;
     color: white !important;
   }
-  .el-tabs__nav-scroll {
-    display: flex;
-    justify-content: center;
-  }
   .el-tabs {
     height: 100%;
   }
   .el-tabs__content {
-    height: calc(100% - 60px);
+    height: calc(100% - 55px);
     overflow: scroll !important;
   }
   .search {
@@ -82,9 +68,5 @@
   .result {
     width: 100%;
     height: calc(100% - 40px);
-  }
-  .song {
-    width: 100%;
-    height: calc(100% - 60px);
   }
 </style>
