@@ -5,8 +5,8 @@
     </div>
     <div class="lyric-content" ref="lyricContent">
       <div class="lyric-wrapper" ref="lyricWrapper">
-        <p class="lrc-item" v-if="!lyric" >歌词获取中</p>
-        <p class="lrc-item" v-if="lyric" v-for="(item, key, index) in lyric" :class="lyricIndex === index + 1 ? `active` : ``">{{item}}</p>
+        <p class="lrc-item" ref="lyric" v-if="!lyric" >歌词获取中</p>
+        <p class="lrc-item" ref="lyric" v-if="lyric" v-for="(item, key, index) in lyric" :class="lyricIndex === index + 1 ? `active` : ``">{{item}}</p>
       </div>
     </div>
   </div>

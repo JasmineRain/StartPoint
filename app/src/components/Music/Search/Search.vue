@@ -6,25 +6,148 @@
     <div class="result">
       <el-tabs v-model="activeName">
         <el-tab-pane class="item" label="单曲" name="song">
-
+          <div class="info">
+            <div class="vendors">
+              <el-menu
+                  default-active="1"
+                  background-color="#545c64"
+                  text-color="#fff"
+                  active-text-color="#FF0000">
+                <el-menu-item index="1">
+                  <span slot="title">QQ</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <span slot="title">网易</span>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <span slot="title">虾米</span>
+                </el-menu-item>
+              </el-menu>
+            </div>
+            <div class="result_lists">
+              <SongCell></SongCell>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane class="item" label="歌手" name="singer">
-
+          <div class="info">
+            <div class="vendors">
+              <el-menu
+                  default-active="1"
+                  background-color="#545c64"
+                  text-color="#fff"
+                  active-text-color="#FF0000">
+                <el-menu-item index="1">
+                  <span slot="title">QQ</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <span slot="title">网易</span>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <span slot="title">虾米</span>
+                </el-menu-item>
+              </el-menu>
+            </div>
+            <div class="result_lists">
+              <SingerCell></SingerCell>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane class="item" label="专辑" name="album">
-
+          <div class="info">
+            <div class="vendors">
+              <el-menu
+                  default-active="1"
+                  background-color="#545c64"
+                  text-color="#fff"
+                  active-text-color="#FF0000">
+                <el-menu-item index="1">
+                  <span slot="title">QQ</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <span slot="title">网易</span>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <span slot="title">虾米</span>
+                </el-menu-item>
+              </el-menu>
+            </div>
+            <div class="result_lists">
+              <AlbumCell></AlbumCell>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane class="item" label="视频" name="video">
-
+          <div class="info">
+            <div class="vendors">
+              <el-menu
+                  default-active="1"
+                  background-color="#545c64"
+                  text-color="#fff"
+                  active-text-color="#FF0000">
+                <el-menu-item index="1">
+                  <span slot="title">QQ</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <span slot="title">网易</span>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <span slot="title">虾米</span>
+                </el-menu-item>
+              </el-menu>
+            </div>
+            <div class="result_lists">
+              <MvCell></MvCell>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane class="item" label="歌单" name="playlist">
-
-        </el-tab-pane>
-        <el-tab-pane class="item" label="歌词" name="lyric">
-
+          <div class="info">
+            <div class="vendors">
+              <el-menu
+                  default-active="1"
+                  background-color="#545c64"
+                  text-color="#fff"
+                  active-text-color="#FF0000">
+                <el-menu-item index="1">
+                  <span slot="title">QQ</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <span slot="title">网易</span>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <span slot="title">虾米</span>
+                </el-menu-item>
+              </el-menu>
+            </div>
+            <div class="result_lists">
+              <PlaylistCell></PlaylistCell>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane class="item" label="用户" name="user">
-
+          <div class="info">
+            <div class="vendors">
+              <el-menu
+                  default-active="1"
+                  background-color="#545c64"
+                  text-color="#fff"
+                  active-text-color="#FF0000">
+                <el-menu-item index="1">
+                  <span slot="title">QQ</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <span slot="title">网易</span>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <span slot="title">虾米</span>
+                </el-menu-item>
+              </el-menu>
+            </div>
+            <div class="result_lists">
+              <UserCell></UserCell>
+            </div>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -32,15 +155,22 @@
 </template>
 
 <script>
-  import Sheet from "../Sheet/Sheet";
+  import SongCell from "./Cell/songCell";
+  import SingerCell from "./Cell/singerCell";
+  import AlbumCell from "./Cell/albumCell";
+  import MvCell from "./Cell/mvCell";
+  import PlaylistCell from "./Cell/playlistCell";
+  import UserCell from "./Cell/userCell"
   export default {
     name: "Search",
-    components: {Sheet},
+    components: {SongCell, SingerCell, AlbumCell, MvCell, PlaylistCell, UserCell},
     data() {
       return {
         input: '',
         activeName: 'song'
       }
+    },
+    computed: {
     }
   }
 </script>
@@ -58,7 +188,12 @@
   }
   .el-tabs__content {
     height: calc(100% - 55px);
-    overflow: scroll !important;
+  }
+  .el-menu {
+    border-right: none !important;
+  }
+  .el-tab-pane {
+    height: 100%;
   }
   .search {
     width: 100%;
@@ -68,5 +203,21 @@
   .result {
     width: 100%;
     height: calc(100% - 40px);
+  }
+  .info {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;}
+  .vendors {
+    height: 100%;
+    width: 70px;
+    border-right: solid 1px rgba(125, 125, 125, 0.8);
+  }
+  .result_lists {
+    width: calc(100% - 70px);
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 </style>

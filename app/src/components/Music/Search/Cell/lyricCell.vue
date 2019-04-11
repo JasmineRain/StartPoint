@@ -1,5 +1,7 @@
 <template>
-  
+    <div>
+      aborted
+    </div>
 </template>
 
 <script>

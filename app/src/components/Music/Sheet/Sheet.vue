@@ -154,7 +154,6 @@ export default {
       text-overflow:ellipsis
       overflow:hidden
       white-space:nowrap
-      font-size:0
       position:relative
       vertical-align: middle;
       .span_name
@@ -179,11 +178,9 @@ export default {
           text-align:center
           border-radius:50%
           vertical-align:middle
-          border:2px solid $border_bottom_color_deep
           cursor:pointer
           &:hover
             color:$text_before_color
-            border:2px solid $text_before_color
     &.border-1px
       border-1px($border_bottom_color,bottom)
   .music_list_content

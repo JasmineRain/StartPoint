@@ -1,27 +1,31 @@
 <template>
-  <div class="lists">
-    <el-tabs v-model="activeName">
-      <el-tab-pane class="item" label="QQ音乐" name="qq">
-        <el-row class="container" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.1)" element-loading-text="loading">
-          <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" :key="item.id" class="list_item">
-            <div class="item_detail" :title="item.desc" @click="clickItem(item)">
-              <img :src="item.cover" alt="" style="width: 110px; height: 110px">
-            </div>
-          </el-col>
-        </el-row>
-      </el-tab-pane>
-      <el-tab-pane class="item" label="网易云音乐" name="netease">
-        <el-row class="container" v-loading="loading">
-          <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" :key="item.id" class="list_item">
-            <div class="item_detail" :title="item.desc" @click="clickItem(item)">
-              <img :src="item.cover" alt="" style="width: 110px; height: 110px">
-            </div>
-          </el-col>
-        </el-row>
-      </el-tab-pane>
-      <el-tab-pane class="item" label="虾米音乐" name="xiami">虾米音乐开发中</el-tab-pane>
-    </el-tabs>
-  </div>
+  <keep-alive>
+    <div class="lists">
+      <el-tabs v-model="activeName">
+        <el-tab-pane class="item" label="QQ音乐" name="qq">
+          <span v-if="loading" style="color: white">loading...</span>
+          <el-row class="container">
+            <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" :key="item.id" class="list_item">
+              <div class="item_detail" :title="item.desc" @click="clickItem(item)">
+                <img :src="item.cover" alt="" style="width: 110px; height: 110px">
+              </div>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane class="item" label="网易云音乐" name="netease">
+          <span v-if="loading" style="color: white">loading...</span>
+          <el-row class="container">
+            <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" :key="item.id" class="list_item">
+              <div class="item_detail" :title="item.desc" @click="clickItem(item)">
+                <img :src="item.cover" alt="" style="width: 110px; height: 110px">
+              </div>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane class="item" label="虾米音乐" name="xiami">虾米音乐开发中</el-tab-pane>
+      </el-tabs>
+    </div>
+  </keep-alive>
 </template>
 
 <script>
@@ -112,5 +116,8 @@
   }
   .el-tabs__nav-wrap::after{
     background-color: rgba(255, 255, 255, 0.8)!important;
+  }
+  #pane-qq, #pane-netease, #pane-xiami {
+    overflow: scroll;
   }
 </style>
