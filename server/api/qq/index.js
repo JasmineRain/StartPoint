@@ -133,7 +133,8 @@ const search = (req, res) => {
                 mv: {
                   name: mv.mv_name,
                   id: mv.mv_id,
-                  docid: mv.docid
+                  docid: mv.docid,
+                  cover: mv.mv_pic_url
                 },
                 singer: singers,
                 play: mv.play_count
@@ -156,7 +157,8 @@ const search = (req, res) => {
                   name: album.albumName,
                   id: album.albumID,
                   mid: album.albumMID,
-                  total: album.song_count
+                  total: album.song_count,
+                  cover:album.albumPic
                 },
                 singer: singers
               })
@@ -171,7 +173,8 @@ const search = (req, res) => {
                 mid: singer.singerMID,
                 album: singer.albumNum,
                 mv: singer.mvNum,
-                song: singer.songNum
+                song: singer.songNum,
+                avatar: singer.singerPic
               })
             });
             totalnum = data.singer.totalnum;

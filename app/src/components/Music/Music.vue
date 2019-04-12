@@ -3,7 +3,7 @@
     <el-row class="music_content">
 
       <!--小屏以上-->
-      <el-row class="music hidden-xs-only">
+      <el-row v-if="isHigher768" class="music">
 
         <el-row class="sheet">
           <el-col :span="16" class="list">
@@ -31,7 +31,7 @@
       </el-row>
 
       <!--小屏-->
-      <el-row class="music_m hidden-sm-and-up">
+      <el-row v-if="!isHigher768" class="music_m">
 
         <el-row class="sheet">
           <FuncPanel></FuncPanel>
@@ -77,6 +77,11 @@
     },
     mounted() {
       this.$store.dispatch("getRecmList");
+    },
+    computed: {
+      isHigher768: function () {
+        return this.$store.getters.getClientWid >= 768
+      }
     }
   };
 </script>

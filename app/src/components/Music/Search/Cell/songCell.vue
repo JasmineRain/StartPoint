@@ -1,11 +1,11 @@
 <template>
   <div class="song_cell">
     <div class="song_text">
-      <div class="song_name">
-        霜雪千年
+      <div class="song_name" :title="song.name">
+        {{song.name}}
       </div>
-      <div class="song_singer">
-        双笙 - 霜雪千年
+      <div class="song_singer" :title="song.name">
+        {{singer[0].name + ' - ' + album.name}}
       </div>
     </div>
     <div class="song_icon">
@@ -19,8 +19,10 @@
   export default {
     name: "songCell",
     props: {
-      song: Object
-    },
+      song: Object,
+      singer: Array,
+      album: Object
+    }
   }
 </script>
 
@@ -39,6 +41,7 @@
     -moz-box-sizing: border-box;
   }
   .song_text {
+    width: calc(100% - 70px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -55,9 +58,17 @@
   }
   .song_name {
     font-size: 15px;
+    width: calc(100% - 10px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .song_singer {
     font-size: 12px;
+    width: calc(100% - 10px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   i {
     padding: 5px;

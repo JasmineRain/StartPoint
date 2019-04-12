@@ -1,11 +1,11 @@
 <template>
   <div class="singer_cell">
     <div class="singer_avatar">
-      <img style="width: 100%; height: 100%; border-radius: 50%" src="../../../../assets/test.jpg" alt="/src/assets/test.jpg">
+      <img style="width: 100%; height: 100%; border-radius: 50%" :src="avatar" alt="../../../../assets/test.jpg">
     </div>
     <div class="singer_name">
       <span>
-        双笙
+        {{name}}
       </span>
     </div>
   </div>
@@ -15,7 +15,9 @@
   export default {
     name: "singerCell",
     props: {
-      singer: Object
+      name: String,
+      album: Number,
+      avatar: String
     }
   }
 </script>

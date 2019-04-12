@@ -1,14 +1,14 @@
 <template>
   <div class="album_cell">
     <div class="album_cover">
-      <img style="width: 100%; height: 100%; border-radius: 5px" src="../../../../assets/test.jpg" alt="">
+      <img style="width: 100%; height: 100%; border-radius: 5px" :src="album.cover" alt="../../../../assets/test.jpg">
     </div>
     <div class="album_info">
       <div class="album_name">
-        故梦
+        {{album.name}}
       </div>
       <div class="album_author">
-        双笙
+        {{singer[0].name}}
       </div>
     </div>
   </div>
@@ -18,7 +18,8 @@
   export default {
     name: "albumCell",
     props: {
-      album: Object
+      album: Object,
+      singer: Array
     }
   }
 </script>
@@ -36,6 +37,7 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
   }
   .album_cover {
     width: 50px;

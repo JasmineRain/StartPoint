@@ -1,31 +1,35 @@
 <template>
   <div class="search">
     <el-input placeholder="搜索全平台" v-model="input" class="input-with-select">
-      <el-button slot="append" icon="el-icon-search"></el-button>
+      <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
     </el-input>
     <div class="result">
-      <el-tabs v-model="activeName">
+      <el-tabs v-model="type" @tab-click="clickTab">
         <el-tab-pane class="item" label="单曲" name="song">
           <div class="info">
             <div class="vendors">
               <el-menu
-                  default-active="1"
+                  default-active="netease"
                   background-color="#545c64"
                   text-color="#fff"
-                  active-text-color="#FF0000">
-                <el-menu-item index="1">
+                  active-text-color="#FF0000"
+                  @select="selectTab">
+                <el-menu-item index="qq">
                   <span slot="title">QQ</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="netease">
                   <span slot="title">网易</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="xiami">
                   <span slot="title">虾米</span>
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists">
-              <SongCell></SongCell>
+            <div class="result_lists" v-loading="loading['song'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
+              <span style="color: white" v-show="loading['song']">input to search</span>
+              <div v-if="!loading['song']">
+                <SongCell v-for="item in result['song'][vendor].list" :key="item.id" v-bind="item"></SongCell>
+              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -33,23 +37,27 @@
           <div class="info">
             <div class="vendors">
               <el-menu
-                  default-active="1"
+                  default-active="netease"
                   background-color="#545c64"
                   text-color="#fff"
-                  active-text-color="#FF0000">
-                <el-menu-item index="1">
+                  active-text-color="#FF0000"
+                  @select="selectTab">
+                <el-menu-item index="qq">
                   <span slot="title">QQ</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="netease">
                   <span slot="title">网易</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="xiami">
                   <span slot="title">虾米</span>
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists">
-              <SingerCell></SingerCell>
+            <div class="result_lists" v-loading="loading['singer'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
+              <span style="color: white" v-show="loading['singer']">input to search</span>
+              <div v-if="!loading['singer']">
+                <SingerCell v-for="item in result['singer'][vendor].list" :key="item.id" v-bind="item"></SingerCell>
+              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -57,47 +65,55 @@
           <div class="info">
             <div class="vendors">
               <el-menu
-                  default-active="1"
+                  default-active="netease"
                   background-color="#545c64"
                   text-color="#fff"
-                  active-text-color="#FF0000">
-                <el-menu-item index="1">
+                  active-text-color="#FF0000"
+                  @select="selectTab">
+                <el-menu-item index="qq">
                   <span slot="title">QQ</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="netease">
                   <span slot="title">网易</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="xiami">
                   <span slot="title">虾米</span>
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists">
-              <AlbumCell></AlbumCell>
+            <div class="result_lists" v-loading="loading['album']" element-loading-background="rgba(0, 0, 0, 0.1)">
+              <span style="color: white" v-show="loading['album']">input to search</span>
+              <div v-if="!loading['album']">
+                <AlbumCell v-for="item in result['album'][vendor].list" :key="item.id" v-bind="item"></AlbumCell>
+              </div>
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane class="item" label="视频" name="video">
+        <el-tab-pane class="item" label="视频" name="mv">
           <div class="info">
             <div class="vendors">
               <el-menu
-                  default-active="1"
+                  default-active="netease"
                   background-color="#545c64"
                   text-color="#fff"
-                  active-text-color="#FF0000">
-                <el-menu-item index="1">
+                  active-text-color="#FF0000"
+                  @select="selectTab">
+                <el-menu-item index="qq">
                   <span slot="title">QQ</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="netease">
                   <span slot="title">网易</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="xiami">
                   <span slot="title">虾米</span>
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists">
-              <MvCell></MvCell>
+            <div class="result_lists" v-loading="loading['mv']" element-loading-background="rgba(0, 0, 0, 0.1)">
+              <span style="color: white" v-show="loading['mv']">input to search</span>
+              <div v-if="!loading['mv']">
+                <MvCell v-for="item in result['mv'][vendor].list" :key="item.id" v-bind="item"></MvCell>
+              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -105,23 +121,27 @@
           <div class="info">
             <div class="vendors">
               <el-menu
-                  default-active="1"
+                  default-active="netease"
                   background-color="#545c64"
                   text-color="#fff"
-                  active-text-color="#FF0000">
-                <el-menu-item index="1">
+                  active-text-color="#FF0000"
+                  @select="selectTab">
+                <el-menu-item index="qq" disabled>
                   <span slot="title">QQ</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="netease">
                   <span slot="title">网易</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="xiami">
                   <span slot="title">虾米</span>
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists">
-              <PlaylistCell></PlaylistCell>
+            <div class="result_lists" v-loading="loading['playlist']" element-loading-background="rgba(0, 0, 0, 0.1)">
+              <span style="color: white" v-show="loading['playlist']">input to search</span>
+              <div v-if="!loading['playlist']">
+                <PlaylistCell v-for="item in result['playlist'][vendor].list" :key="item.id" v-bind="item"></PlaylistCell>
+              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -129,23 +149,27 @@
           <div class="info">
             <div class="vendors">
               <el-menu
-                  default-active="1"
+                  default-active="netease"
                   background-color="#545c64"
                   text-color="#fff"
-                  active-text-color="#FF0000">
-                <el-menu-item index="1">
+                  active-text-color="#FF0000"
+                  @select="selectTab">
+                <el-menu-item index="qq">
                   <span slot="title">QQ</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="netease">
                   <span slot="title">网易</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="xiami">
                   <span slot="title">虾米</span>
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists">
-              <UserCell></UserCell>
+            <div class="result_lists" v-loading="loading['user']" element-loading-background="rgba(0, 0, 0, 0.1)">
+              <span style="color: white" v-show="loading['user']">input to search</span>
+              <div v-if="!loading['user']">
+                <UserCell v-for="item in result['user'][vendor].list" :key="item.id" v-bind="item"></UserCell>
+              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -167,10 +191,43 @@
     data() {
       return {
         input: '',
-        activeName: 'song'
+        type: 'song',
+        vendor: 'netease',
+        searching: false
       }
     },
     computed: {
+      loading: function () {
+        return this.$store.getters.getSearchLoading;
+      },
+      result: function () {
+        return this.$store.getters.getSearchList;
+      }
+    },
+    methods: {
+      search: function () {
+        if(this.input !== '') {
+          this.$store.dispatch("getSearchResult", {t: this.type, keywords: this.input});
+          this.searching = true;
+        }
+        else {
+          this.$message({
+            message: '搜索内容不可为空',
+            type: 'warning'
+          })
+        }
+      },
+      clickTab: function () {
+        if(this.input !== ''){
+          this.search();
+        }
+      },
+      selectTab: function (key) {
+        this.vendor = key;
+      }
+    },
+    mounted() {
+
     }
   }
 </script>

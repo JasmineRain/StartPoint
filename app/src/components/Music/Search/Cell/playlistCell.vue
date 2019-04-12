@@ -1,14 +1,14 @@
 <template>
   <div class="playlist_cell">
     <div class="playlist_cover">
-      <img style="width: 100%; height: 100%" src="../../../../assets/test.jpg" alt="">
+      <img style="width: 100%; height: 100%" :src="playlist.cover" alt="../../../../assets/test.jpg">
     </div>
     <div class="playlist_info">
       <div class="playlist_name">
-        故梦
+        {{playlist.name}}
       </div>
       <div class="playlist_author">
-        双笙
+        {{creator.name + " - " + parseInt(playlist.play/1000) + " K播放"}}
       </div>
     </div>
   </div>
@@ -18,7 +18,8 @@
   export default {
     name: "playlistCell",
     props: {
-      playlist: Object
+      playlist: Object,
+      creator: Object
     }
   }
 </script>
@@ -36,6 +37,7 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
   }
   .playlist_cover {
     width: 50px;

@@ -88,13 +88,13 @@ const music = {
       state.musicSheetList = payload;
     },
     setSearchList(state, payload) {
-      state.searchList = payload;
+      state.searchList[payload.type] = payload.result;
     },
     setLikeList(state, payload) {
       state.likeList = payload;
     },
     setToplists(state, payload) {
-      state.toplists = payload;
+      state.toplists[payload.vendor] = payload.list;
     }
   },
   actions: {
@@ -156,19 +156,21 @@ const music = {
       })
     },
 
-    getToplists(context) {
-      let params1 = {vendor:"qq"};
-      let params2 = {vendor:"netease"};
-      let p1 = api.reqToplists(params1);
-      let p2 = api.reqToplists(params2);
+    getToplists(context, params) {
       context.commit("setToplistsLoading", true);
-      Promise.all([p1, p2]).then(values => {
-        let list = {};
-        values.forEach(function (value) {
-          list[value.vendor] = value.body.list;
-        });
-        context.commit("setToplists", list);
+      api.reqToplists(params).then(function (answer) {
+        context.commit("setToplists", {vendor: answer.vendor, list: answer.body.list});
         context.commit("setToplistsLoading", false);
+      })
+    },
+
+    getSearchResult(context, params) {
+      context.commit("setSearchLoading", true);
+      api.reqSearch(params).then(function (answer) {
+        context.commit("setSearchList", {type: params.t, result: answer.body});
+        let payload = {};
+        payload[params.t] = false;
+        context.commit("setSearchLoading", payload);
       })
     },
 
@@ -206,6 +208,7 @@ const music = {
       context.dispatch("getMusicCover", params.coverParams);
       context.dispatch("getMusicLyric", params.lyricParams);
     },
+
     playPrevious(context, params) {
       context.dispatch("getMusicUrl", params.urlParams);
       context.dispatch("getMusicCover", params.coverParams);

@@ -1,14 +1,14 @@
 <template>
   <div class="mv_cell">
     <div class="mv_cover">
-      <img style="width: 100%; height: 100%;" src="../../../../assets/test.jpg" alt="">
+      <img style="width: 100%; height: 100%;" :src="mv.cover" alt="../../../../assets/test.jpg">
     </div>
     <div class="mv_info">
-      <div class="mv_name">
-        风缘
+      <div class="mv_name" :title="mv.name">
+        {{mv.name}}
       </div>
-      <div class="mv_desc">
-        双笙
+      <div class="mv_desc" :title="singer[0].name + ' - ' + parseInt(play/10000) + ' 万次播放'">
+        {{singer[0].name + " - " + parseInt(play/1000) + " K播放"}}
       </div>
     </div>
   </div>
@@ -18,7 +18,9 @@
   export default {
     name: "mvCell",
     props: {
-      mv: Object
+      mv: Object,
+      singer: Array,
+      play: Number
     }
   }
 </script>
@@ -37,12 +39,14 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    cursor: pointer;
   }
   .mv_cover {
     width: 50px;
     height: 50px;
   }
   .mv_info {
+    width: calc(100% - 70px);
     height: 50px;
     display: flex;
     flex-direction: column;
@@ -54,8 +58,16 @@
   }
   .mv_name {
     font-size: 15px;
+    width: calc(100% - 10px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .mv_desc {
     font-size: 12px;
+    width: calc(100% - 10px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 </style>

@@ -1,9 +1,8 @@
 <template>
   <keep-alive>
     <div class="lists">
-      <el-tabs v-model="activeName">
-        <el-tab-pane class="item" label="QQ音乐" name="qq">
-          <span v-if="loading" style="color: white">loading...</span>
+      <el-tabs v-model="activeName" @tab-click="clickTab">
+        <el-tab-pane v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.1)" class="item" label="QQ音乐" name="qq">
           <el-row class="container">
             <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" :key="item.id" class="list_item">
               <div class="item_detail" :title="item.desc" @click="clickItem(item)">
@@ -12,8 +11,7 @@
             </el-col>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane class="item" label="网易云音乐" name="netease">
-          <span v-if="loading" style="color: white">loading...</span>
+        <el-tab-pane v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.1)" class="item" label="网易云音乐" name="netease">
           <el-row class="container">
             <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[activeName]" :key="item.id" class="list_item">
               <div class="item_detail" :title="item.desc" @click="clickItem(item)">
@@ -22,7 +20,7 @@
             </el-col>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane class="item" label="虾米音乐" name="xiami">虾米音乐开发中</el-tab-pane>
+        <el-tab-pane disabled class="item" label="虾米音乐" name="xiami">虾米音乐开发中</el-tab-pane>
       </el-tabs>
     </div>
   </keep-alive>
@@ -46,9 +44,6 @@
     },
 
     methods: {
-      getToplists: function () {
-        this.$store.dispatch("getToplists")
-      },
       clickItem(item) {
         this.$router.push(`/music/sheet/toplist/${this.activeName}/${item.id}`);
         let params = {
@@ -57,10 +52,15 @@
           update_key: item.update_key
         };
         this.$store.dispatch("getToplistDetail", params)
+      },
+      clickTab(tab) {
+        if(!this.lists[tab.name]){
+          this.$store.dispatch("getToplists", {vendor: tab.name});
+        }
       }
     },
     mounted() {
-      this.getToplists();
+      this.$store.dispatch("getToplists", {vendor: "qq"});
     }
   }
 </script>

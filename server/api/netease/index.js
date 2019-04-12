@@ -127,7 +127,8 @@ const search = (req, res) => {
                 mv: {
                   name: mv.name,
                   id: mv.id,
-                  duration: Math.round((mv.duration) / 1000)
+                  duration: Math.round((mv.duration) / 1000),
+                  cover: mv.cover
                 },
                 singer: singers,
                 play: mv.playCount
@@ -147,7 +148,8 @@ const search = (req, res) => {
               list.push({
                 album: {
                   name: album.name,
-                  id: album.id
+                  id: album.id,
+                  cover: album.picUrl
                 },
                 singer: singers
               })
@@ -160,7 +162,8 @@ const search = (req, res) => {
                 name: singer.name,
                 id: singer.id,
                 album: singer.albumSize,
-                mv: singer.mvSize
+                mv: singer.mvSize,
+                avatar: singer.picUrl
               })
             });
             totalnum = result.artistCount;
