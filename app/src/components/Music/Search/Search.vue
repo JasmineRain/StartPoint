@@ -81,7 +81,7 @@
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists" v-loading="loading['album']" element-loading-background="rgba(0, 0, 0, 0.1)">
+            <div class="result_lists" v-loading="loading['album'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
               <span style="color: white" v-show="loading['album']">input to search</span>
               <div v-if="!loading['album']">
                 <AlbumCell v-for="item in result['album'][vendor].list" :key="item.id" v-bind="item"></AlbumCell>
@@ -109,7 +109,7 @@
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists" v-loading="loading['mv']" element-loading-background="rgba(0, 0, 0, 0.1)">
+            <div class="result_lists" v-loading="loading['mv'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
               <span style="color: white" v-show="loading['mv']">input to search</span>
               <div v-if="!loading['mv']">
                 <MvCell v-for="item in result['mv'][vendor].list" :key="item.id" v-bind="item"></MvCell>
@@ -126,7 +126,7 @@
                   text-color="#fff"
                   active-text-color="#FF0000"
                   @select="selectTab">
-                <el-menu-item index="qq" disabled>
+                <el-menu-item index="qq">
                   <span slot="title">QQ</span>
                 </el-menu-item>
                 <el-menu-item index="netease">
@@ -137,7 +137,7 @@
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists" v-loading="loading['playlist']" element-loading-background="rgba(0, 0, 0, 0.1)">
+            <div class="result_lists" v-loading="loading['playlist'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
               <span style="color: white" v-show="loading['playlist']">input to search</span>
               <div v-if="!loading['playlist']">
                 <PlaylistCell v-for="item in result['playlist'][vendor].list" :key="item.id" v-bind="item"></PlaylistCell>
@@ -165,7 +165,7 @@
                 </el-menu-item>
               </el-menu>
             </div>
-            <div class="result_lists" v-loading="loading['user']" element-loading-background="rgba(0, 0, 0, 0.1)">
+            <div class="result_lists" v-loading="loading['user'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
               <span style="color: white" v-show="loading['user']">input to search</span>
               <div v-if="!loading['user']">
                 <UserCell v-for="item in result['user'][vendor].list" :key="item.id" v-bind="item"></UserCell>

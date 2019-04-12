@@ -190,6 +190,22 @@ const search = (req, res) => {
             });
             totalnum = data.user.totalnum;
             break;
+          case 'playlist':
+            data.list.forEach(function (playlist) {
+              list.push({
+                playlist: {
+                  name: playlist.dissname,
+                  id: playlist.dissid,
+                  play: playlist.listennum,
+                  cover: playlist.imgurl
+                },
+                creator: {
+                  id: playlist.creator.creator_uin,
+                  name: playlist.creator.name
+                }
+              })
+            });
+            break;
           default:
             list = data;
             break;

@@ -47,9 +47,32 @@ module.exports = (query, request) => {
     needNewCode: 0
   };
 
+  const params3 = {
+    remoteplace: "txt.yqq.playlist",
+    searchid: 112190820775144527,
+    flag_qc: 0,
+    page_no: (query.p - 1) || 0,
+    num_per_page: query.n || 30,
+    query: query.keywords,
+    g_tk: 1006873148,
+    loginUin: 0,
+    hostUin: 0,
+    format: "json",
+    inCharset: "utf8",
+    outCharset: "utf-8",
+    notice: 0,
+    platform: "yqq.json",
+    needNewCode: 0,
+  };
+
   if(query.t === 'user')
     return request(
       'GET', `https://c.y.qq.com/soso/fcgi-bin/client_search_user`, params2, {},
+      {cookie: query.cookie, proxy: query.proxy}
+    );
+  else if(query.t === 'playlist')
+    return request(
+      'GET', `https://c.y.qq.com/soso/fcgi-bin/client_music_search_songlist`, params3, {},
       {cookie: query.cookie, proxy: query.proxy}
     );
   else
