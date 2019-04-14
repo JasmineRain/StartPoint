@@ -18,7 +18,7 @@
         </el-row>
 
       </el-row>
-      <el-row class="panel hidden-xs-only">
+      <el-row v-if="isHigher768" class="panel hidden-xs-only">
         <el-col :md="4" :lg="4" :sm="4" :xs="24">
           <PlayerCtrl></PlayerCtrl>
         </el-col>
@@ -41,7 +41,7 @@
         </el-row>
 
       </el-row>
-      <el-row class="panel_m hidden-sm-and-up">
+      <el-row v-if="!isHigher768" class="panel_m hidden-sm-and-up">
         <el-col :span="24">
           <PlayerCtrl></PlayerCtrl>
         </el-col>

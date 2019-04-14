@@ -11,7 +11,9 @@ const global = {
       mv: true,
       playlist: true,
       user: true
-    }
+    },
+    loadingTopPlaylists: false,
+    loadingHotCategories: false
   },
   mutations: {
     setGlobal(state, info) {
@@ -28,6 +30,12 @@ const global = {
     },
     setSearchLoading(state, payload) {
       state.loadingSearch = {...state.loadingSearch, ...payload}
+    },
+    setTopPlaylistsLoading(state, payload) {
+      state.loadingTopPlaylists = payload;
+    },
+    setHotCategoriesLoading(state, payload) {
+      state.loadingHotCategories = payload
     }
   },
   getters: {
@@ -35,7 +43,9 @@ const global = {
     getSheetLoading: state => state.loadingSheet,
     getBGLoading: state => state.loadingBG,
     getToplistsLoading: state => state.loadingToplists,
-    getSearchLoading: state => state.loadingSearch
+    getSearchLoading: state => state.loadingSearch,
+    getTopPlaylistsLoading: state => state.loadingTopPlaylists,
+    getHotCategoriesLoading: state => state.loadingHotCategories
   },
 
 };

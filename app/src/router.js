@@ -4,9 +4,10 @@ import Home from "./components/Home/Home";
 import Functions from "./components/Functions/Functions";
 import Calendar from "./components/Functions/Calendar/Calendar";
 import Music from "./components/Music/Music";
-import Sheet from "./components/Music/Sheet/Sheet"
-import Search from "./components/Music/Search/Search"
-import Toplists from "./components/Music/Toplists/Toplists"
+import Sheet from "./components/Music/Sheet/Sheet";
+import Search from "./components/Music/Search/Search";
+import Toplists from "./components/Music/Toplists/Toplists";
+import TopPlaylists from "./components/Music/TopPlaylists/TopPlaylists";
 
 Vue.use(Router);
 
@@ -56,6 +57,10 @@ export default new Router({
         {
           path: "toplists",
           component: Toplists
+        },
+        {
+          path: "topplaylists",
+          component: TopPlaylists
         }
       ]
     }

@@ -13,7 +13,7 @@ const api = {
   PATH_TOPLIST_DETAIL: "/music/toplist",
   PATH_USER_PLAYLISTS: "/music/userplaylists",
   PATH_HOT_CATEGORIES: "/music/hotcategories",
-  PATH_HOT_PLAYLISTS: "/muisc/topplaylists",
+  PATH_HOT_PLAYLISTS: "/music/topplaylists",
 
   reqSongUrl(params) {
     return new Promise((resolve, reject) => {
@@ -175,7 +175,7 @@ const api = {
     })
   },
 
-  reqHotPlaylists(params) {
+  reqTopPlaylists(params) {
     return new Promise((resolve, reject) => {
       axios({
         method: 'get',

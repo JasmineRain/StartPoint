@@ -27,7 +27,9 @@ const music = {
     musicSheetList: [],  //音乐显示列表，用于Sheet组件
     searchList: {},
     likeList: [],
-    toplists: {}         //排行榜
+    toplists: {},         //排行榜
+    topplaylists: [],     //歌单推荐
+    hotcategories: {},    //热门歌单分类
   },
   getters: {
     getCurrentMusic: state => state.currentMusic,
@@ -44,8 +46,10 @@ const music = {
     getMusicList: state => state.musicList,
     getMusicSheetList: state => state.musicSheetList,
     getSearchList: state => state.searchList,
-    getLikeLikst: state => state.likeList,
-    getToplists: state => state.toplists
+    getLikeList: state => state.likeList,
+    getToplists: state => state.toplists,
+    getTopPlaylists: state => state.topplaylists,
+    getHotCategories: state => state.hotcategories
   },
   mutations: {
     setCurrentMusic(state, payload) {
@@ -95,6 +99,12 @@ const music = {
     },
     setToplists(state, payload) {
       state.toplists[payload.vendor] = payload.list;
+    },
+    setTopPlaylists(state, payload) {
+      state.topplaylists = payload;
+    },
+    setHotCategories(state, payload) {
+      state.hotcategories[payload.vendor] = payload.list;
     }
   },
   actions: {
@@ -201,6 +211,23 @@ const music = {
         context.commit("setMusicSheetList", musicList);
         context.commit("setSheetLoading", false);
       })
+    },
+
+    getHotCategories(context, params) {
+      context.commit("setHotCategoriesLoading", true);
+      api.reqHotCategories(params).then(function (answer) {
+        context.commit("setHotCategories", {vendor: answer.vendor, list: answer.body.category});
+        context.commit("setHotCategoriesLoading", false);
+        context.dispatch("getTopPlaylists", {vendor: "qq"});
+      });
+    },
+
+    getTopPlaylists(context, params) {
+      context.commit("setTopPlaylistsLoading", true);
+      api.reqTopPlaylists(params).then(function (answer) {
+        context.commit("setTopPlaylists", answer.body.lists);
+        context.commit("setTopPlaylistsLoading", false);
+      });
     },
 
     playNext(context, params) {

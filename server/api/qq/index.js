@@ -490,7 +490,7 @@ const getUserPlaylists = (req, res) => {
 
         answer.body = {
           creator,
-          lists
+          lists: categories
         };
         resolve(answer);
       } else {
@@ -579,7 +579,7 @@ const getTopPlaylists = (req, res) =>{
           })
         }
         answer.body = {
-          lists
+          lists: lists
         };
         resolve(answer);
       } else {

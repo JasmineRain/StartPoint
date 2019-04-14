@@ -26,20 +26,6 @@ module.exports = {
           "/cityAPI/": "/"
         }
       },
-      "/QQMusicAPI/*": {
-        target: "https://c.y.qq.com",
-        changeOrigin: true,
-        pathRewrite: {
-          "/QQMusicAPI/": "/"
-        }
-      },
-      "/QQMusicLrc/*": {
-        target: "https://api.darlin.me",
-        changeOrigin: true,
-        pathRewrite: {
-          "/QQMusicLrc/": "/"
-        }
-      }
     }
   }
 };
