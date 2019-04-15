@@ -14,7 +14,7 @@ module.exports = (query, request) => {
     notice: 0,
     platform: "yqq.json",
     needNewCode: 0,
-    data: `{"comm":{"ct":24},"recomPlaylist":{"method":"get_hot_recommend","param":{"async":1,"cmd":2},"module":"playlist.HotRecommendServer"},"playlist":{"method":"get_playlist_by_category","param":{"id":${query.id || 3090},"curPage":${query.p||1},"size":${query.n||30},"order":5,"titleid":${query.id || 3090}},"module":"playlist.PlayListPlazaServer"}}`
+    data: `{"comm":{"ct":24},"recomPlaylist":{"method":"get_hot_recommend","param":{"async":1,"cmd":2},"module":"playlist.HotRecommendServer"},"playlist":{"method":"get_playlist_by_category","param":{"id":${query.id || 3090},"curPage":${query.p||1},"size":${query.n||50},"order":5,"titleid":${query.id || 3090}},"module":"playlist.PlayListPlazaServer"}}`
   };
   return request(
     'GET', `https://u.y.qq.com/cgi-bin/musicu.fcg`, params, {},

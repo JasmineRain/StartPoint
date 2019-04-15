@@ -9,7 +9,7 @@ const dictionary = {
 module.exports = (query, request) => {
   const params1 = {
     p: query.p || 1,                 //当前页
-    n: query.n || 30,                //每页数量
+    n: query.n || 100,                //每页数量
     t: dictionary[query.t] || 0,     //0-单曲  7-歌词  8-专辑  9-歌手  12-MV
     w: query.keywords,               //关键词
     g_tk: 5381,
@@ -32,7 +32,7 @@ module.exports = (query, request) => {
     ct: 24,
     qqmusic_ver: 1298,
     p: query.p || 1,
-    n: query.n || 30,
+    n: query.n || 100,
     searchid: 244824388723350711,
     remoteplace: "txt.yqq.user",
     w: query.keywords,
@@ -49,10 +49,10 @@ module.exports = (query, request) => {
 
   const params3 = {
     remoteplace: "txt.yqq.playlist",
-    searchid: 112190820775144527,
+    searchid: 121602408361223452,
     flag_qc: 0,
     page_no: (query.p - 1) || 0,
-    num_per_page: query.n || 30,
+    num_per_page: query.n || 50,
     query: query.keywords,
     g_tk: 1006873148,
     loginUin: 0,
@@ -73,7 +73,7 @@ module.exports = (query, request) => {
   else if(query.t === 'playlist')
     return request(
       'GET', `https://c.y.qq.com/soso/fcgi-bin/client_music_search_songlist`, params3, {},
-      {cookie: query.cookie, proxy: query.proxy}
+      {cookie: query.cookie, proxy: query.proxy, refer: 'https://y.qq.com/portal/search.html'}
     );
   else
     return request(

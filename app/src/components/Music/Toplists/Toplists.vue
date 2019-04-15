@@ -13,7 +13,7 @@
         </el-tab-pane>
         <el-tab-pane v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.1)" class="item" label="网易云音乐" name="netease">
           <el-row class="container">
-            <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists[vendor]" :key="item.id" class="list_item">
+            <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item) in lists[vendor]" :key="item.id" class="list_item">
               <div class="item_detail" :title="item.desc" @click="clickItem(item)">
                 <img :src="item.cover" alt="" style="width: 110px; height: 110px">
               </div>
@@ -53,7 +53,8 @@
           idx: item.id,
           update_key: item.update_key
         };
-        this.$store.dispatch("getToplistDetail", params)
+        this.$store.dispatch("getToplistDetail", params);
+        this.$router.push(`/music/sheet/toplist/${this.vendor}/${item.id}`);
       },
       clickTab(tab) {
         if(!this.categories[tab.name]){

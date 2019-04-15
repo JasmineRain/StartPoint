@@ -16,8 +16,8 @@ module.exports = (query, request) => {
     const data = {
         s: query.keywords,
         type: dictionary[query.t] || 1,
-        limit: query.n || 30,
-        offset: (query.p - 1)*(query.n || 30) || 0
+        limit: query.n || 100,
+        offset: (query.p - 1)*(query.n || 100) || 0
     };
     return request(
         'POST', `https://music.163.com/weapi/search/get`, data,

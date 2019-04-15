@@ -230,6 +230,64 @@ const music = {
       });
     },
 
+    getPlaylistDetail(context, params) {
+      context.commit("setSheetLoading", true);
+      api.reqPlaylistDetail(params).then(function (answer) {
+        let musicList = [];
+        answer.body.songs.forEach(function (item, index) {
+          musicList.push({
+            song: {
+              name: item.song.name,
+              id: item.song.id,
+              mid: item.song.mid,
+              duration: item.song.duration,
+              time: musicUtil.formatDuration(item.song.duration)
+            },
+            singer: item.singer,
+            album: {
+              name: item.album.name,
+              id: item.album.id,
+              mid: item.album.mid,
+              desc: item.album.desc
+            },
+            vendor: answer.vendor,
+            index: index
+          });
+        });
+        context.commit("setMusicSheetList", musicList);
+        context.commit("setSheetLoading", false);
+      })
+    },
+
+    getAlbumDetail(context, params) {
+      context.commit("setSheetLoading", true);
+      api.reqAlbumDetail(params).then(function (answer) {
+        let musicList = [];
+        answer.body.songs.forEach(function (item, index) {
+          musicList.push({
+            song: {
+              name: item.name,
+              id: item.id,
+              mid: item.mid,
+              duration: item.duration,
+              time: musicUtil.formatDuration(item.duration)
+            },
+            singer: [answer.body.singer],
+            album: {
+              name: answer.body.album.name,
+              id: answer.body.album.id,
+              mid: answer.body.album.mid,
+              desc: answer.body.album.desc
+            },
+            vendor: answer.vendor,
+            index: index
+          })
+        });
+        context.commit("setMusicSheetList", musicList);
+        context.commit("setSheetLoading", false);
+      });
+    },
+
     playNext(context, params) {
       context.dispatch("getMusicUrl", params.urlParams);
       context.dispatch("getMusicCover", params.coverParams);

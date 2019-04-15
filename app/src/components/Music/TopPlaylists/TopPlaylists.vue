@@ -20,8 +20,8 @@
           </div>
           <div class="cat_result" v-loading="loading_list" element-loading-background="rgba(0, 0, 0, 0.5)">
             <el-row class="container">
-              <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists" :key="item.id" class="list_item">
-                <div class="playlist_item" :title="parseInt(item.list.play/1000) + 'K播放 ' + item.list.name">
+              <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="item in lists" :key="item.list.id" class="list_item">
+                <div class="playlist_item" :title="parseInt(item.list.play/1000) + 'K播放 ' + item.list.name" @click="clickItem(item)">
                   <img :title="parseInt(item.list.play/1000) + 'K播放 ' + item.list.name" :src="item.list.cover" alt="" style="width: 100px; height: 100px">
                 </div>
               </el-col>
@@ -48,8 +48,8 @@
           </div>
           <div class="cat_result" v-loading="loading_list" element-loading-background="rgba(0, 0, 0, 0.5)">
             <el-row class="container">
-              <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item, index) in lists" :key="item.id" class="list_item">
-                <div class="playlist_item" :title="parseInt(item.list.play/1000) + 'K播放 ' + item.list.name">
+              <el-col :xs="12" :sm="8" :md="6" :lg="6" v-for="item in lists" :key="item.list.id" class="list_item">
+                <div class="playlist_item" :title="parseInt(item.list.play/1000) + 'K播放 ' + item.list.name" @click="clickItem(item)">
                   <img :title="parseInt(item.list.play/1000) + 'K播放 ' + item.list.name" :src="item.list.cover" alt="" style="width: 100px; height: 100px">
                 </div>
               </el-col>
@@ -95,8 +95,15 @@
         }
       },
       clickMenu: function (key) {
-        //this.$store.dispatch("getTopPlaylists", {vendor: this.vendor, id: key});
         this.params.id = key;
+      },
+      clickItem: function (item) {
+        let p = {
+          vendor: this.params.vendor,
+          id: item.list.id
+        };
+        this.$store.dispatch("getPlaylistDetail", p);
+        this.$router.push(`/music/sheet/topplaylist/${this.params.vendor}/${item.list.id}`);
       }
     },
     created() {

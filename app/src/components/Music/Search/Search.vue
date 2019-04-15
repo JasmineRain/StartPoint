@@ -10,7 +10,7 @@
             <div class="info">
               <div class="vendors">
                 <el-menu
-                    default-active="netease"
+                    :default-active="vendor"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#FF0000"
@@ -28,8 +28,8 @@
               </div>
               <div class="result_lists" v-loading="loading['song'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['song']">input to search</span>
-                <div v-if="!loading['song']">
-                  <SongCell v-for="item in result['song'][vendor].list" :key="item.id" v-bind="item"></SongCell>
+                <div v-if="!loading['song']" @click="clickSongCell(result['song'][vendor].list)">
+                  <SongCell v-for="item in result['song'][vendor].list" :key="item.song.id" v-bind="item"></SongCell>
                 </div>
               </div>
             </div>
@@ -38,7 +38,7 @@
             <div class="info">
               <div class="vendors">
                 <el-menu
-                    default-active="netease"
+                    :default-active="vendor"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#FF0000"
@@ -57,7 +57,7 @@
               <div class="result_lists" v-loading="loading['singer'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['singer']">input to search</span>
                 <div v-if="!loading['singer']">
-                  <SingerCell v-for="item in result['singer'][vendor].list" :key="item.id" v-bind="item"></SingerCell>
+                  <SingerCell @click.native="clickSingerCell" v-for="item in result['singer'][vendor].list" :key="item.id" v-bind="item"></SingerCell>
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="info">
               <div class="vendors">
                 <el-menu
-                    default-active="netease"
+                    :default-active="vendor"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#FF0000"
@@ -85,7 +85,7 @@
               <div class="result_lists" v-loading="loading['album'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['album']">input to search</span>
                 <div v-if="!loading['album']">
-                  <AlbumCell v-for="item in result['album'][vendor].list" :key="item.id" v-bind="item"></AlbumCell>
+                  <AlbumCell @click.native="clickAlbumCell(item)" v-for="item in result['album'][vendor].list" :key="item.album.id" v-bind="item"></AlbumCell>
                 </div>
               </div>
             </div>
@@ -94,7 +94,7 @@
             <div class="info">
               <div class="vendors">
                 <el-menu
-                    default-active="netease"
+                    :default-active="vendor"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#FF0000"
@@ -113,7 +113,7 @@
               <div class="result_lists" v-loading="loading['mv'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['mv']">input to search</span>
                 <div v-if="!loading['mv']">
-                  <MvCell v-for="item in result['mv'][vendor].list" :key="item.id" v-bind="item"></MvCell>
+                  <MvCell @click.native="clickMvCell" v-for="item in result['mv'][vendor].list" :key="item.id" v-bind="item"></MvCell>
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@
             <div class="info">
               <div class="vendors">
                 <el-menu
-                    default-active="netease"
+                    :default-active="vendor"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#FF0000"
@@ -141,7 +141,7 @@
               <div class="result_lists" v-loading="loading['playlist'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['playlist']">input to search</span>
                 <div v-if="!loading['playlist']">
-                  <PlaylistCell v-for="item in result['playlist'][vendor].list" :key="item.id" v-bind="item"></PlaylistCell>
+                  <PlaylistCell @click.native="clickPlaylistCell(item)" v-for="item in result['playlist'][vendor].list" :key="item.playlist.id" v-bind="item"></PlaylistCell>
                 </div>
               </div>
             </div>
@@ -150,7 +150,7 @@
             <div class="info">
               <div class="vendors">
                 <el-menu
-                    default-active="netease"
+                    :default-active="vendor"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#FF0000"
@@ -187,6 +187,7 @@
   import MvCell from "./Cell/mvCell";
   import PlaylistCell from "./Cell/playlistCell";
   import UserCell from "./Cell/userCell"
+  import musicUtil from "../../../common/js/music";
   export default {
     name: "Search",
     components: {SongCell, SingerCell, AlbumCell, MvCell, PlaylistCell, UserCell},
@@ -194,7 +195,7 @@
       return {
         input: '',
         type: 'song',
-        vendor: 'netease',
+        vendor: 'qq',
         searching: false
       }
     },
@@ -204,6 +205,9 @@
       },
       result: function () {
         return this.$store.getters.getSearchList;
+      },
+      info: function () {
+        return this.type + this.vendor;
       }
     },
     methods: {
@@ -219,17 +223,47 @@
           })
         }
       },
-      clickTab: function () {
-        if(this.input !== ''){
-          this.search();
-        }
+      clickTab: function (tab) {
+        this.type = tab.name;
       },
       selectTab: function (key) {
         this.vendor = key;
+      },
+      clickSongCell: function (list) {
+        list.forEach((item, index) => {
+          item['vendor'] = this.vendor;
+          item['index'] = index;
+          item['song']['time'] = musicUtil.formatDuration(item['song']['duration'])
+        });
+        this.$store.commit("setMusicSheetList", list);
+        this.$router.push(`/music/sheet/searchlist/${this.vendor}/${this.type}`);
+      },
+      clickSingerCell: function () {
+        this.type = 'song';
+      },
+      clickAlbumCell: function (item) {
+        this.$router.push(`/music/sheet/album/${this.vendor}/${item.album.mid ? item.album.mid: item.album.id}`);
+        this.$store.dispatch("getAlbumDetail", {vendor: this.vendor, id: item.album.mid ? item.album.mid: item.album.id})
+      },
+      clickMvCell: function () {
+        console.log("mv cell click");
+      },
+      clickPlaylistCell: function (item) {
+        this.$router.push(`/music/sheet/plist/${this.vendor}/${item.playlist.mid ? item.playlist.mid: item.playlist.id}`);
+        this.$store.dispatch("getPlaylistDetail", {vendor: this.vendor, id: item.playlist.id});
+      }
+    },
+    watch: {
+      info: {
+        handler: function () {
+          if(this.input !== ''){
+            this.search();
+          }
+        },
+        deep: true
       }
     },
     mounted() {
-
     }
   }
 </script>

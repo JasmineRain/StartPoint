@@ -79,7 +79,7 @@ const search = (req, res) => {
                   name: song.songname,
                   id: song.songid,
                   mid: song.songmid,
-                  duration: song.duration
+                  duration: song.interval
                 },
                 album: {
                   name: song.albumname,
@@ -268,8 +268,9 @@ const getAlbumDetail = (req, res) => {
           answer.body.data.list.forEach(function (song) {
             songs.push({
               name: song.songname,
-              id: song.singid,
-              mid:song.songmid
+              id: song.songid,
+              mid: song.songmid,
+              duration: song.interval
             })
           });
 

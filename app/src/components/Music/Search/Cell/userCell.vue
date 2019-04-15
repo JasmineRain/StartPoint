@@ -8,7 +8,7 @@
         {{name}}
       </div>
       <div class="user_desc" :title="signature || fans && parseInt(fans/10000) + ' 万粉丝'">
-        {{signature || fans && parseInt(fans/10000) + " 万粉丝"}}
+        {{signature || fans && fans + " 粉丝"}}
       </div>
     </div>
   </div>
