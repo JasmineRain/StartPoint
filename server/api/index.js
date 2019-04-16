@@ -2,6 +2,17 @@ const qqAPI = require('./qq/index');
 const neteaseAPI = require('./netease/index');
 const xiamiAPI = require('./xiami/index');
 
+const checkMusic = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.checkMusic(req, res);
+    case 'qq':
+      return qqAPI.checkMusic(req, res);
+    case 'xiami':
+      return xiamiAPI.checkMusic(req, res);
+  }
+};
+
 const getSongUrl = (req, res) => {
   switch (req.query.vendor) {
     case 'netease':
@@ -163,7 +174,8 @@ const musicAPI = {
   getUserPlaylists,
   getHotCategories,
   getTopPlaylists,
-  getMusicComment
+  getMusicComment,
+  checkMusic
 };
 
 

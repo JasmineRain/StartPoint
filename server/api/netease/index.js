@@ -1,6 +1,27 @@
 const request = require('./util/request');
 const musicUtil = require('../../public/javascripts/music');
 
+const checkMusic = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/check_music');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    let answer = question(query, request);
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if (answer.status === 200) {
+        resolve(answer);
+      } else {
+        reject("request failed")
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
 const getSongUrl = (req, res) => {
   return new Promise((resolve, reject) => {
     let question = require('./module/song_url');
@@ -636,5 +657,5 @@ const getMusicComment = (req, res) => {
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
   getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists,
-  getMusicComment
+  getMusicComment, checkMusic
 };

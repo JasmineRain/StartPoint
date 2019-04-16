@@ -1,7 +1,7 @@
 <template>
   <div class="comment">
     <el-dialog top="10vh" custom-class="comment_dialog" title="歌曲评论" :visible="visible" :append-to-body="true" @close="close">
-      <div class="comment_cell" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.1)">
+      <div v-if="comments" class="comment_cell" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.1)">
         <h2>热评</h2>
         <CommentCell v-for="(comment, index) in comments['hot']" v-bind="comment" :key="index + 'hot'">
         </CommentCell>

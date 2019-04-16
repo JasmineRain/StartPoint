@@ -2,16 +2,14 @@
   <div id="app">
     <Navigation/>
     <Background/>
-    <audio autoplay :src="QQMusicSrc" ref="player"></audio>
+    <audio autoplay :src="musicSrc" ref="player"></audio>
     <transition name="fade" mode="out-in">
-      <router-view/>
+      <router-view></router-view>
     </transition>
   </div>
 </template>
 
 <script>
-  /* eslint-disable vue/no-unused-components */
-  // http://dl.stream.qqmusic.qq.com/C1L0001ApDs72gYqUk.m4a?vkey=F33047F1591194F61A2B27094B6CB1CBBD4C504FDB466A9975ADE22861FE0845D36C70AA0E23FF9000B2D5DEE71EB63E904224A849A7C59F&guid=8715282750&uin=2703401268&fromtag=66
   import Navigation from "./components/Global/Navigation/Navigation";
   import Background from "./components/Global/Background/Background";
 
@@ -33,7 +31,7 @@
       /**
        * @return {string}
        */
-      QQMusicSrc: function () {
+      musicSrc: function () {
         return this.$store.getters.getCurrentMusic.musicUrl;
       }
     },

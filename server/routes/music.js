@@ -2,6 +2,18 @@ const express = require('express');
 const router = express.Router();
 const musicAPI = require('../api/index');
 
+router.get('/checkmusic', function (req, res, next) {
+  musicAPI.checkMusic(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
 
 router.get('/song_url', function (req, res, next) {
   musicAPI.getSongUrl(req, res).then(answer => {

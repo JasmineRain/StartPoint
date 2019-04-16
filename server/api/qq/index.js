@@ -2,6 +2,38 @@ const request = require('./util/request');
 const Base64 = require('../../public/javascripts/base64');
 const musicUtil = require('../../public/javascripts/music');
 
+const checkMusic = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/song_url');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+
+    question(query, request).then(answer => {
+      if(answer.status === 200) {
+        let item = answer.body.data.items[0];
+        if(item.vkey === '') {
+          answer.body = {
+            success: false,
+            message: "付费歌曲或暂无版权"
+          };
+          resolve(answer);
+        }
+        else {
+          answer.body = {
+            success: true,
+            message: "OK"
+          };
+          resolve(answer);
+        }
+      } else {
+        reject("request origin failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api" + err);
+    })
+  })
+};
+
 const getSongUrl = (req, res) => {
   return new Promise((resolve, reject) => {
     let question = require('./module/song_url');
@@ -642,5 +674,5 @@ const getMusicComment = (req, res) => {
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
   getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists,
-  getMusicComment
+  getMusicComment, checkMusic
 };

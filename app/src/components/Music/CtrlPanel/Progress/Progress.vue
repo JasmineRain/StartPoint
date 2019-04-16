@@ -214,6 +214,13 @@
           } catch (err) {
             console.log(err);
           }
+        };
+        player.onerror = (event) => {
+          this.$message({
+            message: '无版权或付费歌曲',
+            type: 'error'
+          });
+          this.$store.commit("setIsPlaying", false);
         }
       },
       scrollLyric (time) {

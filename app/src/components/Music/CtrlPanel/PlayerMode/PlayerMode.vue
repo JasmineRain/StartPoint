@@ -39,13 +39,21 @@
         this.$store.commit("setPlayMode", (this.playMode + 1) % 3 );
       },
       showComment: function () {
-        this.$store.commit("setShowComment", true);
-        let index = this.$store.getters.getCurrentMusic.index;
-        let vendor = this.$store.getters.getCurrentMusic.vendor;
-        this.$store.dispatch("getMusicComment", {
-          vendor: vendor,
-          id: this.$store.getters.getMusicList[index].song.id
-        })
+        if(this.$store.getters.getCurrentMusic.index !== -1) {
+          this.$store.commit("setShowComment", true);
+          let index = this.$store.getters.getCurrentMusic.index;
+          let vendor = this.$store.getters.getCurrentMusic.vendor;
+          this.$store.dispatch("getMusicComment", {
+            vendor: vendor,
+            id: this.$store.getters.getMusicList[index].song.id
+          })
+        }
+        else {
+          this.$message({
+            message: '请选择歌曲后查看',
+            type: 'warning'
+          })
+        }
       }
     }
   };
