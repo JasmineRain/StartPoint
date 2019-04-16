@@ -171,4 +171,17 @@ router.get('/musiccomment', function (req, res, next) {
   })
 });
 
+router.get('/mvurl', function (req, res, next) {
+  musicAPI.getMVUrl(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
+
 module.exports = router;

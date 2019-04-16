@@ -162,6 +162,17 @@ const getMusicComment = (req, res) => {
   }
 };
 
+const getMVUrl = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getMVUrl(req, res);
+    case 'qq':
+      return qqAPI.getMVUrl(req, res);
+    case 'xiami':
+      return xiamiAPI.getMVUrl(req, res);
+  }
+};
+
 const musicAPI = {
   getSongUrl,
   getLyric,
@@ -175,7 +186,8 @@ const musicAPI = {
   getHotCategories,
   getTopPlaylists,
   getMusicComment,
-  checkMusic
+  checkMusic,
+  getMVUrl
 };
 
 
