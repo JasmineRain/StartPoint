@@ -609,7 +609,7 @@ const getMusicComment = (req, res) => {
             avatar: item.avatarurl,
             content: item.rootcommentcontent,
             like: item.praisenum,
-            time: item.time
+            time: item.time*1000
           })
         });
         answer.body.hot_comment.commentlist.forEach(function (item) {
@@ -618,7 +618,7 @@ const getMusicComment = (req, res) => {
             avatar: item.avatarurl,
             content: item.rootcommentcontent,
             like: item.praisenum,
-            time: item.time
+            time: item.time*1000
           })
         });
 
