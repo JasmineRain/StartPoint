@@ -8,6 +8,7 @@ import Sheet from "./components/Music/Sheet/Sheet";
 import Search from "./components/Music/Search/Search";
 import Toplists from "./components/Music/Toplists/Toplists";
 import TopPlaylists from "./components/Music/TopPlaylists/TopPlaylists";
+import CommentCell from "./components/Music/Comment/Cell/commentCell";
 
 Vue.use(Router);
 
@@ -61,6 +62,10 @@ export default new Router({
         {
           path: "topplaylists",
           component: TopPlaylists
+        },
+        {
+          path: 'test',
+          component: CommentCell
         }
       ]
     }

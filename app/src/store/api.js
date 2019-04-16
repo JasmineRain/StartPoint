@@ -14,6 +14,7 @@ const api = {
   PATH_USER_PLAYLISTS: "/music/userplaylists",
   PATH_HOT_CATEGORIES: "/music/hotcategories",
   PATH_HOT_PLAYLISTS: "/music/topplaylists",
+  PATH_MUSIC_COMMENTl: "/music/musiccomment",
 
   reqSongUrl(params) {
     return new Promise((resolve, reject) => {
@@ -191,6 +192,21 @@ const api = {
     })
   },
 
+  reqMusicComment(params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'get',
+        url: api.SERVER_ADDRESS + api.PATH_MUSIC_COMMENTl,
+        params: params
+      })
+      .then(function (answer) {
+        resolve(answer.data);
+      })
+      .catch(function (error) {
+        reject(error);
+      })
+    })
+  }
 };
 
 export default api;

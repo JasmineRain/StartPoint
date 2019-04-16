@@ -593,12 +593,54 @@ const getTopPlaylists = (req, res) =>{
   })
 };
 
-//artist songs
+const getMusicComment = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/comment_music');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if(answer.status === 200) {
+        let comments = {new: [], hot: []};
+        answer.body.comment.commentlist.forEach(function (item) {
+          comments.new.push({
+            author: item.nick,
+            avatar: item.avatarurl,
+            content: item.rootcommentcontent,
+            like: item.praisenum,
+            time: item.time
+          })
+        });
+        answer.body.hot_comment.commentlist.forEach(function (item) {
+          comments.hot.push({
+            author: item.nick,
+            avatar: item.avatarurl,
+            content: item.rootcommentcontent,
+            like: item.praisenum,
+            time: item.time
+          })
+        });
+
+        answer.body = {
+          comments: comments
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error qq api" + err);
+    })
+  })
+};
+
 //mv
-//top_playlists未统一接口url
 
 
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists
+  getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists,
+  getMusicComment
 };

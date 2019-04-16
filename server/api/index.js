@@ -140,6 +140,17 @@ const getTopPlaylists = (req, res) => {
   }
 };
 
+const getMusicComment = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getMusicComment(req, res);
+    case 'qq':
+      return qqAPI.getMusicComment(req, res);
+    case 'xiami':
+      return xiamiAPI.getMusicComment(req, res);
+  }
+};
+
 const musicAPI = {
   getSongUrl,
   getLyric,
@@ -151,7 +162,8 @@ const musicAPI = {
   getToplists,
   getUserPlaylists,
   getHotCategories,
-  getTopPlaylists
+  getTopPlaylists,
+  getMusicComment
 };
 
 

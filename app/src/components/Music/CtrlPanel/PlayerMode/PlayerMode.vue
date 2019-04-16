@@ -12,16 +12,23 @@
       <li>
         <img src="../../../../assets/mv.png" alt="">
       </li>
-      <li>
+      <li @click="showComment">
         <img src="../../../../assets/comment.png" alt="">
       </li>
     </ul>
+    <Comment></Comment>
   </div>
 </template>
 
 <script>
+  import Comment from "../../Comment/Comment";
   export default {
     name: "PlayerMode",
+    data() {
+      return {
+      }
+    },
+    components:{ Comment },
     computed: {
       playMode: function () {
         return this.$store.getters.getPlayMode;
@@ -30,6 +37,15 @@
     methods: {
       changeMode: function () {
         this.$store.commit("setPlayMode", (this.playMode + 1) % 3 );
+      },
+      showComment: function () {
+        this.$store.commit("setShowComment", true);
+        let index = this.$store.getters.getCurrentMusic.index;
+        let vendor = this.$store.getters.getCurrentMusic.vendor;
+        this.$store.dispatch("getMusicComment", {
+          vendor: vendor,
+          id: this.$store.getters.getMusicList[index].song.id
+        })
       }
     }
   };

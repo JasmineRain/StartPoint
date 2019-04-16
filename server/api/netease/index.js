@@ -589,7 +589,52 @@ const getTopPlaylists = (req, res) => {
   })
 };
 
+const getMusicComment = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/comment_music');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if(answer.status === 200) {
+
+        let comments = {new: [], hot: []};
+        answer.body.comments.forEach(function (item) {
+          comments.new.push({
+            author: item.user.nickname,
+            avatar: item.user.avatarUrl,
+            content: item.content,
+            like: item.likedCount,
+            time: item.time
+          })
+        });
+        answer.body.hotComments.forEach(function (item) {
+          comments.hot.push({
+            author: item.user.nickname,
+            avatar: item.user.avatarUrl,
+            content: item.content,
+            like: item.likedCount,
+            time: item.time
+          })
+        });
+
+        answer.body = {
+          comments: comments
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
-  getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists
+  getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists,
+  getMusicComment
 };

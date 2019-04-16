@@ -29,7 +29,7 @@
               <div class="result_lists" v-loading="loading['song'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['song']">input to search</span>
                 <div v-if="!loading['song']" @click="clickSongCell(result['song'][vendor].list)">
-                  <SongCell v-for="item in result['song'][vendor].list" :key="item.song.id" v-bind="item"></SongCell>
+                  <SongCell v-for="(item, index) in result['song'][vendor].list" :key="index" v-bind="item"></SongCell>
                 </div>
               </div>
             </div>
@@ -186,7 +186,7 @@
   import AlbumCell from "./Cell/albumCell";
   import MvCell from "./Cell/mvCell";
   import PlaylistCell from "./Cell/playlistCell";
-  import UserCell from "./Cell/userCell"
+  import UserCell from "./Cell/userCell";
   import musicUtil from "../../../common/js/music";
   export default {
     name: "Search",

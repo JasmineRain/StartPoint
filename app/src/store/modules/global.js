@@ -13,7 +13,8 @@ const global = {
       user: true
     },
     loadingTopPlaylists: false,
-    loadingHotCategories: false
+    loadingHotCategories: false,
+    loadingComment: false
   },
   mutations: {
     setGlobal(state, info) {
@@ -29,13 +30,16 @@ const global = {
       state.loadingToplists = payload;
     },
     setSearchLoading(state, payload) {
-      state.loadingSearch = {...state.loadingSearch, ...payload}
+      state.loadingSearch = {...state.loadingSearch, ...payload};
     },
     setTopPlaylistsLoading(state, payload) {
       state.loadingTopPlaylists = payload;
     },
     setHotCategoriesLoading(state, payload) {
-      state.loadingHotCategories = payload
+      state.loadingHotCategories = payload;
+    },
+    setCommentLoading(state, payload) {
+      state.loadingComment = payload;
     }
   },
   getters: {
@@ -45,7 +49,8 @@ const global = {
     getToplistsLoading: state => state.loadingToplists,
     getSearchLoading: state => state.loadingSearch,
     getTopPlaylistsLoading: state => state.loadingTopPlaylists,
-    getHotCategoriesLoading: state => state.loadingHotCategories
+    getHotCategoriesLoading: state => state.loadingHotCategories,
+    getCommentLoading: state => state.loadingComment
   },
 
 };

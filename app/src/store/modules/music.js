@@ -22,14 +22,16 @@ const music = {
     buffered: 0,         //已缓冲（0-100）
     isPlaying: false,    //播放状态
     isDrag: false,       //是否拖动进度条
+    showComment: false,  //是否显示评论模态窗
     playMode: 0,         //播放模式，1顺序，2随机，3单曲循环
     musicList: [],       //正在播放的歌曲列表
     musicSheetList: [],  //音乐显示列表，用于Sheet组件
-    searchList: {},
-    likeList: [],
+    searchList: {},      //搜索结果
+    likeList: [],        //收藏歌单
     toplists: {},         //排行榜
     topplaylists: [],     //歌单推荐
     hotcategories: {},    //热门歌单分类
+    musiccomment: {},          //评论
   },
   getters: {
     getCurrentMusic: state => state.currentMusic,
@@ -49,7 +51,9 @@ const music = {
     getLikeList: state => state.likeList,
     getToplists: state => state.toplists,
     getTopPlaylists: state => state.topplaylists,
-    getHotCategories: state => state.hotcategories
+    getHotCategories: state => state.hotcategories,
+    getShowComment: state => state.showComment,
+    getMusicComment: state => state.musiccomment
   },
   mutations: {
     setCurrentMusic(state, payload) {
@@ -105,6 +109,12 @@ const music = {
     },
     setHotCategories(state, payload) {
       state.hotcategories[payload.vendor] = payload.list;
+    },
+    setShowComment(state, payload) {
+      state.showComment = payload;
+    },
+    setMusicComment(state, payload) {
+      state.musiccomment = payload;
     }
   },
   actions: {
@@ -285,6 +295,14 @@ const music = {
         });
         context.commit("setMusicSheetList", musicList);
         context.commit("setSheetLoading", false);
+      });
+    },
+
+    getMusicComment(context, params) {
+      context.commit("setCommentLoading", true);
+      api.reqMusicComment(params).then(function (answer) {
+        context.commit("setMusicComment", answer.body.comments);
+        context.commit("setCommentLoading", false);
       });
     },
 
