@@ -23,6 +23,7 @@ const music = {
     isPlaying: false,    //播放状态
     isDrag: false,       //是否拖动进度条
     showComment: false,  //是否显示评论模态窗
+    showMV: false,       //是否显示MV模态窗
     playMode: 0,         //播放模式，1顺序，2随机，3单曲循环
     musicList: [],       //正在播放的歌曲列表
     musicSheetList: [],  //音乐显示列表，用于Sheet组件
@@ -31,7 +32,8 @@ const music = {
     toplists: {},         //排行榜
     topplaylists: [],     //歌单推荐
     hotcategories: {},    //热门歌单分类
-    musiccomment: {},          //评论
+    musiccomment: {},     //评论
+    mvurl: ""             //mv地址
   },
   getters: {
     getCurrentMusic: state => state.currentMusic,
@@ -53,7 +55,9 @@ const music = {
     getTopPlaylists: state => state.topplaylists,
     getHotCategories: state => state.hotcategories,
     getShowComment: state => state.showComment,
-    getMusicComment: state => state.musiccomment
+    getMusicComment: state => state.musiccomment,
+    getShowMV: state => state.showMV,
+    getMVUrl: state => state.mvurl
   },
   mutations: {
     setCurrentMusic(state, payload) {
@@ -115,6 +119,12 @@ const music = {
     },
     setMusicComment(state, payload) {
       state.musiccomment = payload;
+    },
+    setShowMV(state, payload) {
+      state.showMV = payload;
+    },
+    setMVUrl(state, payload) {
+      state.mvurl = payload;
     }
   },
   actions: {
@@ -304,6 +314,17 @@ const music = {
         context.commit("setMusicComment", answer.body.comments);
         context.commit("setCommentLoading", false);
       });
+    },
+
+    getMVUrl(context, params) {
+      context.commit("setMVLoading", true);
+      api.reqMVId(params).then(function (answer) {
+        params.id = answer.body.mvid;
+        api.reqMVUrl(params).then(function (answer) {
+          context.commit("setMVUrl", answer.body.url);
+          context.commit("setMVLoading", false);
+        });
+      })
     },
 
     playNext(context, params) {

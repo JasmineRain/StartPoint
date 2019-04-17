@@ -215,7 +215,7 @@
             console.log(err);
           }
         };
-        player.onerror = (event) => {
+        player.onerror = () => {
           this.$message({
             message: '无版权或付费歌曲',
             type: 'error'

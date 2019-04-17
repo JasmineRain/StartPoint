@@ -15,6 +15,8 @@ const api = {
   PATH_HOT_CATEGORIES: "/music/hotcategories",
   PATH_HOT_PLAYLISTS: "/music/topplaylists",
   PATH_MUSIC_COMMENTl: "/music/musiccomment",
+  PATH_MV_URL: "/music/mvurl",
+  PATH_MV_ID: "/music/mvid",
 
   reqSongUrl(params) {
     return new Promise((resolve, reject) => {
@@ -197,6 +199,38 @@ const api = {
       axios({
         method: 'get',
         url: api.SERVER_ADDRESS + api.PATH_MUSIC_COMMENTl,
+        params: params
+      })
+      .then(function (answer) {
+        resolve(answer.data);
+      })
+      .catch(function (error) {
+        reject(error);
+      })
+    })
+  },
+
+  reqMVId(params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'get',
+        url: api.SERVER_ADDRESS + api.PATH_MV_ID,
+        params: params
+      })
+      .then(function (answer) {
+        resolve(answer.data);
+      })
+      .catch(function (error) {
+        reject(error);
+      })
+    })
+  },
+
+  reqMVUrl(params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'get',
+        url: api.SERVER_ADDRESS + api.PATH_MV_URL,
         params: params
       })
       .then(function (answer) {

@@ -10,25 +10,27 @@
         <img src="../../../../assets/voice.png" alt="">
       </li>
       <li>
-        <img src="../../../../assets/mv.png" alt="">
+        <img @click="showMV" src="../../../../assets/mv.png" alt="">
       </li>
       <li @click="showComment">
         <img src="../../../../assets/comment.png" alt="">
       </li>
     </ul>
     <Comment></Comment>
+    <MV></MV>
   </div>
 </template>
 
 <script>
   import Comment from "../../Comment/Comment";
+  import MV from "../../MV/MV";
   export default {
     name: "PlayerMode",
     data() {
       return {
       }
     },
-    components:{ Comment },
+    components:{ Comment, MV },
     computed: {
       playMode: function () {
         return this.$store.getters.getPlayMode;
@@ -47,6 +49,27 @@
             vendor: vendor,
             id: this.$store.getters.getMusicList[index].song.id
           })
+        }
+        else {
+          this.$message({
+            message: '请选择歌曲后查看',
+            type: 'warning'
+          })
+        }
+      },
+      showMV: function () {
+        if(this.$store.getters.getCurrentMusic.index !== -1) {
+          this.$store.commit("setShowMV", true);
+          let index = this.$store.getters.getCurrentMusic.index;
+          let vendor = this.$store.getters.getCurrentMusic.vendor;
+          this.$store.getters.getPlayer.pause();
+          this.$store.commit("setIsPlaying", false);
+          if(this.$store.getters.getMVUrl === ''){
+            this.$store.dispatch("getMVUrl", {
+              vendor: vendor,
+              id: this.$store.getters.getMusicList[index].song.mid || this.$store.getters.getMusicList[index].song.id
+            });
+          }
         }
         else {
           this.$message({

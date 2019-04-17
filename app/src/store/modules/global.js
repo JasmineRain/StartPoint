@@ -14,7 +14,8 @@ const global = {
     },
     loadingTopPlaylists: false,
     loadingHotCategories: false,
-    loadingComment: false
+    loadingComment: false,
+    loadingMV: false
   },
   mutations: {
     setGlobal(state, info) {
@@ -40,6 +41,9 @@ const global = {
     },
     setCommentLoading(state, payload) {
       state.loadingComment = payload;
+    },
+    setMVLoading(state, payload) {
+      state.loadingMV = payload;
     }
   },
   getters: {
@@ -50,7 +54,8 @@ const global = {
     getSearchLoading: state => state.loadingSearch,
     getTopPlaylistsLoading: state => state.loadingTopPlaylists,
     getHotCategoriesLoading: state => state.loadingHotCategories,
-    getCommentLoading: state => state.loadingComment
+    getCommentLoading: state => state.loadingComment,
+    getMVLoading: state => state.loadingMV
   },
 
 };

@@ -94,6 +94,7 @@ export default {
         name: row.song.name,
         singer: row.singer
       });
+      this.$store.commit("setMVUrl", "");
       if( this.$store.getters.getMusicSheetList.length > 0 && this.list !== 'playlist')
         this.$store.commit("setMusicList", this.$store.getters.getMusicSheetList);
     }
