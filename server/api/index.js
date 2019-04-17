@@ -173,6 +173,17 @@ const getMVUrl = (req, res) => {
   }
 };
 
+const getMVId = (req, res) => {
+  switch (req.query.vendor) {
+    case 'netease':
+      return neteaseAPI.getMVId(req, res);
+    case 'qq':
+      return qqAPI.getMVId(req, res);
+    case 'xiami':
+      return xiamiAPI.getMVId(req, res);
+  }
+};
+
 const musicAPI = {
   getSongUrl,
   getLyric,
@@ -187,7 +198,8 @@ const musicAPI = {
   getTopPlaylists,
   getMusicComment,
   checkMusic,
-  getMVUrl
+  getMVUrl,
+  getMVId
 };
 
 

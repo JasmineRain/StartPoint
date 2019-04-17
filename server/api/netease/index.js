@@ -678,8 +678,32 @@ const getMVUrl = (req, res) => {
   })
 };
 
+const getMVId = (req, res) => {
+  return new Promise((resolve, reject) => {
+    let question = require('./module/song_detail');
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies});
+    question(query, request).then(answer => {
+
+      //保存源返回值，重新包装数据
+      let rowData = answer;
+      if(answer.status === 200) {
+        let mvid = answer.body.songs[0].mv;
+        answer.body = {
+          mvid: mvid
+        };
+        resolve(answer);
+      } else {
+        reject("request failed");
+      }
+    })
+    .catch(function (err) {
+      reject("error netease api" + err);
+    })
+  })
+};
+
 module.exports = {
   getSongUrl, getLyric, search, getAlbumCover, getAlbumDetail, getPlaylistDetail,
   getToplistDetail, getToplists, getUserPlaylists, getHotCategories, getTopPlaylists,
-  getMusicComment, checkMusic, getMVUrl
+  getMusicComment, checkMusic, getMVUrl, getMVId
 };

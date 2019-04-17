@@ -184,4 +184,17 @@ router.get('/mvurl', function (req, res, next) {
   })
 });
 
+router.get('/mvid', function (req, res, next) {
+  musicAPI.getMVId(req, res).then(answer => {
+    res.json(answer);
+  })
+  .catch(function (err) {
+    res.json({
+      status: 500,
+      message: "server error",
+      error: err
+    })
+  })
+});
+
 module.exports = router;
