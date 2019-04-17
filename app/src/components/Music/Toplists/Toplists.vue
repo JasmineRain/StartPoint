@@ -47,7 +47,7 @@
     },
 
     methods: {
-      clickItem(item) {
+      clickItem: function(item) {
         let params = {
           vendor: this.vendor.toLowerCase(),
           idx: item.id,
@@ -56,7 +56,7 @@
         this.$store.dispatch("getToplistDetail", params);
         this.$router.push(`/music/sheet/toplist/${this.vendor}/${item.id}`);
       },
-      clickTab(tab) {
+      clickTab: function(tab) {
         if(!this.categories[tab.name]){
           this.$store.dispatch("getToplists", {vendor: tab.name});
         }

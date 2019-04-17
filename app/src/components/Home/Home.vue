@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Description/>
-    <Change/>
-    <Clock/>
-    <Copyright/>
-    <Weather/>
+    <Description></Description>
+    <Change></Change>
+    <Clock></Clock>
+    <Copyright></Copyright>
+    <Weather></Weather>
   </div>
 </template>
 

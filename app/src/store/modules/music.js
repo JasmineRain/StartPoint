@@ -159,6 +159,10 @@ const music = {
         context.commit("setMusicList", musicList);
         context.commit("setSheetLoading", false);
       })
+      .catch(function (err) {
+        context.commit("setSheetLoading", false);
+        console.log(err);
+      })
     },
 
     getMusicUrl(context, params) {
@@ -170,6 +174,9 @@ const music = {
         });
         context.commit("setIsPlaying", true);
       })
+      .catch(function (err) {
+        console.log(err);
+      })
     },
 
     getMusicCover(context, params) {
@@ -178,11 +185,17 @@ const music = {
           coverUrl: answer.body.url
         })
       })
+      .catch(function (err) {
+        console.log(err);
+      })
     },
 
     getMusicLyric(context, params) {
       api.reqLyric(params).then(function (answer) {
         context.commit("setLyric", answer.body.lyric)
+      })
+      .catch(function (err) {
+        console.log(err);
       })
     },
 
@@ -191,6 +204,10 @@ const music = {
       api.reqToplists(params).then(function (answer) {
         context.commit("setToplists", {vendor: answer.vendor, list: answer.body.list});
         context.commit("setToplistsLoading", false);
+      })
+      .catch(function (err) {
+        context.commit("setToplistsLoading", false);
+        console.log(err);
       })
     },
 
@@ -201,6 +218,10 @@ const music = {
         let payload = {};
         payload[params.t] = false;
         context.commit("setSearchLoading", payload);
+      })
+      .catch(function (err) {
+        context.commit("setSearchLoading", payload);
+        console.log(err);
       })
     },
 
@@ -231,6 +252,10 @@ const music = {
         context.commit("setMusicSheetList", musicList);
         context.commit("setSheetLoading", false);
       })
+      .catch(function (err) {
+        context.commit("setSheetLoading", false);
+        console.log(err);
+      })
     },
 
     getHotCategories(context, params) {
@@ -239,7 +264,11 @@ const music = {
         context.commit("setHotCategories", {vendor: answer.vendor, list: answer.body.category});
         context.commit("setHotCategoriesLoading", false);
         context.dispatch("getTopPlaylists", {vendor: "qq"});
-      });
+      })
+      .catch(function (err) {
+        context.commit("setHotCategoriesLoading", false);
+        console.log(err);
+      })
     },
 
     getTopPlaylists(context, params) {
@@ -247,7 +276,11 @@ const music = {
       api.reqTopPlaylists(params).then(function (answer) {
         context.commit("setTopPlaylists", answer.body.lists);
         context.commit("setTopPlaylistsLoading", false);
-      });
+      })
+      .catch(function (err) {
+        context.commit("setTopPlaylistsLoading", false);
+        console.log(err);
+      })
     },
 
     getPlaylistDetail(context, params) {
@@ -277,6 +310,10 @@ const music = {
         context.commit("setMusicSheetList", musicList);
         context.commit("setSheetLoading", false);
       })
+      .catch(function (err) {
+        context.commit("setSheetLoading", false);
+        console.log(err);
+      })
     },
 
     getAlbumDetail(context, params) {
@@ -305,7 +342,11 @@ const music = {
         });
         context.commit("setMusicSheetList", musicList);
         context.commit("setSheetLoading", false);
-      });
+      })
+      .catch(function (err) {
+        context.commit("setSheetLoading", false);
+        console.log(err);
+      })
     },
 
     getMusicComment(context, params) {
@@ -313,7 +354,11 @@ const music = {
       api.reqMusicComment(params).then(function (answer) {
         context.commit("setMusicComment", answer.body.comments);
         context.commit("setCommentLoading", false);
-      });
+      })
+      .catch(function (err) {
+        context.commit("setCommentLoading", false);
+        console.log(err);
+      })
     },
 
     getMVUrl(context, params) {
@@ -324,6 +369,10 @@ const music = {
           context.commit("setMVUrl", answer.body.url);
           context.commit("setMVLoading", false);
         });
+      })
+      .catch(function (err) {
+        context.commit("setMVLoading", false);
+        console.log(err);
       })
     },
 
