@@ -54,31 +54,40 @@
 
 ##效果展示如下
 
-###主页壁纸获取
+##主页壁纸获取
+
 ![avatar](./doc/display1.png)
 
-###音乐爬虫功能
+##音乐爬虫功能
+
 ![avatar](./doc/display2.png)
 
-###附加功能部分
+##附加功能部分
+
 ![avatar](./doc/display3.png)
 
-###音乐爬虫主页
+##音乐爬虫主页
+
 ![avatar](./doc/music1.png)
 
-###排行榜
+##排行榜
+
 ![avatar](./doc/music2.png)
 
-###推荐歌单
+##推荐歌单
+
 ![avatar](./doc/music3.png)
 
-###搜索
+##搜索
+
 ![avatar](./doc/music4.png)
 
-###评论
+##评论
+
 ![avatar](./doc/music5.png)
 
-###MV
+##MV
+
 ![avatar](./doc/music6.png)
 
 
