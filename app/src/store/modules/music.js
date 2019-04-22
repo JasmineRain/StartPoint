@@ -361,9 +361,10 @@ const music = {
       })
     },
 
-    getMVUrl(context, params) {
+    getMVUrlById(context, params) {
       context.commit("setMVLoading", true);
       api.reqMVId(params).then(function (answer) {
+        console.log(answer);
         params.id = answer.body.mvid;
         api.reqMVUrl(params).then(function (answer) {
           context.commit("setMVUrl", answer.body.url);
@@ -374,6 +375,18 @@ const music = {
         context.commit("setMVLoading", false);
         console.log(err);
       })
+    },
+
+    getMVUrlByVid(context, params) {
+      context.commit("setMVLoading", true);
+      api.reqMVUrl(params).then(function (answer) {
+        context.commit("setMVUrl", answer.body.url);
+        context.commit("setMVLoading", false);
+      })
+      .catch(function (err) {
+        context.commit("setMVLoading", false);
+        console.log(err);
+      });
     },
 
     playNext(context, params) {

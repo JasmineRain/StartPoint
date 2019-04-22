@@ -17,6 +17,6 @@ module.exports = (query, request) => {
   };
   return request(
     'GET', `https://c.y.qq.com/rsc/fcgi-bin/fcg_get_profile_homepage.fcg`, params, {},
-    {proxy: query.proxy}
+    {proxy: query.proxy, refer: 'https://y.qq.com/portal/profile.html'}
   )
 };

@@ -505,27 +505,27 @@ const getUserPlaylists = (req, res) => {
       let rowData = answer;
       if(answer.status === 200) {
 
-        let creator = {
-          name: answer.body.playlist[0].creator.nickname,
-          signature: answer.body.playlist[0].creator.signature,
-          id: answer.body.playlist[0].creator.userId,
-          avatar: answer.body.playlist[0].creator.avatarUrl
-        };
-
-        let lists = [];
-        answer.body.playlist.forEach(function (list) {
-          lists.push({
-            name: list.name,
-            id: list.id,
-            description: list.description || "",
-            cover: list.coverImgUrl,
-            total: list.trackCount
-          })
-        });
-        answer.body = {
-          creator,
-          lists: categories
-        };
+        // let creator = {
+        //   name: answer.body.playlist[0].creator.nickname,
+        //   signature: answer.body.playlist[0].creator.signature,
+        //   id: answer.body.playlist[0].creator.userId,
+        //   avatar: answer.body.playlist[0].creator.avatarUrl
+        // };
+        //
+        // let lists = [];
+        // answer.body.playlist.forEach(function (list) {
+        //   lists.push({
+        //     name: list.name,
+        //     id: list.id,
+        //     description: list.description || "",
+        //     cover: list.coverImgUrl,
+        //     total: list.trackCount
+        //   })
+        // });
+        // answer.body = {
+        //   creator,
+        //   lists: lists
+        // };
         resolve(answer);
       } else {
         reject("request failed");

@@ -2,16 +2,16 @@
   <div class="ctrl_panel">
     <div v-if="isHigher768" class="select_button">
       <router-link tag="span" to="/music/sheet/playlist" class="todo_btn playing_btn">
-        正在播放
+        播放
       </router-link>
       <router-link tag="span" to="/music/sheet/collection" class="todo_btn collect_btn">
         收藏
       </router-link>
       <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">
-        排行榜
+        榜单
       </router-link>
       <router-link tag="span" to="/music/topplaylists" class="todo_btn top_btn">
-        歌单推荐
+        歌单
       </router-link>
       <router-link tag="span" to="/music/search" class="todo_btn search_btn">
         搜索
@@ -19,16 +19,16 @@
     </div>
     <div v-if="!isHigher768" class="select_m_button">
       <router-link tag="span" to="/music/sheet/playing" class="todo_btn playing_btn">
-        正在播放
+        播放
       </router-link>
       <router-link tag="span" to="/music/sheet/collection" class="todo_btn collect_btn">
         收藏
       </router-link>
       <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">
-        排行榜
+        榜单
       </router-link>
       <router-link tag="span" to="/music/topplaylists" class="todo_btn top_btn">
-        歌单推荐
+        歌单
       </router-link>
       <router-link tag="span" to="/music/search" class="todo_btn search_btn">
         搜索

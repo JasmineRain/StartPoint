@@ -113,7 +113,7 @@
               <div class="result_lists" v-loading="loading['mv'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['mv']">input to search</span>
                 <div v-if="!loading['mv']">
-                  <MvCell @click.native="clickMvCell" v-for="item in result['mv'][vendor].list" :key="item.id" v-bind="item"></MvCell>
+                  <MvCell @click.native="clickMvCell(item)" v-for="item in result['mv'][vendor].list" :key="item.id" v-bind="item"></MvCell>
                 </div>
               </div>
             </div>
@@ -169,7 +169,7 @@
               <div class="result_lists" v-loading="loading['user'] && searching" element-loading-background="rgba(0, 0, 0, 0.1)">
                 <span style="color: white" v-show="loading['user']">input to search</span>
                 <div v-if="!loading['user']">
-                  <UserCell v-for="item in result['user'][vendor].list" :key="item.id" v-bind="item"></UserCell>
+                  <UserCell @click.native="clickUserCell(item)" v-for="item in result['user'][vendor].list" :key="item.id" v-bind="item"></UserCell>
                 </div>
               </div>
             </div>
@@ -245,12 +245,32 @@
         this.$router.push(`/music/sheet/album/${this.vendor}/${item.album.mid ? item.album.mid: item.album.id}`);
         this.$store.dispatch("getAlbumDetail", {vendor: this.vendor, id: item.album.mid ? item.album.mid: item.album.id})
       },
-      clickMvCell: function () {
-        console.log("mv cell click");
+      clickMvCell: function (item) {
+        this.$store.commit("setMVUrl", '');
+        this.$store.commit("setShowMV", true);
+        this.$store.getters.getPlayer.pause();
+        this.$store.commit("setIsPlaying", false);
+        if(this.$store.getters.getMVUrl === ''){
+          this.$store.dispatch("getMVUrlByVid", {
+            vendor: this.vendor,
+            id: item.mv.id
+          });
+        }
       },
       clickPlaylistCell: function (item) {
         this.$router.push(`/music/sheet/plist/${this.vendor}/${item.playlist.mid ? item.playlist.mid: item.playlist.id}`);
         this.$store.dispatch("getPlaylistDetail", {vendor: this.vendor, id: item.playlist.id});
+      },
+      clickUserCell: function (item) {
+        if(this.vendor === 'netease') {
+          this.type = 'playlist'
+        }
+        else{
+          this.$message({
+            message: '此平台暂不支持未登陆获取用户歌单',
+            type: 'warning'
+          })
+        }
       }
     },
     watch: {

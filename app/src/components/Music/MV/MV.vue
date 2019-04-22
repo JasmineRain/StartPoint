@@ -55,9 +55,9 @@
 
 <style>
   .mv_dialog {
-    width: 80% !important;
+    width: 65% !important;
   }
   .el-dialog__wrapper {
-    overflow: hidden !important;
+    overflow: scroll !important;
   }
 </style>

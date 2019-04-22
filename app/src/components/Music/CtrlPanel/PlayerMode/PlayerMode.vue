@@ -65,7 +65,7 @@
           this.$store.getters.getPlayer.pause();
           this.$store.commit("setIsPlaying", false);
           if(this.$store.getters.getMVUrl === ''){
-            this.$store.dispatch("getMVUrl", {
+            this.$store.dispatch("getMVUrlById", {
               vendor: vendor,
               id: this.$store.getters.getMusicList[index].song.mid || this.$store.getters.getMusicList[index].song.id
             });
