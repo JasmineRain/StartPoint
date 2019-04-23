@@ -494,36 +494,36 @@ const getUserPlaylists = (req, res) => {
       //保存源数据 重新包装数据
       let rowData = answer;
       if (answer.status === 200) {
-        // let creator = {
-        //   name: answer.body.data.creator.nick,
-        //   avatar: answer.body.data.creator.headpic,
-        //   id: answer.body.data.creator.uin,
-        //   eid: answer.body.data.creator.encrypt_uin,
-        //   desc: answer.body.data.creator.cfinfo.title
-        // };
-        //
-        // let lists = [];
-        // lists.push({
-        //   id: answer.body.data.mymusic[0].id,
-        //   cover: answer.body.data.mymusic[0].laypic,
-        //   name: answer.body.data.mymusic[0].name,
-        //   total: answer.body.data.mymusic[0].num0,
-        //   desc: ""
-        // });
-        // answer.body.data.mydiss.list.forEach(function (list) {
-        //   lists.push({
-        //     id: list.dissid,
-        //     cover: list.picurl,
-        //     name: list.title,
-        //     total: list.subtitle.substring(0, list.subtitle.indexOf("首")),
-        //     desc: ""
-        //   })
-        // });
+        let creator = {
+          name: answer.body.data.creator.nick,
+          avatar: answer.body.data.creator.headpic,
+          id: answer.body.data.creator.uin,
+          eid: answer.body.data.creator.encrypt_uin,
+          desc: answer.body.data.creator.cfinfo.title
+        };
 
-        // answer.body = {
-        //   creator,
-        //   lists: lists
-        // };
+        let lists = [];
+        lists.push({
+          id: answer.body.data.mymusic[0].id,
+          cover: answer.body.data.mymusic[0].laypic,
+          name: answer.body.data.mymusic[0].name,
+          total: answer.body.data.mymusic[0].num0,
+          desc: ""
+        });
+        answer.body.data.mydiss.list.forEach(function (list) {
+          lists.push({
+            id: list.dissid,
+            cover: list.picurl,
+            name: list.title,
+            total: list.subtitle.substring(0, list.subtitle.indexOf("首")),
+            desc: ""
+          })
+        });
+
+        answer.body = {
+          creator,
+          lists: lists
+        };
         resolve(answer);
       } else {
         reject("request origin failed");
@@ -702,7 +702,10 @@ const getMVId = (req, res) => {
       //保存源返回值，重新包装数据
       let rowData = answer;
       if(answer.status === 200) {
-        let mvid = answer.body.mv.data.mvinfo[query.id].vid;
+        let mvid = '';
+        if(answer.body.mv.data.mvinfo.hasOwnProperty(`${query.id}`)){
+          mvid = answer.body.mv.data.mvinfo[query.id].vid;
+        }
         answer.body = {
           mvid: mvid
         };

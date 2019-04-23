@@ -21,7 +21,7 @@
                   <el-menu-item index="netease">
                     <span slot="title">网易</span>
                   </el-menu-item>
-                  <el-menu-item index="xiami">
+                  <el-menu-item disabled index="xiami">
                     <span slot="title">虾米</span>
                   </el-menu-item>
                 </el-menu>
@@ -49,7 +49,7 @@
                   <el-menu-item index="netease">
                     <span slot="title">网易</span>
                   </el-menu-item>
-                  <el-menu-item index="xiami">
+                  <el-menu-item disabled index="xiami">
                     <span slot="title">虾米</span>
                   </el-menu-item>
                 </el-menu>
@@ -77,7 +77,7 @@
                   <el-menu-item index="netease">
                     <span slot="title">网易</span>
                   </el-menu-item>
-                  <el-menu-item index="xiami">
+                  <el-menu-item disabled index="xiami">
                     <span slot="title">虾米</span>
                   </el-menu-item>
                 </el-menu>
@@ -105,7 +105,7 @@
                   <el-menu-item index="netease">
                     <span slot="title">网易</span>
                   </el-menu-item>
-                  <el-menu-item index="xiami">
+                  <el-menu-item disabled index="xiami">
                     <span slot="title">虾米</span>
                   </el-menu-item>
                 </el-menu>
@@ -133,7 +133,7 @@
                   <el-menu-item index="netease">
                     <span slot="title">网易</span>
                   </el-menu-item>
-                  <el-menu-item index="xiami">
+                  <el-menu-item disabled index="xiami">
                     <span slot="title">虾米</span>
                   </el-menu-item>
                 </el-menu>
@@ -161,7 +161,7 @@
                   <el-menu-item index="netease">
                     <span slot="title">网易</span>
                   </el-menu-item>
-                  <el-menu-item index="xiami">
+                  <el-menu-item disabled index="xiami">
                     <span slot="title">虾米</span>
                   </el-menu-item>
                 </el-menu>
