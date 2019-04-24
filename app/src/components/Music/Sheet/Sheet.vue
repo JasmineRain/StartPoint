@@ -17,7 +17,7 @@
           <div class="music_name">
             <span class="span_name">{{item.song.name}}</span>
             <div class="hover_menu">
-              <i class="icon-add"></i>
+              <i @click="clickLike(item)" class="icon-add"></i>
             </div>
           </div>
           <span class="music_singer" v-if="item.singer">
@@ -42,8 +42,16 @@ export default {
   },
   computed: {
     musicData: function() {
-      if (this.list === "playlist")
+      if(this.list === "playlist")
         return this.$store.getters.getMusicList;
+      else if(this.list === "collection"){
+        if(window.localStorage.getItem('collectedMusic')){
+          this.$store.commit("setMusicSheetList", JSON.parse(window.localStorage.getItem('collectedMusic')));
+          return JSON.parse(window.localStorage.getItem('collectedMusic'))
+        }
+        else
+          return [];
+      }
       else
         return this.$store.getters.getMusicSheetList;
     },
@@ -56,47 +64,65 @@ export default {
   },
   methods: {
     clickRow: function(row) {
-      let songId = 0;
-      let albumId = 0;
-      let lyricId = 0;
-      switch (row.vendor) {
-        case "netease":
-          songId = row.song.id;
-          albumId = row.album.id;
-          lyricId = row.song.id;
-          break;
-        case "qq":
-          songId = row.song.mid;
-          albumId = row.album.id;
-          lyricId = row.song.mid;
-          break;
+      if(row.index !== this.$store.getters.getCurrentMusic.index){
+        let songId = 0;
+        let albumId = 0;
+        let lyricId = 0;
+        switch (row.vendor) {
+          case "netease":
+            songId = row.song.id;
+            albumId = row.album.id;
+            lyricId = row.song.id;
+            break;
+          case "qq":
+            songId = row.song.mid;
+            albumId = row.album.id;
+            lyricId = row.song.mid;
+            break;
+        }
+        let urlParams = {
+          vendor: row.vendor,
+          id: songId
+        };
+        let coverParams = {
+          vendor: row.vendor,
+          id: albumId
+        };
+        let lyricParams = {
+          vendor: row.vendor,
+          id: lyricId
+        };
+        this.$store.dispatch("getMusicUrl", urlParams);
+        this.$store.dispatch("getMusicCover", coverParams);
+        this.$store.dispatch("getMusicLyric", lyricParams);
+        this.$store.commit("setCurrentMusic", {
+          album: row.album.name,
+          duration: row.song.duration,
+          index: row.index,
+          vendor: row.vendor,
+          name: row.song.name,
+          singer: row.singer
+        });
+        this.$store.commit("setMVUrl", "");
+        if( this.$store.getters.getMusicSheetList.length > 0 && this.list !== 'playlist')
+          this.$store.commit("setMusicList", this.$store.getters.getMusicSheetList);
       }
-      let urlParams = {
-        vendor: row.vendor,
-        id: songId
-      };
-      let coverParams = {
-        vendor: row.vendor,
-        id: albumId
-      };
-      let lyricParams = {
-        vendor: row.vendor,
-        id: lyricId
-      };
-      this.$store.dispatch("getMusicUrl", urlParams);
-      this.$store.dispatch("getMusicCover", coverParams);
-      this.$store.dispatch("getMusicLyric", lyricParams);
-      this.$store.commit("setCurrentMusic", {
-        album: row.album.name,
-        duration: row.song.duration,
-        index: row.index,
-        vendor: row.vendor,
-        name: row.song.name,
-        singer: row.singer
-      });
-      this.$store.commit("setMVUrl", "");
-      if( this.$store.getters.getMusicSheetList.length > 0 && this.list !== 'playlist')
-        this.$store.commit("setMusicList", this.$store.getters.getMusicSheetList);
+    },
+    clickLike: function (item) {
+      let collectedMusic = [];
+      if(window.localStorage.getItem('collectedMusic')){
+        collectedMusic = JSON.parse(window.localStorage.getItem('collectedMusic'));
+        let result = collectedMusic.find(function (music) {
+          return music.song.id.toString() + music.vendor.toString() === item.song.id.toString() + item.vendor.toString();
+        });
+        if(!result)
+          collectedMusic.push({...item, index: collectedMusic.length});
+        window.localStorage.setItem('collectedMusic', JSON.stringify(collectedMusic));
+      }
+      else {
+        collectedMusic.push({...item, index: 0});
+        window.localStorage.setItem('collectedMusic', JSON.stringify(collectedMusic));
+      }
     }
   },
   mounted() {
