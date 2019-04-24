@@ -159,7 +159,18 @@
           }
         };
         player.onended = () => {
-          let nmusic = this.$store.getters.getMusicList[(this.index + 1) % this.num];
+          let index = this.$store.getters.getCurrentMusic.index;
+          switch (this.$store.getters.getPlayMode) {
+            case 0:
+              index = (this.$store.getters.getCurrentMusic.index + 1) % this.num;
+              break;
+            case 1:
+              index = Math.floor(Math.random()*this.num);
+              break;
+            case 2:
+              break
+          }
+          let nmusic = this.$store.getters.getMusicList[index];
           let songId = 0;
           let albumId = 0;
           let lyricId = 0;

@@ -25,6 +25,7 @@
       //audio元素监听
       setAudioRef: function () {
         this.$store.commit("setPlayer", this.$refs.player);
+        this.$refs.player.volume = 0.5;
       }
     },
     computed: {

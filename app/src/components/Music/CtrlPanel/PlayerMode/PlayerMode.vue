@@ -7,7 +7,20 @@
         <img v-if="playMode === 2" src="../../../../assets/single.png" alt="">
       </li>
       <li>
-        <img src="../../../../assets/voice.png" alt="">
+        <el-popover
+            placement="top-start"
+            trigger="click"
+            content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+          <el-slider
+              v-model="volume"
+              vertical
+              popper-class="popper"
+              width="100"
+              height="100px"
+              @change="changeVolume">
+          </el-slider>
+          <img slot="reference" src="../../../../assets/voice.png" alt="">
+        </el-popover>
       </li>
       <li>
         <img @click="showMV" src="../../../../assets/mv.png" alt="">
@@ -28,6 +41,7 @@
     name: "PlayerMode",
     data() {
       return {
+        volume: 50
       }
     },
     components:{ Comment, MV },
@@ -77,12 +91,15 @@
             type: 'warning'
           })
         }
+      },
+      changeVolume: function (value) {
+        this.$store.getters.getPlayer.volume = value / 100;
       }
     }
   };
 </script>
 
-<style scoped>
+<style>
   .model {
     overflow: hidden;
   }
@@ -104,5 +121,9 @@
 
   img:hover {
     opacity: 0.6;
+  }
+  .el-popover {
+    min-width: 0 !important;
+    border: none !important;
   }
 </style>
