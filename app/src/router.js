@@ -60,7 +60,7 @@ export default new Router({
           component: Toplists
         },
         {
-          path: "topplaylists",
+          path: "top_playlists",
           component: TopPlaylists
         },
         {

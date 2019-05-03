@@ -103,7 +103,7 @@
           id: item.list.id
         };
         this.$store.dispatch("getPlaylistDetail", p);
-        this.$router.push(`/music/sheet/topplaylist/${this.params.vendor}/${item.list.id}`);
+        this.$router.push(`/music/sheet/top_playlist/${this.params.vendor}/${item.list.id}`);
       }
     },
     created() {
@@ -144,7 +144,8 @@
     height: 100%;
     width: 100px;
     border-right: solid 1px rgba(125, 125, 125, 0.8);
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
   .categories::before {
     content: '...';

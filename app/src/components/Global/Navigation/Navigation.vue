@@ -125,7 +125,7 @@
             padding-left: 0
 
           img
-            vertical-align: middle
+            vertical-align: top
             border: none
 
       .right-menu

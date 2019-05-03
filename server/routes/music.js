@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const musicAPI = require('../api/index');
 
-router.get('/checkmusic', function (req, res, next) {
+router.get('/check_music', function (req, res, next) {
   musicAPI.checkMusic(req, res).then(answer => {
     res.json(answer);
   })
@@ -119,7 +119,7 @@ router.get('/toplists', function (req, res, next) {
   })
 });
 
-router.get('/userplaylists', function (req, res, next) {
+router.get('/user_playlists', function (req, res, next) {
   musicAPI.getUserPlaylists(req, res).then(answer => {
     res.json(answer);
   })
@@ -132,7 +132,7 @@ router.get('/userplaylists', function (req, res, next) {
   })
 });
 
-router.get('/hotcategories', function (req, res, next) {
+router.get('/hot_categories', function (req, res, next) {
   musicAPI.getHotCategories(req, res).then(answer => {
     res.json(answer);
   })
@@ -145,7 +145,7 @@ router.get('/hotcategories', function (req, res, next) {
   })
 });
 
-router.get('/topplaylists', function (req, res, next) {
+router.get('/top_playlists', function (req, res, next) {
   musicAPI.getTopPlaylists(req, res).then(answer => {
     res.json(answer);
   })
@@ -158,7 +158,7 @@ router.get('/topplaylists', function (req, res, next) {
   })
 });
 
-router.get('/musiccomment', function (req, res, next) {
+router.get('/music_comment', function (req, res, next) {
   musicAPI.getMusicComment(req, res).then(answer => {
     res.json(answer);
   })
@@ -171,7 +171,7 @@ router.get('/musiccomment', function (req, res, next) {
   })
 });
 
-router.get('/mvurl', function (req, res, next) {
+router.get('/mv_url', function (req, res, next) {
   musicAPI.getMVUrl(req, res).then(answer => {
     res.json(answer);
   })

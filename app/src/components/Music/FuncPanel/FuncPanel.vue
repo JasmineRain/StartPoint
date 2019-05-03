@@ -10,7 +10,7 @@
       <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">
         榜单
       </router-link>
-      <router-link tag="span" to="/music/topplaylists" class="todo_btn top_btn">
+      <router-link tag="span" to="/music/top_playlists" class="todo_btn top_btn">
         歌单
       </router-link>
       <router-link tag="span" to="/music/search" class="todo_btn search_btn">
@@ -27,7 +27,7 @@
       <router-link tag="span" to="/music/toplists" class="todo_btn top_btn">
         榜单
       </router-link>
-      <router-link tag="span" to="/music/topplaylists" class="todo_btn top_btn">
+      <router-link tag="span" to="/music/top_playlists" class="todo_btn top_btn">
         歌单
       </router-link>
       <router-link tag="span" to="/music/search" class="todo_btn search_btn">

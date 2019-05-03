@@ -11,11 +11,11 @@ const api = {
   PATH_PLAYLIST_DETAIL: "/music/playlist",
   PATH_TOPLISTS: "/music/toplists",
   PATH_TOPLIST_DETAIL: "/music/toplist",
-  PATH_USER_PLAYLISTS: "/music/userplaylists",
-  PATH_HOT_CATEGORIES: "/music/hotcategories",
-  PATH_HOT_PLAYLISTS: "/music/topplaylists",
-  PATH_MUSIC_COMMENTl: "/music/musiccomment",
-  PATH_MV_URL: "/music/mvurl",
+  PATH_USER_PLAYLISTS: "/music/user_playlists",
+  PATH_HOT_CATEGORIES: "/music/hot_categories",
+  PATH_HOT_PLAYLISTS: "/music/top_playlists",
+  PATH_MUSIC_COMMENTl: "/music/music_comment",
+  PATH_MV_URL: "/music/mv_url",
   PATH_MV_ID: "/music/mvid",
 
   reqSongUrl(params) {
