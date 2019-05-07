@@ -231,6 +231,8 @@ export default {
       width:20%!important
 
   @media screen and (max-width: 525px)
+    .sheet
+      padding:0!important
     .music_duration
       width:20%!important
     .music_singer
@@ -238,7 +240,9 @@ export default {
     .music_name
       width:calc(100% - 50px)
     .music_list_title
-      display:none
+      height 40px;
+      line-height 40px;
     .music_list_content
-      height:100%!important
+      height:calc(100%-40px)!important
+
 </style>
