@@ -1,12 +1,24 @@
 <template>
-  <div class="change">
+  <div @click="changeBG" class="change">
     <a href="#"><img src="../../../assets/change.png" alt="" class="icon"></a>
   </div>
 </template>
 
 <script>
   export default {
-    name: "Change"
+    name: "Change",
+    data() {
+      return {
+        index: 0
+      }
+    },
+    methods: {
+      changeBG: function () {
+        this.index = (this.index + 1) % 8;
+        this.$store.commit("setBGUrl", "https://www.bing.com" + this.$store.getters.getImages[this.index].url);
+        this.$store.commit("setBGWords", this.$store.getters.getImages[this.index].copyright);
+      }
+    }
   };
 </script>
 
