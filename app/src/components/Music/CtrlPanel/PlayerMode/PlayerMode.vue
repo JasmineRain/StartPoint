@@ -52,7 +52,29 @@
     },
     methods: {
       changeMode: function () {
-        this.$store.commit("setPlayMode", (this.playMode + 1) % 3 );
+        let mode = (this.playMode + 1) % 3;
+        this.$store.commit("setPlayMode", mode);
+        switch (mode) {
+          case 0:
+            this.$message({
+              message: '顺序播放',
+              type: 'success'
+            });
+            break;
+          case 1:
+            this.$message({
+              message: '随机播放',
+              type: 'success'
+            });
+            break;
+          case 2:
+            this.$message({
+              message: '单曲循环',
+              type: 'success'
+            });
+            break;
+        }
+
       },
       showComment: function () {
         if(this.$store.getters.getCurrentMusic.index !== -1) {
