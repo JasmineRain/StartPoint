@@ -11,7 +11,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "element-ui": "^2.4.9",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "vue": "^2.5.17",
     "vue-axios": "^2.1.4",
     "vue-circle-menu": "^1.1.1",
